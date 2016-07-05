@@ -20,10 +20,11 @@ function reverse(msg) {
   return reverseMsg;
 }
 
+var incomingMsgs = [];
+var outgoingMsgs = [];
+
 // POST message text
 router.post('/', function(req, res) { 
-  var incomingMsgs = [];
-  var outgoingMsgs = [];
   var msg = req.body.msg;
   outgoingMsgs.push(msg);
   incomingMsgs.push(reverse(msg));
