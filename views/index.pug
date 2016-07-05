@@ -1,13 +1,12 @@
 extends layout
 
 block content
-  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
   h1= title
   p Welcome to #{title}
   p Our friendly little bot will help you!
   form(action='/' method='post')
     input(type='text' id='msgText' name='msg')
-    button(type='submit' id='submit') Submit
+    button(type='submit') Submit
   h3 Incoming messages:
   p #{incoming}
   h3 Outgoing messages:

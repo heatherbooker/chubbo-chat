@@ -11,29 +11,26 @@ router.get('/', function(req, res, next) {
 });
 
 
-function displayReply(msg) {
-  var replyMap = {
-    hello: 'hi',
-    sup: 'sup eh',
-    help: 'how can i help you?',
-    hi: 'hello there',
-    hey: 'hey friend',
-    yo: 'sup'
-  };
-  if (typeof replyMap[msg] !== 'undefined') {
-    return replyMap[msg];
-  } else {
-    return 'well hello to you too';
+function reverse(msg) {
+  var reverseMsg = '';
+  var msgMax = msg.length;
+  for (var i = 0; i < msgMax; i++) {
+    reverseMsg = msg.charAt(i) + reverseMsg;
   }
+  return reverseMsg;
 }
 
 // POST message text
-router.post('/', function(req, res) {
-  var message = req.body.msg;
+router.post('/', function(req, res) { 
+  var incomingMsgs = [];
+  var outgoingMsgs = [];
+  var msg = req.body.msg;
+  outgoingMsgs.push(msg);
+  incomingMsgs.push(reverse(msg));
   res.render('index', {
     title: 'chubbo-chat',
-    incoming: displayReply(message),
-    outgoing: message
+    incoming: incomingMsgs,
+    outgoing: outgoingMsgs
   });
 });
 
