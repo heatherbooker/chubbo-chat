@@ -1,0 +1,46 @@
+.ccdotsBackground {
+  background:
+    -moz-radial-gradient(#ff9fcb 3%, transparent 4%),
+    -moz-radial-gradient(#ff9fcb 3%, transparent 4%),
+     #fff;
+  background:
+    -webkit-radial-gradient(#ff9fcb 5%, transparent 6%),
+    -webkit-radial-gradient(#ff9fcb 5%, transparent 6%),
+    #fff;
+  background-position: 0 0, 240px 200px;
+  -webkit-background-size:360px 360px;
+  -moz-background-size:360px 360px;
+  background-size:360px 360px;
+}
+
+.ccbtnStart {
+  color: #fff;
+  background-color: #ff9fcb;
+  line-height: 60px;
+  text-align: center;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 20px solid #fff;
+  border-radius: 40px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.ccbtnStart:hover {
+  background-color: #EC99BF;
+}
+
+.cctagline {
+  font-weight: 400;
+  text-align: center;
+}
+
+.orbis {
+  max-height: 300px;
+  border-top: 10px solid #fff;
+  margin-bottom: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background-color: #fff;
+}

@@ -1,17 +1,18 @@
 extends layout
 
 block content
-  div.row
-    div.col-md-4
-      h1= title
-      p Welcome to chubbo-chat
-      p Our friendly little bot will help you!
-      input(type='text' id='messageInput')
-      button(type='submit' id='submit') Submit
-    div.col-md-4.chat
-      h3 Incoming messages:
-      p.incoming
-    div.col-md-4.chat
-      h3 Outgoing messages:
-      p.outgoing
-
+  div.container-fluid
+    div.row.ccnavbar
+      div.col-md-12
+        a(href='#')
+          h1.cclogo Chubbo-Chat
+        p.cclogin login
+  div.container-fluid
+    div.row
+      div.col-md-12
+        h2.cctagline Create free surveys that feel like chats
+    div.row.ccdotsBackground
+      div.col-md-4.col-md-offset-4
+        img(src='/images/orbis.png').orbis
+        a(href='#')
+          div.ccbtnStart Create a survey!
