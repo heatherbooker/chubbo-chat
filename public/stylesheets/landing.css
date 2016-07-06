@@ -1,16 +1,20 @@
-.ccdotsBackground {
-  background:
-    -moz-radial-gradient(#ff9fcb 3%, transparent 4%),
-    -moz-radial-gradient(#ff9fcb 3%, transparent 4%),
-     #fff;
-  background:
-    -webkit-radial-gradient(#ff9fcb 5%, transparent 6%),
-    -webkit-radial-gradient(#ff9fcb 5%, transparent 6%),
-    #fff;
-  background-position: 0 0, 240px 200px;
-  -webkit-background-size:360px 360px;
-  -moz-background-size:360px 360px;
-  background-size:360px 360px;
+canvas {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+
+.cccontent {
+  position: absolute;
+  z-index: 1;
+}
+
+@media (min-width: 770px) {
+  .ccorbisAndBtn {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
 }
 
 .ccbtnStart {
@@ -21,8 +25,9 @@
   width: 300px;
   margin-left: auto;
   margin-right: auto;
-  border: 20px solid #fff;
-  border-radius: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 25px;
   font-size: 24px;
   font-weight: bold;
 }
@@ -36,11 +41,37 @@
 }
 
 .orbis {
-  max-height: 300px;
-  border-top: 10px solid #fff;
+  width: 65%;
+  height: auto;
+  max-width: 535px;
+  max-height: 510px;
+  margin-top: 10px;
   margin-bottom: 18px;
   margin-left: auto;
   margin-right: auto;
   display: block;
-  background-color: #fff;
+}
+
+@media (max-width: 400px) {
+  .cctagline {
+    font-size: 120%;
+  }
+  .orbis {
+    width: 95%;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 768px) {
+  .orbis {
+    width: 50%;
+  }
+  .cctagline {
+    font-size: 150%;
+  }
+}
+
+@media (min-width: 767px) and (max-width: 769px) {
+  .orbis {
+    width: 80%;
+  }
 }

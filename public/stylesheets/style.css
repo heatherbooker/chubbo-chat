@@ -1,6 +1,7 @@
 body {
   font-family: 'Quicksand', sans-serif;
   color: #3c5a71;
+  /*font-size: 120%;*/
 }
 
 a {
@@ -17,17 +18,29 @@ a:hover {
 .cclogo {
   font-family: 'Pacifico', cursive;
   display: inline-block;
-  font-size: 2.5em;
-  margin: 15px 0px;
+  margin: 20px 5px;
+  font-size: 3.3rem;
 }
 
 .cclogin {
   float: right;
   display: inline-block;
   padding: 10px;
-  font-size: 18px;
+  font-size: 2rem;
 }
 .cclogin:hover {
   cursor: pointer;
   font-weight: bold;
 }
+
+@media (max-width: 360px) {
+  .cclogo {
+    font-size: 2.5rem;
+  }
+  .cclogin {
+    font-size: 1.8rem;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+}
+
