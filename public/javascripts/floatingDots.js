@@ -15,7 +15,7 @@ $(document).ready(function() {
     maxSize = 6,                                       // the maximum size of the circles in px
     numCircles = 20,                                   // the number of circles
     minSpeed = -4,                                     // the minimum speed, recommended: -maxspeed
-    maxSpeed = 4,                                    // the maximum speed of the circles
+    maxSpeed = 1,                                    // the maximum speed of the circles
     expandState = true;                                      // the direction of expansion
 
 function buildArray() {
@@ -131,13 +131,14 @@ window.onload = function () {
     animate();
 };
 
-
-window.onresize = function () {
-    'use strict';
-    // console.log("resize");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    //buildArray();
-    animate();
-};
+$(window).resize(function() {
+    clearTimeout(setTimeout(function() {
+        'use strict';
+        // console.log("resize");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        buildArray();
+        animate();
+    }, 300));
+});
 });

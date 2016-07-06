@@ -4,19 +4,6 @@ canvas {
   position: fixed;
 }
 
-.cccontent {
-  position: absolute;
-  z-index: 1;
-}
-
-@media (min-width: 770px) {
-  .ccorbisAndBtn {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-  }
-}
-
 .ccbtnStart {
   color: #fff;
   background-color: #ff9fcb;
@@ -41,37 +28,17 @@ canvas {
 }
 
 .orbis {
-  width: 65%;
+  width: 350px;
   height: auto;
-  max-width: 535px;
-  max-height: 510px;
   margin-top: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
 
-@media (max-width: 400px) {
-  .cctagline {
-    font-size: 120%;
-  }
+@media (max-width: 350px) {
   .orbis {
-    width: 95%;
-  }
-}
-
-@media (orientation: landscape) and (max-width: 768px) {
-  .orbis {
-    width: 50%;
-  }
-  .cctagline {
-    font-size: 150%;
-  }
-}
-
-@media (min-width: 767px) and (max-width: 769px) {
-  .orbis {
-    width: 80%;
+    width: 300px;
   }
 }
