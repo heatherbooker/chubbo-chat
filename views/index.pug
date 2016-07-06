@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p Our friendly little bot will help you!
-  form(action='/' method='post')
-    input(type='text' id='msgText' name='msg')
-    button(type='submit') Submit
-  h3 Incoming messages:
-  p #{incoming}
-  h3 Outgoing messages:
-  p #{outgoing}
+  div.row
+    div.col-md-4
+      h1= title
+      p Welcome to chubbo-chat
+      p Our friendly little bot will help you!
+      input(type='text' id='messageInput')
+      button(type='submit' id='submit') Submit
+    div.col-md-4.chat
+      h3 Incoming messages:
+      p.incoming
+    div.col-md-4.chat
+      h3 Outgoing messages:
+      p.outgoing
+
