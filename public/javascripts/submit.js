@@ -24,17 +24,7 @@ function handleSubmit() {
   }
 
   $.ajax(settings).done(function (response) {
-    var reversed = reverse(response);
-    $('.incoming').append(reversed + '<br />');
-    $('.outgoing').append(response + '<br />');
+    $('.incoming').append(response + '<br />');
+    $('.outgoing').append(message + '<br />');
   });
-}
-
-function reverse(message) {
-  var reverseMessage = '';
-  var messageMax = message.length;
-  for (var i = 0; i < messageMax; i++) {
-    reverseMessage = message.charAt(i) + reverseMessage;
-  }
-  return reverseMessage;
 }
