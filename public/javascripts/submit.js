@@ -15,7 +15,7 @@ function handleSubmit() {
   $('#messageInput').val('');
 
   var settings = {
-    "url": "https://localhost:3000/reverse",
+    "url": "/reverse",
     "method": "POST",
     "headers": {
       "content-type": "application/json"
