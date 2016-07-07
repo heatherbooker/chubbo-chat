@@ -1,0 +1,43 @@
+canvas#cc-dotsBackground {
+  position: absolute;
+}
+
+.cc-btnStart {
+  color: #fff;
+  background-color: #ff9fcb;
+  line-height: 60px;
+  text-align: center;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.cc-btnStart:hover {
+  background-color: #EC99BF;
+  cursor: pointer;
+}
+
+.cc-tagline {
+  font-weight: 400;
+  text-align: center;
+}
+
+.orbis {
+  width: 350px;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 28px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+@media (max-width: 350px) {
+  .orbis {
+    width: 300px;
+  }
+}

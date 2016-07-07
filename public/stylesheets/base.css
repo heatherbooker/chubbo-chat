@@ -1,0 +1,45 @@
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: #3c5a71;
+}
+
+a {
+  color: inherit;
+}
+a:hover {
+  text-decoration: none;
+}
+
+.cc-navbar {
+  border-bottom: 2px solid #F0F0F0;
+}
+
+.cc-logo {
+  font-family: 'Pacifico', cursive;
+  display: inline-block;
+  margin: 20px 5px;
+  font-size: 3.3rem;
+}
+
+.cc-login {
+  float: right;
+  display: inline-block;
+  padding: 10px;
+  font-size: 2rem;
+}
+.cc-login:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@media (max-width: 360px) {
+  .cc-logo {
+    font-size: 2.5rem;
+  }
+  .cc-login {
+    font-size: 1.8rem;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+}
+
