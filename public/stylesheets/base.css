@@ -21,22 +21,26 @@ a:hover {
   font-size: 3.3rem;
 }
 
-.cc-login {
+.cc-loginBtn, .cc-logoutBtn {
   float: right;
   display: inline-block;
   padding: 10px;
   font-size: 2rem;
 }
-.cc-login:hover {
+.cc-loginBtn:hover, .cc-logoutBtn:hover {
   cursor: pointer;
   font-weight: bold;
+}
+
+.cc-logoutBtn {
+  display: none;
 }
 
 @media (max-width: 360px) {
   .cc-logo {
     font-size: 2.5rem;
   }
-  .cc-login {
+  .cc-loginBtn, .cc-logoutBtn {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
