@@ -1,3 +1,11 @@
+$(document).ready(function() {
+
+  //start instance of app to connect to firebase
+  window.chubbo = new Chubbo();
+
+});
+
+
 function Chubbo() {
 
   $('.cc-loginBtn').click(this.signIn.bind(this));
@@ -8,7 +16,6 @@ function Chubbo() {
 
 Chubbo.prototype.initFirebase = function() {
   this.auth = firebase.auth();
-  //initiate firebase auth and listen
   this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 };
 
@@ -31,14 +38,3 @@ Chubbo.prototype.onAuthStateChanged = function(user) {
     $('.cc-loginBtn').show();
   }
 }
-
-   
-//controlling modal
-$(document).ready(function() {
-
-  //start instance of app to connect to firebase
-  window.chubbo = new Chubbo();
-
-
-});
-
