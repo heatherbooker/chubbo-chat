@@ -2,7 +2,7 @@ canvas {
   position: absolute;
 }
 
-.ccbtnStart {
+.cc-btnStart {
   color: #fff;
   background-color: #ff9fcb;
   line-height: 60px;
@@ -16,12 +16,12 @@ canvas {
   font-size: 24px;
   font-weight: bold;
 }
-.ccbtnStart:hover {
+.cc-btnStart:hover {
   background-color: #EC99BF;
   cursor: pointer;
 }
 
-.cctagline {
+.cc-tagline {
   font-weight: 400;
   text-align: center;
 }

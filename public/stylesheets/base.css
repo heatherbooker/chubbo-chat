@@ -10,33 +10,33 @@ a:hover {
   text-decoration: none;
 }
 
-.ccnavbar {
+.cc-navbar {
   border-bottom: 2px solid #F0F0F0;
 }
 
-.cclogo {
+.cc-logo {
   font-family: 'Pacifico', cursive;
   display: inline-block;
   margin: 20px 5px;
   font-size: 3.3rem;
 }
 
-.cclogin {
+.cc-login {
   float: right;
   display: inline-block;
   padding: 10px;
   font-size: 2rem;
 }
-.cclogin:hover {
+.cc-login:hover {
   cursor: pointer;
   font-weight: bold;
 }
 
 @media (max-width: 360px) {
-  .cclogo {
+  .cc-logo {
     font-size: 2.5rem;
   }
-  .cclogin {
+  .cc-login {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
