@@ -19,6 +19,7 @@ $(document).ready(function() {
     expandState = true;                                      // the direction of expansion
 
 function buildArray() {
+    circles = [];
     'use strict';
     
     for (var i =0; i < numCircles ; i++){
@@ -104,41 +105,57 @@ window.requestAnimFrame = (function (callback) {
     };
 })();
 
-function animate() {
-    'use strict';
-    var canvas = document.getElementById("ccdotsBackground"),
-        context = canvas.getContext("2d");
+function animate(shouldPause) {
+    var pause = false;
+    if (shouldPause) {
+        console.log('should pause');
+        pause = true;
+    } 
+    if (!pause) {
+        'use strict';
+        var canvas = document.getElementById("ccdotsBackground"),
+            context = canvas.getContext("2d");
 
-    // clear the canvas
-    context.clearRect(0, 0, canvas.width, canvas.height);
+        // clear the canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
 
-    // draw the next frame
-    xVal++;
-    build();
+        // draw the next frame
+        xVal++;
+        build();
 
-    //console.log("Prep: animate ==> requestAnimFrame");
-    // request a new frame
-    requestAnimFrame(function () {
-        animate();
-    });
+        //console.log("Prep: animate ==> requestAnimFrame");
+        // request a new frame
+        requestAnimFrame(function () {
+            animate(false);
+        });
+    }
 }
 window.onload = function () {
     'use strict';
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = $('body').innerWidth();
+    canvas.height = $('body').innerHeight();
     buildArray();
-    animate();
+    animate(false);
 };
 
+var delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+
 $(window).resize(function() {
-    clearTimeout(setTimeout(function() {
+    animate(true);
+    delay(function() {
         'use strict';
-        // console.log("resize");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = $('body').innerWidth();
+        canvas.height = $('body').innerHeight();
         buildArray();
-        animate();
-    }, 300));
+        animate(false);
+    }, 3000);
 });
+
 });

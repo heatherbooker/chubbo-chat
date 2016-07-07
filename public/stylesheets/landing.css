@@ -1,7 +1,5 @@
 canvas {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
+  position: absolute;
 }
 
 .ccbtnStart {
@@ -20,6 +18,7 @@ canvas {
 }
 .ccbtnStart:hover {
   background-color: #EC99BF;
+  cursor: pointer;
 }
 
 .cctagline {
