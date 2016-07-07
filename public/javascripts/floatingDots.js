@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var circles = [],
-    canvas = document.getElementById("ccdotsBackground"),
+    canvas = document.getElementById("cc-dotsBackground"),
     context = canvas.getContext("2d"),
     
     // SETTINGS 
@@ -113,7 +113,7 @@ function animate(shouldPause) {
     } 
     if (!pause) {
         'use strict';
-        var canvas = document.getElementById("ccdotsBackground"),
+        var canvas = document.getElementById("cc-dotsBackground"),
             context = canvas.getContext("2d");
 
         // clear the canvas
