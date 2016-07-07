@@ -7,8 +7,19 @@ html
     link(rel='stylesheet', href='/libs/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/base.css')
     link(rel='stylesheet', href='/stylesheets/landing.css')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons')
   body
+    script(src='https://www.gstatic.com/firebasejs/3.1.0/firebase.js')
+    script.
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBAsiVLXUpWhLHdqFu1Ngvnyo8QrCqRDJI",
+        authDomain: "chubbo-chat.firebaseapp.com",
+        databaseURL: "https://chubbo-chat.firebaseio.com",
+        storageBucket: "chubbo-chat.appspot.com",
+      };
+      firebase.initializeApp(config);
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(src='/javascripts/submit.js')
     script(src='/javascripts/floatingDots.js')
+    script(src='/javascripts/login.js')
     block content

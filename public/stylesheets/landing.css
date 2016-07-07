@@ -41,3 +41,35 @@ canvas#cc-dotsBackground {
     width: 300px;
   }
 }
+
+.cc-modalOverlay {
+  display: none;
+  background-color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.25;
+  /* filter for IE */
+  filter: alpha(opacity=25);
+  z-index: 1
+}
+
+.cc-loginModal {
+  display: none;
+  position: fixed;
+  left: 33.33%;
+  border-radius: 12px;
+  box-shadow: 2px 2px 2px #B0B0B0;
+  height: 350px;
+  width: 500px;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.cc-googleLogo {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}

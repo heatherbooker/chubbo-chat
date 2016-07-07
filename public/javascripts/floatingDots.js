@@ -108,7 +108,6 @@ window.requestAnimFrame = (function (callback) {
 function animate(shouldPause) {
     var pause = false;
     if (shouldPause) {
-        console.log('should pause');
         pause = true;
     } 
     if (!pause) {
