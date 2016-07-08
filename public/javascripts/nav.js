@@ -1,5 +1,11 @@
 var navbar = Vue.extend({
-  props: ['logo', 'loginBtn', 'logoutBtn'],
+  data: function() {
+    return {
+      logo: "Chubbo-Chat",
+      loginBtn: "login",
+      logoutBtn:"logout"
+    };
+  },
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
@@ -15,3 +21,9 @@ var navbar = Vue.extend({
 });
 
 Vue.component('nav-bar', navbar);
+
+new Vue({
+  el: '#cc-nav',
+  template: `<nav-bar>
+             </nav-bar>`
+})
