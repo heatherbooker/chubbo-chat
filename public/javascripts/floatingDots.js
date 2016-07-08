@@ -154,7 +154,7 @@ $(window).resize(function() {
         canvas.height = $('body').innerHeight();
         buildArray();
         animate(false);
-    }, 3000);
+    }, 1000);
 });
 
 });

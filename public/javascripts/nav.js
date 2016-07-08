@@ -3,7 +3,7 @@ var navbar = Vue.extend({
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
-        <div class="col-xs-8"><a href="#">
+        <div class="col-xs-8"><a href="/">
             <h1 class="cc-logo">{{ logo }}</h1></a></div>
         <div class="col-xs-4">
           <p class="cc-loginBtn">{{ loginBtn }}</p>
