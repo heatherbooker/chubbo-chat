@@ -40,8 +40,13 @@ Chubbo.prototype.signOut = function() {
 }
 
 Chubbo.prototype.onAuthStateChanged = function(user) {
-  if (user) {}
+  if (user) {
+    toggleLoginBtn(true);
+  } else {
+    toggleLoginBtn(false);
+  }
 }
+
 
 function toggleLoginBtn(isLoggedIn) {
   if (isLoggedIn) {
