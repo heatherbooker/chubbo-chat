@@ -130,13 +130,13 @@ function animate(shouldPause) {
         });
     }
 }
-window.onload = function () {
+$(document).ready(function () {
     'use strict';
     canvas.width = $('body').innerWidth();
-    canvas.height = $('body').innerHeight();
+    canvas.height = $('body').innerHeight() - 90;
     buildArray();
     animate(false);
-};
+});
 
 var delay = (function() {
     var timer = 0;
