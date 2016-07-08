@@ -1,13 +1,15 @@
 extends layout
 
 block content
-  canvas#cc-dotsBackground
-  .container-fluid
-    .row
-      .col-md-12
-        h2.cc-tagline Create free surveys that feel like chats
-    .row
-      .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1.col-xs-12
-        .cc-orbisAndBtn
-          img(src='/images/orbis.png').orbis
-          .cc-btnStart Create a survey!
+  body
+    #cc-nav
+    canvas#cc-dotsBackground
+    .container-fluid
+      .row
+        .col-md-12
+          h2.cc-tagline Create free surveys that feel like chats
+      .row
+        .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1.col-xs-12
+          .cc-orbisAndBtn
+            img(src='/images/orbis.png').orbis
+            .cc-btnStart Create a survey!

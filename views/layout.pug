@@ -1,6 +1,8 @@
 doctype html
 html
+
   head
+
     title= title
     meta(meta name='viewport' content='width=device-width, initial-scale=1')
     link(rel='shortcut icon', href='/images/favicon.ico', type='image/x-icon')
@@ -8,7 +10,9 @@ html
     link(rel='stylesheet', href='/libs/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/base.css')
     link(rel='stylesheet', href='/stylesheets/landing.css')
+
   body
+
     script(src='https://www.gstatic.com/firebasejs/3.1.0/firebase.js')
     script.
       // Initialize Firebase
@@ -19,19 +23,13 @@ html
         storageBucket: "chubbo-chat.appspot.com",
       };
       firebase.initializeApp(config);
+
+
+    block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(src='https://npmcdn.com/vue/dist/vue.js')
     script(src=script)
     script(src='/javascripts/login.js')
     script(src='/javascripts/nav.js')
-    block nav
-      //- need actual code here for vue to find .cc-navbar to attach to
-      .container-fluid
-        .row.cc-navbar
-          .col-xs-8
-            a(href='#')
-              h1.cc-logo {{ logo }}
-          .col-xs-4
-            p.cc-loginBtn {{ loginBtn }}
-            p.cc-logoutBtn {{ logoutBtn }}
-    block content
+    script(src='/javascripts/vueInstance.js')
+
