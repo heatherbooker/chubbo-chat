@@ -21,7 +21,17 @@ html
       firebase.initializeApp(config);
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(src='https://npmcdn.com/vue/dist/vue.js')
-    script(src=background)
+    script(src=script)
     script(src='/javascripts/login.js')
-    script(src='/javascripts/dashboard.js')
+    script(src='/javascripts/nav.js')
+    block nav
+      //- need actual code here for vue to find .cc-navbar to attach to
+      .container-fluid
+        .row.cc-navbar
+          .col-xs-8
+            a(href='#')
+              h1.cc-logo {{ logo }}
+          .col-xs-4
+            p.cc-loginBtn {{ loginBtn }}
+            p.cc-logoutBtn {{ logoutBtn }}
     block content
