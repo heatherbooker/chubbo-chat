@@ -22,15 +22,20 @@ Chubbo.prototype.initFirebase = function() {
 Chubbo.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
   this.auth.signInWithPopup(provider);
+  window.location = '/dashboard';
 }
 
 Chubbo.prototype.signOut = function() {
   this.auth.signOut();
+  window.location = '/';
 }
 
 Chubbo.prototype.onAuthStateChanged = function(user) {
-  if (user) {
-    console.log(user.displayName);
+  if (user) {}
+}
+
+function toggleLoginBtn(isLoggedIn) {
+  if (isLoggedIn) {
     $('.cc-loginBtn').hide();
     $('.cc-logoutBtn').show();
   } else {

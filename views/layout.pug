@@ -3,6 +3,7 @@ html
   head
     title= title
     meta(meta name='viewport' content='width=device-width, initial-scale=1')
+    link(rel='shortcut icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Pacifico|Quicksand:300,400')
     link(rel='stylesheet', href='/libs/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/base.css')
@@ -19,6 +20,8 @@ html
       };
       firebase.initializeApp(config);
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(src='/javascripts/floatingDots.js')
+    script(src='https://npmcdn.com/vue/dist/vue.js')
+    script(src=background)
     script(src='/javascripts/login.js')
+    script(src='/javascripts/dashboard.js')
     block content
