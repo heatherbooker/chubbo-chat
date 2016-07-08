@@ -27,7 +27,7 @@ Chubbo.prototype.signIn = function() {
     window.location = '/dashboard';
     console.log(user.displayName);
   }).catch(function(error) {
-    console.log(error.code);
+    console.log('error logging in:', error.code);
   });
 }
 
@@ -35,7 +35,7 @@ Chubbo.prototype.signOut = function() {
   this.auth.signOut().then(function() {
     window.location = '/';    
   }).catch(function(error) {
-    console.log(error.code);
+    console.log('error logging out:', error.code);
   });
 }
 
