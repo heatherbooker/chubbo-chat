@@ -21,13 +21,22 @@ Chubbo.prototype.initFirebase = function() {
 
 Chubbo.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
-  this.auth.signInWithPopup(provider);
-  window.location = '/dashboard';
+  this.auth.signInWithPopup(provider).then(function(result) {
+    var token = result.credential.accessToken;
+    var user = result.user;
+    window.location = '/dashboard';
+    console.log(user.displayName);
+  }).catch(function(error) {
+    console.log(error.code);
+  });
 }
 
 Chubbo.prototype.signOut = function() {
-  this.auth.signOut();
-  window.location = '/';
+  this.auth.signOut().then(function() {
+    window.location = '/';    
+  }).catch(function(error) {
+    console.log(error.code);
+  });
 }
 
 Chubbo.prototype.onAuthStateChanged = function(user) {

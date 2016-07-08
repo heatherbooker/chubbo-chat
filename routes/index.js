@@ -10,10 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/dashboard', function(req, res, next) {
-  res.render('dashboard', {
-    title: 'chubbo-chat: dashboard',
-    message: 'gsdfsdfsdf'
-  });
+  res.render('dashboard', {title: 'chubbo-chat: dashboard'});
 });
 
 module.exports = router;
