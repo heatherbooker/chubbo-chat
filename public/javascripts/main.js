@@ -1,4 +1,8 @@
 var Main = Vue.extend({
+  ready: function() {
+    //start instance of app to connect to firebase
+    window.login = new Login();
+  },
   template: `
     <div>
       <nav-bar></nav-bar>

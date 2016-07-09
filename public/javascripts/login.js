@@ -1,15 +1,5 @@
-window.onload = function() {
-  //start instance of app to connect to firebase
-  window.login = new Login();
-}
-
 function Login() {
-  this.initFirebase();
-}
-
-Login.prototype.initFirebase = function() {
   this.auth = firebase.auth();
-  this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 }
 
 Login.prototype.signIn = function() {
@@ -28,22 +18,4 @@ Login.prototype.signOut = function() {
   }).catch(function(error) {
     console.log('error logging out:', error.code);
   });
-}
-
-Login.prototype.onAuthStateChanged = function(user) {
-  if (user) {
-    this.toggleLoginBtn(true);
-  } else {
-    this.toggleLoginBtn(false);
-  }
-}
-
-Login.prototype.toggleLoginBtn = function(isLoggedIn) {
-  if (isLoggedIn) {
-    $('.cc-loginBtn').hide();
-    $('.cc-logoutBtn').show();
-  } else {
-    $('.cc-logoutBtn').hide();
-    $('.cc-loginBtn').show();
-  }
 }

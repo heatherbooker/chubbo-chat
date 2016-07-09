@@ -155,7 +155,7 @@ function makeDots() {
             delay(function() {
                 'use strict';
                 canvas.width = $('body').innerWidth();
-                canvas.height = $('body').innerHeight();
+                canvas.height = $('body').innerHeight() - 90;
                 buildArray();
                 animate(false);
             }, 1000);
