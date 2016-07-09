@@ -6,12 +6,7 @@ function makeDots() {
             
             // SETTINGS 
             // opacity = 0.6,                                      // the opacity of the circles 0 to 1
-            colors = ['#ff9fcb',       // an array of rgb colors for the circles
-                      // 'rgba(189, 195, 199,' + opacity + ')',
-                      // 'rgba(241, 196, 15,' + opacity + ')',
-                      // 'rgba(231, 76, 60,' + opacity + ')',
-                      // 'rgba(231, 76, 60,' + opacity + ')'
-                     ],
+            colors = ['#ff9fcb'],
             minSize = 3,                                        // the minimum size of the circles in px
             maxSize = 6,                                       // the maximum size of the circles in px
             numCircles = 20,                                   // the number of circles
@@ -133,7 +128,7 @@ function makeDots() {
                 }
             }
         }
-        //window.onload = 
+
         (function () {
             'use strict';
             canvas.width = $('body').innerWidth();

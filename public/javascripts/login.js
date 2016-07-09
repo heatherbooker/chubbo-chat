@@ -6,7 +6,6 @@ Login.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
   //return promise to caller (navbar 'login' button)
   return this.auth.signInWithPopup(provider).then(function(result) {
-    console.log(result.user.displayName);
   }).catch(function(error) {
     console.log('error logging in:', error.code);
   });

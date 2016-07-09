@@ -1,0 +1,18 @@
+.cc-leftPanel {
+  height: 85vh;
+  border-right: 1px solid #F0F0F0;
+}
+
+.cc-userIcon-leftPanel {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: block;
+  margin: 30px auto;
+}
+
+.cc-userEmail-leftPanel {
+  color: #545454;
+  text-align: center;
+  margin: 10px;
+}
