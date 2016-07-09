@@ -3,10 +3,8 @@ html
 
   head
 
-    block title
-      title Chubbo-Chat
+    title Chubbo-Chat
     meta(meta name='viewport' content='width=device-width, initial-scale=1')
-    link(rel='shortcut icon', href='/images/favicon.ico', type='image/x-icon')
     link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Pacifico|Quicksand:300,400')
     link(rel='stylesheet', href='/libs/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/base.css')
@@ -25,12 +23,15 @@ html
       };
       firebase.initializeApp(config);
 
-
     block content
+      
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(src='https://npmcdn.com/vue/dist/vue.js')
-    script(src='/javascripts/floatingDots.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.10/vue-router.min.js')
     script(src='/javascripts/login.js')
-    script(src='/javascripts/nav.js')
-    script(src='/javascripts/dashboard.js')
+    script(src='/javascripts/floatingDots.js')
+    script(src='/javascripts/components/nav.js')
+    script(src='/javascripts/components/landing.js')
+    script(src='/javascripts/components/dashboard.js')
+    script(src='/javascripts/main.js')
 

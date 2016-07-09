@@ -1,54 +1,39 @@
-$(document).ready(function() {
-
-  //start instance of app to connect to firebase
-  window.chubbo = new Chubbo();
-
-});
+//start instance of app to connect to firebase
+window.login = new Login();
 
 
-function Chubbo() {
-
-  $('.cc-loginBtn').click(this.signIn.bind(this));
-  $('.cc-logoutBtn').click(this.signOut.bind(this));
-
-  this.initFirebase();
-}
-
-Chubbo.prototype.initFirebase = function() {
+function Login() {
   this.auth = firebase.auth();
   this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
-};
+}
 
-Chubbo.prototype.signIn = function() {
+Login.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
-  this.auth.signInWithPopup(provider).then(function(result) {
-    var token = result.credential.accessToken;
-    var user = result.user;
-    window.location = '/dashboard';
-    console.log(user.displayName);
+  //return promise to caller (navbar 'login' button)
+  return this.auth.signInWithPopup(provider).then(function(result) {
+    console.log(result.user.displayName);
   }).catch(function(error) {
     console.log('error logging in:', error.code);
   });
 }
 
-Chubbo.prototype.signOut = function() {
-  this.auth.signOut().then(function() {
-    window.location = '/';    
+Login.prototype.signOut = function() {
+  //return promise to caller (navbar 'logout' button)
+  return this.auth.signOut().then(function() {
   }).catch(function(error) {
     console.log('error logging out:', error.code);
   });
 }
 
-Chubbo.prototype.onAuthStateChanged = function(user) {
+Login.prototype.onAuthStateChanged = function(user) {
   if (user) {
-    toggleLoginBtn(true);
+    this.toggleLoginBtn(true);
   } else {
-    toggleLoginBtn(false);
+    this.toggleLoginBtn(false);
   }
 }
 
-
-function toggleLoginBtn(isLoggedIn) {
+Login.prototype.toggleLoginBtn = function(isLoggedIn) {
   if (isLoggedIn) {
     $('.cc-loginBtn').hide();
     $('.cc-logoutBtn').show();
