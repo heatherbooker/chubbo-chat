@@ -1,8 +1,13 @@
-//start instance of app to connect to firebase
-window.login = new Login();
-
+window.onload = function() {
+  //start instance of app to connect to firebase
+  window.login = new Login();
+}
 
 function Login() {
+  this.initFirebase();
+}
+
+Login.prototype.initFirebase = function() {
   this.auth = firebase.auth();
   this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 }
