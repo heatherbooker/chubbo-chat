@@ -2,7 +2,7 @@
 
 #### a simple chat bot 
 
-uses express
+uses express, pug, and *vue.js*
 
 **under construction**
 
