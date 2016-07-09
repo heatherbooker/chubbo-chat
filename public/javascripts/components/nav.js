@@ -22,6 +22,7 @@ var navbar = Vue.extend({
     handleLogout: function() {
       window.login.signOut().then(function() {
         router.go('/')
+        window.login.toggleLoginBtn(false);
       });
     }
   }
