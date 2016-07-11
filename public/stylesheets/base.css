@@ -14,11 +14,22 @@ a:hover {
   border-bottom: 2px solid #F0F0F0;
 }
 
+.cc-menuIcon {
+  height: 30px;
+  width: auto;
+  margin: 22px 5px;
+  float: right;
+}
+
 .cc-logo {
   font-family: 'Pacifico', cursive;
   display: inline-block;
   margin: 20px 5px;
   font-size: 3.3rem;
+}
+
+.cc-logo:hover {
+  cursor: pointer;
 }
 
 .cc-loginBtn, .cc-logoutBtn {

@@ -1,6 +1,6 @@
 var leftPanel = Vue.extend({
   template: `
-  <div class="col-sm-3">
+  <div class="col-sm-3 col-xs-10">
     <div class="cc-leftPanel">
       <img v-bind:src=imgSrc class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ userInfo.email }} </p>

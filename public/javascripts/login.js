@@ -18,3 +18,6 @@ Login.prototype.signOut = function() {
     console.log('error logging out:', error.code);
   });
 }
+console.log('1before making new login in login.js', firebase.auth().currentUser);
+window.login = new Login;
+console.log('2after making new login in login.js', firebase.auth().currentUser);
