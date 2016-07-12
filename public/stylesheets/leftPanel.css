@@ -1,6 +1,7 @@
 .cc-leftPanel {
   height: 85vh;
   border-right: 1px solid #F0F0F0;
+  width: 100%;
 }
 
 .cc-userIcon-leftPanel {
@@ -23,4 +24,13 @@
 
 .cc-logout-leftPanel:hover {
   cursor: pointer;
+}
+
+.slide-transition {
+  transition: width .4s ease;
+  overflow: hidden;
+}
+
+.slide-enter, .slide-leave {
+  width: 0;
 }

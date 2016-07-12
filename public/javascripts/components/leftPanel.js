@@ -1,7 +1,7 @@
 var leftPanel = Vue.extend({
   template: `
   <div class="col-sm-3 col-xs-10">
-    <div v-show=leftPanelStatus class="cc-leftPanel">
+    <div v-show=leftPanelStatus transition="slide" class="cc-leftPanel">
       <img v-bind:src=imgSrc class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ userInfo.email }} </p>
       <p v-show="onMobile" v-on:click="handleLogout" class="cc-logout-leftPanel"> logout </p>
