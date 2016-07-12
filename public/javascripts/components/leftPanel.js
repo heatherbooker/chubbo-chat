@@ -9,20 +9,21 @@ var leftPanel = Vue.extend({
   </div>
   `,
   data: function() {
+    var userInfo = firebase.auth().currentUser;
     //default user icon
     var imgSrc = 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
-    if (store.state.userInfo.photoURL) {
-      imgSrc = store.state.userInfo.photoURL;
+    if (userInfo.photoURL) {
+      imgSrc = userInfo.photoURL;
     }
     return {
+      userInfo,
       imgSrc,
       onMobile: store.state.onMobile
     };
   },
   vuex: {
     getters: {
-      leftPanelStatus: function(state) {return state.showLeftPanel;},
-      userInfo: function(state) {return state.userInfo;}
+      leftPanelStatus: function(state) {return state.showLeftPanel;}
     }
   }
 });

@@ -41,7 +41,7 @@ var navbar = Vue.extend({
     return {
       showMenuIcon,
       //loginStatus will be null or an object
-      loginStatus: store.state.userInfo
+      loginStatus: firebase.auth().currentUser
     };
   },
   methods: {

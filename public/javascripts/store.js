@@ -8,16 +8,12 @@ function makeStore() {
   return {
     state: {
       onMobile,
-      showLeftPanel,
-      userInfo: firebase.auth().currentUser
+      showLeftPanel
     },
     mutations: {
       toggleLeftPanel: function(state) {
         alert('should show left panel meow');
         state.showLeftPanel = true;
-      },
-      updateUser: function(state) {
-        state.userInfo = firebase.auth().currentUser;
       }
     }
   };

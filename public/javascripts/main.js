@@ -3,7 +3,6 @@ var Main = Vue.extend({
     //start instance of app to connect to firebase
     window.login = new Login();
     console.log('after creating new login', firebase.auth().currentUser);
-    store.dispatch('updateUser');
   },
   template: `
     <div>
