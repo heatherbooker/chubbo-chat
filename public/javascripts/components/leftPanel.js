@@ -15,14 +15,14 @@ var leftPanel = Vue.extend({
       imgSrc = store.state.userInfo.photoURL;
     }
     return {
-      userInfo: store.state.userInfo,
       imgSrc,
       onMobile: store.state.onMobile
     };
   },
   vuex: {
     getters: {
-      leftPanelStatus: function(state) {return state.showLeftPanel;}
+      leftPanelStatus: function(state) {return state.showLeftPanel;},
+      userInfo: function(state) {return state.userInfo;}
     }
   }
 });
