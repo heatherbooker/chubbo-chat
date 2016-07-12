@@ -1,4 +1,9 @@
 var dashboard = Vue.extend({
+  ready: function() {
+    if (store.state.onMobile) {
+      this.showMenuIcon();
+    }
+  },
   template: `
   <div class="container-fluid">
     <div class="row">
@@ -8,5 +13,10 @@ var dashboard = Vue.extend({
   `,
   components: {
     'left-panel': leftPanel
+  },
+  vuex: {
+    actions: {
+      showMenuIcon: function() {store.dispatch('toggleState', true, 'seeMenuIcon')}
+    }
   }
 });

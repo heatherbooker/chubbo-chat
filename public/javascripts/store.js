@@ -1,19 +1,20 @@
 function makeStore() {
   var onMobile = false,
-      showLeftPanel = true;
-  if ($(window).width() <= 1500) {
+      seeMenuIcon = false,
+      seeLeftPanel = true;
+  if ($(window).width() <= 400) {
     onMobile = true;
-    showLeftPanel = false;
+    seeLeftPanel = false;
   }
   return {
     state: {
       onMobile,
-      showLeftPanel
+      seeMenuIcon,
+      seeLeftPanel
     },
     mutations: {
-      toggleLeftPanel: function(state) {
-        alert('should show left panel meow');
-        state.showLeftPanel = true;
+      toggleState: function(state, newState, property) {
+        state[property] = newState;
       }
     }
   };

@@ -20,3 +20,7 @@
 .cc-logout-leftPanel {
   text-align: center;
 }
+
+.cc-logout-leftPanel:hover {
+  cursor: pointer;
+}

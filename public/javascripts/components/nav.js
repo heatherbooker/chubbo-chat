@@ -7,8 +7,8 @@ var navbar = Vue.extend({
         </div>
         <div class="col-xs-4">
           <img
-            v-show="showMenuIcon"
-            v-on:click='showMenu'
+            v-show="menuIconStatus"
+            v-on:click='handleMenu'
             src="/images/hamburger.svg"
             class="cc-menuIcon" />
           <div v-else>
@@ -32,14 +32,7 @@ var navbar = Vue.extend({
     </div>
   `,
   data: function() {
-    var showMenuIcon = false;
-    if (store.state.onMobile) {
-      if (this.$route.path === '/dashboard') {
-        showMenuIcon = true;
-      }
-    }
     return {
-      showMenuIcon,
       //loginStatus will be null or an object
       loginStatus: firebase.auth().currentUser
     };
@@ -51,9 +44,6 @@ var navbar = Vue.extend({
         me.$router.go('/dashboard');
         $('.cc-loginBtn').hide();
         $('.cc-logoutBtn').show();
-        if ($(window).width() <= 1500) {
-          me.showMenuIcon = true;
-        }
       });
     },
     handleLogout: function() {
@@ -62,15 +52,26 @@ var navbar = Vue.extend({
         me.$router.go('/')
         $('.cc-logoutBtn').hide();
         $('.cc-loginBtn').show();
-        if ($(window).width() <= 1500) {
-          me.showMenuIcon = false;
-        }
       });
+    },
+    handleMenu: function() {
+      if (!this.menuStatus) {
+        this.showMenu();
+      } else {
+        this.hideMenu();
+      }
     }
   },
   vuex: {
+    getters: {
+      menuIconStatus: function(state) {return state.seeMenuIcon;},
+      menuStatus: function(state) {return state.seeLeftPanel;}
+    },
     actions: {
-      showMenu: function() {store.dispatch('toggleLeftPanel')}
+      showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
+      hideMenu: function() {store.dispatch('toggleState', false, 'seeLeftPanel');},
+      showMenuIcon: function() {store.dispatch('toggleState', true, 'seeMenuIcon');},
+      hideMenuIcon: function() {store.dispatch('toggleState', false, 'seeMenuIcon');}
     }
   }
 });
