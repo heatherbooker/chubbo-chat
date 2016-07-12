@@ -33,25 +33,25 @@ var navbar = Vue.extend({
   `,
   data: function() {
     var showMenuIcon = false;
-    if ($(window).width <= 400) {
+    if (store.state.onMobile) {
       if (this.$route.path === '/dashboard') {
         showMenuIcon = true;
       }
     }
-    console.log('running data function', firebase.auth().currentUser);
     return {
       showMenuIcon,
-      loginStatus: firebase.auth().currentUser
+      //loginStatus will be null or an object
+      loginStatus: store.state.userInfo
     };
   },
   methods: {
     handleLogin: function() {
       var me = this;
       window.login.signIn().then(function() {
-        router.go('/dashboard');
+        me.$router.go('/dashboard');
         $('.cc-loginBtn').hide();
         $('.cc-logoutBtn').show();
-        if ($(window).width() <= 400) {
+        if ($(window).width() <= 1500) {
           me.showMenuIcon = true;
         }
       });
@@ -59,17 +59,18 @@ var navbar = Vue.extend({
     handleLogout: function() {
       var me = this;
       window.login.signOut().then(function() {
-        router.go('/')
+        me.$router.go('/')
         $('.cc-logoutBtn').hide();
         $('.cc-loginBtn').show();
-        if ($(window).width() <= 400) {
+        if ($(window).width() <= 1500) {
           me.showMenuIcon = false;
         }
       });
-    },
-    showMenu: function() {
-      alert('hay a  menu');
-      mobilePanel.showPanel = true;
+    }
+  },
+  vuex: {
+    actions: {
+      showMenu: function() {store.dispatch('toggleLeftPanel')}
     }
   }
 });

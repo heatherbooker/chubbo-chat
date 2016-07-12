@@ -21,6 +21,10 @@ a:hover {
   float: right;
 }
 
+.cc-menuIcon:hover {
+  cursor: pointer;
+}
+
 .cc-logo {
   font-family: 'Pacifico', cursive;
   display: inline-block;

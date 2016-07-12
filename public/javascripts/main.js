@@ -1,9 +1,9 @@
 var Main = Vue.extend({
   created: function() {
     //start instance of app to connect to firebase
-    console.log('3before calling this.init', firebase.auth().currentUser);
-    this.init();
-    console.log('5after calling this.init', firebase.auth().currentUser)
+    window.login = new Login();
+    console.log('after creating new login', firebase.auth().currentUser);
+    store.dispatch('updateUser');
   },
   template: `
     <div>
@@ -11,12 +11,7 @@ var Main = Vue.extend({
       <router-view></router-view>
     </div>
   `,
-  methods: {
-    init: function(callback) {
-      window.login = new Login();
-      console.log('4after creating new login within this.init', firebase.auth().currentUser);
-    }
-  }
+  store
 });
 
 var router = new VueRouter();
