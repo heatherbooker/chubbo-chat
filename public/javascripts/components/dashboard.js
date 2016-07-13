@@ -1,5 +1,5 @@
 var dashboard = Vue.extend({
-  ready: function() {
+  created: function() {
     if (store.state.onMobile) {
       this.showMenuIcon();
     }

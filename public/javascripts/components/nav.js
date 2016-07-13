@@ -3,7 +3,7 @@ var navbar = Vue.extend({
     <div class="container-fluid">
       <div class="row cc-navbar">
         <div class="col-xs-8">
-          <h1 v-link="{path: '/'}" class="cc-logo">Chubbo-Chat</h1>
+          <h1 v-link="{path: '/'}" v-on:click='goHome' class="cc-logo">Chubbo-Chat</h1>
         </div>
         <div class="col-xs-4">
           <img
@@ -33,8 +33,7 @@ var navbar = Vue.extend({
   `,
   data: function() {
     return {
-      //loginStatus will be null or an object
-      loginStatus: firebase.auth().currentUser
+      user: firebase.auth().currentUser
     };
   },
   methods: {
@@ -60,13 +59,15 @@ var navbar = Vue.extend({
       } else {
         this.hideMenu();
       }
+    },
+    goHome: function() {
+      this.hideMenuIcon();
     }
   },
   vuex: {
     getters: {
       menuIconStatus: function(state) {return state.seeMenuIcon;},
-      menuStatus: function(state) {return state.seeLeftPanel;},
-      user: function(state) {return state.userInfo;}
+      menuStatus: function(state) {return state.seeLeftPanel;}
     },
     actions: {
       showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
