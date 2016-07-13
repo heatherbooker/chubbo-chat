@@ -1,7 +1,8 @@
 var Main = Vue.extend({
   created: function() {
     //start instance of app to connect to firebase
-    window.login = new Login();
+    var me = this;
+    window.login = new Login(function(user) {me.updateUser(user);});
   },
   template: `
     <div>
@@ -9,7 +10,12 @@ var Main = Vue.extend({
       <router-view></router-view>
     </div>
   `,
-  store
+  store,
+  vuex: {
+    actions: {
+      updateUser: function(state, user) {store.dispatch('setUser', user);}
+    }
+  }
 });
 
 var router = new VueRouter();

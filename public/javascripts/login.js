@@ -1,5 +1,8 @@
-function Login() {
+function Login(onAuthStateChange) {
   this.auth = firebase.auth();
+  this.auth.onAuthStateChanged(function(user) {
+    onAuthStateChange(user);
+  });
 }
 
 Login.prototype.signIn = function() {

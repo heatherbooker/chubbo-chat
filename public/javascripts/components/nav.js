@@ -13,7 +13,7 @@ var navbar = Vue.extend({
             class="cc-menuIcon" />
           <div v-else>
             <p
-              v-show="!loginStatus"
+              v-show="!user"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -65,7 +65,8 @@ var navbar = Vue.extend({
   vuex: {
     getters: {
       menuIconStatus: function(state) {return state.seeMenuIcon;},
-      menuStatus: function(state) {return state.seeLeftPanel;}
+      menuStatus: function(state) {return state.seeLeftPanel;},
+      user: function(state) {return state.userInfo;}
     },
     actions: {
       showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
