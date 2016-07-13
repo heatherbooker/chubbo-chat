@@ -2,10 +2,11 @@ function makeStore() {
   var onMobile = false,
       seeMenuIcon = false,
       seeLeftPanel = true,
-      userInfo = {
+      userInfoDefault = {
         email: '',
         imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
-    }
+      },
+      userInfo = userInfoDefault;
   if ($(window).width() <= 400) {
     onMobile = true;
     seeLeftPanel = false;
@@ -35,7 +36,7 @@ function makeStore() {
           }
           state.userInfo = user;
         } else {
-          state.userInfo = userInfo;
+          state.userInfo = userInfoDefault;
         }
       }
     }
