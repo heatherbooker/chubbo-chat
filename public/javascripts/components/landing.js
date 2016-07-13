@@ -1,5 +1,6 @@
 var landing = Vue.extend({
   ready: function() {
+    this.hideMenuIcon();
     makeDots();
   },
   template: `
@@ -20,5 +21,10 @@ var landing = Vue.extend({
         </div>
       </div>
     </div>
-  `
+  `,
+  vuex: {
+    actions: {
+      hideMenuIcon: function() {store.dispatch('toggleState', false, 'seeMenuIcon');}
+    }
+  }
 });

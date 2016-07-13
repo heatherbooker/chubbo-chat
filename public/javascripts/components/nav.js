@@ -66,7 +66,9 @@ var navbar = Vue.extend({
   },
   ready: function() {
     var me = this;
-    window.setTimeout(function() {me.user = me.userInStore}, 1000);
+    window.setTimeout(function() {
+      me.user = me.userInStore.uid;
+    }, 1000);
   },
   vuex: {
     getters: {
