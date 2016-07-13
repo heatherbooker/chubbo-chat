@@ -3,7 +3,7 @@ var navbar = Vue.extend({
     <div class="container-fluid">
       <div class="row cc-navbar">
         <div class="col-xs-8">
-          <h1 v-link="{path: '/'}" v-on:click='goHome' class="cc-logo">Chubbo-Chat</h1>
+          <h1 v-link="{path: '/'}" class="cc-logo">Chubbo-Chat</h1>
         </div>
         <div class="col-xs-4">
           <img
@@ -59,13 +59,11 @@ var navbar = Vue.extend({
       } else {
         this.hideMenu();
       }
-    },
-    goHome: function() {
-      this.hideMenuIcon();
     }
   },
   ready: function() {
     var me = this;
+    //set user to be based on store
     window.setTimeout(function() {
       me.user = me.userInStore.uid;
     }, 1000);
@@ -78,11 +76,7 @@ var navbar = Vue.extend({
     },
     actions: {
       showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
-      hideMenu: function() {store.dispatch('toggleState', false, 'seeLeftPanel');},
-      showMenuIcon: function() {store.dispatch('toggleState', true, 'seeMenuIcon');},
-      hideMenuIcon: function() {store.dispatch('toggleState', false, 'seeMenuIcon');}
+      hideMenu: function() {store.dispatch('toggleState', false, 'seeLeftPanel');}
     }
   }
 });
-
-Vue.component('nav-bar', navbar);

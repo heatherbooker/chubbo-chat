@@ -10,6 +10,9 @@ var Main = Vue.extend({
       <router-view></router-view>
     </div>
   `,
+  components: {
+    'nav-bar': navbar
+  },
   store,
   vuex: {
     actions: {

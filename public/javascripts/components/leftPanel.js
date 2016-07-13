@@ -13,7 +13,6 @@ var leftPanel = Vue.extend({
       var me = this;
       window.login.signOut().then(function() {
         me.$router.go('/');
-        me.hideMenuIcon();
         $('.cc-logoutBtn').hide();
         $('.cc-loginBtn').show();
         me.hideLeftPanel();
@@ -22,8 +21,7 @@ var leftPanel = Vue.extend({
   },
   vuex: {
     actions: {
-      hideLeftPanel: function() {store.dispatch('toggleState', false, 'seeLeftPanel');},
-      hideMenuIcon: function() {store.dispatch('toggleState', false, 'seeMenuIcon');}
+      hideLeftPanel: function() {store.dispatch('toggleState', false, 'seeLeftPanel');}
     },
     getters: {
       leftPanelStatus: function(state) {return state.seeLeftPanel;},
