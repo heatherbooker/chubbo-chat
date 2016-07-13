@@ -64,10 +64,15 @@ var navbar = Vue.extend({
       this.hideMenuIcon();
     }
   },
+  ready: function() {
+    var me = this;
+    window.setTimeout(function() {me.user = me.userInStore}, 1000);
+  },
   vuex: {
     getters: {
       menuIconStatus: function(state) {return state.seeMenuIcon;},
-      menuStatus: function(state) {return state.seeLeftPanel;}
+      menuStatus: function(state) {return state.seeLeftPanel;},
+      userInStore: function(state) {return state.userInfo;},
     },
     actions: {
       showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
