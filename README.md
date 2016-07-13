@@ -1,8 +1,8 @@
 ### chubbo-chat
 
-#### a simple chat bot 
+##### **a simple chat bot** to make surveys easier and more enjoyable! 
 
-uses express, pug, and *vue.js*
+uses *vue.js* with firebase
 
 **under construction**
 

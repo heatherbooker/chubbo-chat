@@ -30,6 +30,6 @@ router.map({
   '/dashboard': {
     component: dashboard
   }
-})
+});
 
-router.start(Main, '#chubbo-chat')
+router.start(Main, '#chubbo-chat');

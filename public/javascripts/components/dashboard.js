@@ -6,7 +6,6 @@ var dashboard = Vue.extend({
   },
   ready: function() {
     var me = this;
-    //if user is not logged in, kick em out!
     var checkLoggedIn = function() {
       if (!firebase.auth().currentUser) {
         alert('Sorry, it appears you are not logged in!');
