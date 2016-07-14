@@ -1,16 +1,11 @@
 function makeStore() {
-  var onMobile = false,
-      seeMenuIcon = false,
-      seeLeftPanel = true,
+  var seeMenuIcon = false,
+      leftPanelClass = 'cc-leftPanel-mobile-hide',
       userInfoDefault = {
         email: '',
         imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
       },
       userInfo = userInfoDefault;
-  if ($(window).width() <= 400) {
-    onMobile = true;
-    seeLeftPanel = false;
-  }
   if (firebase.auth().currentUser) {
     var user = firebase.auth().currentUser;
     user.imgSrc = user.photoURL || 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
@@ -18,9 +13,8 @@ function makeStore() {
   }
   return {
     state: {
-      onMobile,
       seeMenuIcon,
-      seeLeftPanel,
+      leftPanelClass,
       userInfo
     },
     mutations: {

@@ -1,7 +1,11 @@
-.cc-leftPanel {
+#cc-leftPanel {
   height: 85vh;
   border-right: 1px solid #F0F0F0;
   width: 100%;
+}
+
+.cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
+  display: block;
 }
 
 .cc-userIcon-leftPanel {
@@ -20,6 +24,7 @@
 
 .cc-logout-leftPanel {
   text-align: center;
+  display: none;
 }
 
 .cc-logout-leftPanel:hover {
@@ -33,4 +38,16 @@
 
 .slide-enter, .slide-leave {
   width: 0;
+}
+
+@media (max-width: 360px) {
+  .cc-logout-leftPanel {
+    display: block;
+  }
+  .cc-leftPanel-mobile-hide {
+    display: none;
+  }
+  .cc-leftPanel-mobile-show {
+    display: block;
+  }
 }

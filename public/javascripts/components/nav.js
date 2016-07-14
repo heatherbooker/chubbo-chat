@@ -1,4 +1,5 @@
 var navbar = Vue.extend({
+  props: ['route'],
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
@@ -7,11 +8,12 @@ var navbar = Vue.extend({
         </div>
         <div class="col-xs-4">
           <img
-            v-show="menuIconStatus"
             v-on:click='handleMenu'
             src="/images/hamburger.svg"
-            class="cc-menuIcon" />
-          <div v-else>
+            class="cc-menuIcon"
+            id={{menuIconId}} 
+          />
+          <div id={{loginButtonsId}}>
             <p
               v-show="!user"
               v-on:click='handleLogin'
@@ -36,6 +38,29 @@ var navbar = Vue.extend({
       user: firebase.auth().currentUser
     };
   },
+  ready: function() {
+    var me = this;
+    //set user to be based on store
+    window.setTimeout(function() {
+      me.user = me.userInStore.uid;
+    }, 1000);
+  },
+  computed: {
+    loginButtonsId: function() {
+      if (this.$route.path === '/') {
+        return 'cc-loginBtns-show'
+      } else if (this.$route.path === '/dashboard') {
+        return 'cc-loginBtns-hide-mobile';
+      }
+    },
+    menuIconId: function() {
+      if (this.$route.path === '/dashboard') {
+        return 'cc-menuIcon-mobile';
+      } else {
+        return '';
+      }
+    }
+  },
   methods: {
     handleLogin: function() {
       var me = this;
@@ -54,29 +79,22 @@ var navbar = Vue.extend({
       });
     },
     handleMenu: function() {
-      if (!this.menuStatus) {
+      if (this.menuStatus === 'cc-leftPanel-mobile-hide') {
         this.showMenu();
       } else {
         this.hideMenu();
       }
     }
   },
-  ready: function() {
-    var me = this;
-    //set user to be based on store
-    window.setTimeout(function() {
-      me.user = me.userInStore.uid;
-    }, 1000);
-  },
   vuex: {
     getters: {
+      menuStatus: function(state) {return state.leftPanelClass;},
       menuIconStatus: function(state) {return state.seeMenuIcon;},
-      menuStatus: function(state) {return state.seeLeftPanel;},
-      userInStore: function(state) {return state.userInfo;},
+      userInStore: function(state) {return state.userInfo;}
     },
     actions: {
-      showMenu: function() {store.dispatch('toggleState', true, 'seeLeftPanel');},
-      hideMenu: function() {store.dispatch('toggleState', false, 'seeLeftPanel');}
+      showMenu: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-show', 'leftPanelClass');},
+      hideMenu: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-hide', 'leftPanelClass');}
     }
   }
 });
