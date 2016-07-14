@@ -13,11 +13,10 @@ var leftPanel = Vue.extend({
       var me = this;
       window.login.signOut().then(function() {
         me.$router.go('/');
-        $('.cc-logoutBtn').hide();
-        $('.cc-loginBtn').show();
       });
     }
   },
+  //vuex(state store) getter(s) needed by this component
   vuex: {
     getters: {
       leftPanelClass: function(state) {return state.leftPanelClass;},

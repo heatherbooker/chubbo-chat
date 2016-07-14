@@ -42,8 +42,9 @@ var navbar = Vue.extend({
   `,
   computed: {
     onDashboard: function() {
+      //dashboard: show menu icon or logout btn (based on css media queries)
+      //landing: show dashboard shortcut or login btn (based on user login status)
       if (this.$route.path === '/dashboard') {
-        //menu icon will be toggled with logout btn based on css media queries
         return true;
       }
     }
@@ -62,6 +63,7 @@ var navbar = Vue.extend({
       });
     },
     handleMenu: function() {
+      //show or hide menu on menu icon click
       if (this.menuStatus === 'cc-leftPanel-mobile-hide') {
         this.showMenu();
       } else {
@@ -69,7 +71,7 @@ var navbar = Vue.extend({
       }
     }
   },
-  //get state and change state of vuex state store
+  //vuex(state store) getter(s) and action dispatchers needed by this component
   vuex: {
     getters: {
       menuStatus: function(state) {return state.leftPanelClass;},

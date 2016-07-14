@@ -1,6 +1,5 @@
 var dashboard = Vue.extend({
   created: function() {
-    this.showMenuIcon();
     this.hideMenuMobile();
   },
   ready: function() {
@@ -24,9 +23,9 @@ var dashboard = Vue.extend({
   components: {
     'left-panel': leftPanel
   },
+  //vuex(state store) action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      showMenuIcon: function() {store.dispatch('toggleState', true, 'seeMenuIcon')},
       hideMenuMobile: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-hide', 'leftPanelClass');}
     }
   }

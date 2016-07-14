@@ -1,3 +1,4 @@
+//vuex state store to share state between all components
 function makeStore() {
   var leftPanelClass = 'cc-leftPanel-mobile-hide',
       userInfoDefault = {
