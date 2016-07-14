@@ -6,11 +6,13 @@ var dashboard = Vue.extend({
   ready: function() {
     var me = this;
     var checkLoggedIn = function() {
+      //kick user out of dashboard if not logged in
       if (!firebase.auth().currentUser) {
         me.$router.go('/');
       }
     }
-    window.setTimeout(checkLoggedIn, 1500);
+    //firebase user isn't updated immediately, so check after it has updated
+    window.setTimeout(checkLoggedIn, 1000);
   },
   template: `
     <div class="container-fluid">

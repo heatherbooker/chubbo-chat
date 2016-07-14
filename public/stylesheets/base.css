@@ -14,12 +14,12 @@ a:hover {
   border-bottom: 2px solid #F0F0F0;
 }
 
-.cc-menuIcon {
+.cc-menuIcon-mobile {
+  display: none;
   height: 30px;
   width: auto;
   margin: 22px 5px;
   float: right;
-  display: none;
 }
 
 .cc-menuIcon:hover {
@@ -37,22 +37,22 @@ a:hover {
   cursor: pointer;
 }
 
-.cc-loginBtn, .cc-logoutBtn, #cc-dashButton {
+.cc-loginBtn, .cc-logoutBtn, .cc-dashButton {
   float: right;
   display: inline-block;
   padding: 10px;
   font-size: 2rem;
 }
-.cc-loginBtn:hover, .cc-logoutBtn:hover, #cc-dashButton:hover {
+.cc-loginBtn:hover, .cc-logoutBtn:hover, .cc-dashButton:hover {
   cursor: pointer;
   font-weight: bold;
 }
 
-#cc-loginBtns-show {
+.cc-loginBtns-show {
   display: block;
 }
 
-#cc-loginBtns-hide, #cc-dashButton-hide {
+.cc-loginBtns-hide, .cc-dashButton-hide, .cc-menuIcon-hide {
   display: none;
 }
 
@@ -60,15 +60,18 @@ a:hover {
   .cc-logo {
     font-size: 2.5rem;
   }
-  .cc-loginBtn, .cc-logoutBtn, #cc-dashButton {
+  .cc-loginBtn, .cc-logoutBtn, .cc-dashButton {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
   }
-  #cc-menuIcon-mobile {
+  .cc-menuIcon-mobile {
     display: block;
   }
-  #cc-loginBtns-hide-mobile {
+  .cc-menuIcon-mobile:hover {
+    cursor: pointer;
+  }
+  .cc-loginBtns-hide-mobile {
     display: none;
   }
 }

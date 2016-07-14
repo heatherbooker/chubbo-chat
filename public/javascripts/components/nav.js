@@ -9,10 +9,9 @@ var navbar = Vue.extend({
           <img
             v-on:click='handleMenu'
             src="/images/hamburger.svg"
-            class="cc-menuIcon"
-            id={{menuIconId}} 
+            class={{menuIconClass}} 
           />
-          <div id={{loginButtonsId}}>
+          <div class={{loginButtonsClass}}>
             <p
               v-show="!user"
               v-on:click='handleLogin'
@@ -28,7 +27,7 @@ var navbar = Vue.extend({
               logout
             </p>
           </div>
-          <p v-link="{path: '/dashboard'}" id={{dashButtonId}}>
+          <p v-link="{path: '/dashboard'}" class={{dashButtonClass}}>
             dashboard
           </p>
         </div>
@@ -42,33 +41,38 @@ var navbar = Vue.extend({
   },
   ready: function() {
     var me = this;
-    //set user to be based on store
+    //set user to be based on store, once it has updated
+    //(firebase user doesn't update immediately)
     window.setTimeout(function() {
       me.user = me.userInStore.uid;
     }, 1000);
   },
   computed: {
-    loginButtonsId: function() {
+    loginButtonsClass: function() {
       if (this.$route.path === '/') {
         if (this.userInStore.uid) {
+          //if home and logged in, will show dashboard btn instead
           return 'cc-loginBtns-hide';
         } else {
           return 'cc-loginBtns-show';
         }
       } else if (this.$route.path === '/dashboard') {
+        //if at dash on mobile, will show menuburger instead
         return 'cc-loginBtns-hide-mobile';
       }
     },
-    menuIconId: function() {
+    menuIconClass: function() {
       if (this.$route.path === '/dashboard') {
+        //if on mobile, show menuburger
         return 'cc-menuIcon-mobile';
       } else {
-        return '';
+        return 'cc-menuIcon-hide';
       }
     },
-    dashButtonId: function() {
+    dashButtonClass: function() {
       if (this.$route.path === '/') {
         if (this.userInStore.uid) {
+          //if home and logged in,show dash shortcut
           return 'cc-dashButton';
         } else {
           return 'cc-dashButton-hide';
@@ -103,6 +107,7 @@ var navbar = Vue.extend({
       }
     }
   },
+  //get state and change state of vuex state store
   vuex: {
     getters: {
       menuStatus: function(state) {return state.leftPanelClass;},

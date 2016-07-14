@@ -1,5 +1,6 @@
 var landing = Vue.extend({
   ready: function() {
+    //animate background canvas
     makeDots();
   },
   template: `

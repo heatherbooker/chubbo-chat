@@ -21,6 +21,7 @@ function makeStore() {
       },
       setUser: function(state, user) {
         if (user) {
+          console.log('setting user');
           if (!user.photoURL) {
             user.imgSrc = 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
           } else {

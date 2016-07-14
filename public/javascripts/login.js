@@ -1,7 +1,9 @@
-function Login(onAuthStateChange) {
+//Login co-ordinator constructor
+function Login(onAuthStateChangeCallback) {
   this.auth = firebase.auth();
+  //when authorization state changes, call callback
   this.auth.onAuthStateChanged(function(user) {
-    onAuthStateChange(user);
+    onAuthStateChangeCallback(user);
   });
 }
 
