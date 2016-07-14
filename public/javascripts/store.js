@@ -1,6 +1,5 @@
 function makeStore() {
-  var seeMenuIcon = false,
-      leftPanelClass = 'cc-leftPanel-mobile-hide',
+  var leftPanelClass = 'cc-leftPanel-mobile-hide',
       userInfoDefault = {
         email: '',
         imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
@@ -13,7 +12,6 @@ function makeStore() {
   }
   return {
     state: {
-      seeMenuIcon,
       leftPanelClass,
       userInfo
     },

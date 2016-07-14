@@ -31,15 +31,6 @@
   cursor: pointer;
 }
 
-.slide-transition {
-  transition: width .4s ease;
-  overflow: hidden;
-}
-
-.slide-enter, .slide-leave {
-  width: 0;
-}
-
 @media (max-width: 992px) {
   .cc-logout-leftPanel {
     display: block;

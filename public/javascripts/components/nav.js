@@ -1,5 +1,4 @@
 var navbar = Vue.extend({
-  props: ['route'],
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
@@ -107,7 +106,6 @@ var navbar = Vue.extend({
   vuex: {
     getters: {
       menuStatus: function(state) {return state.leftPanelClass;},
-      menuIconStatus: function(state) {return state.seeMenuIcon;},
       userInStore: function(state) {return state.userInfo;}
     },
     actions: {
