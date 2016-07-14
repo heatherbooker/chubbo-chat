@@ -12,7 +12,7 @@ var dashboard = Vue.extend({
       }
     }
     //firebase user isn't updated immediately, so check after it has updated
-    window.setTimeout(checkLoggedIn, 1000);
+    window.setTimeout(checkLoggedIn, 800);
   },
   template: `
     <div class="container-fluid">

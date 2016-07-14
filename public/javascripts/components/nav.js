@@ -6,14 +6,23 @@ var navbar = Vue.extend({
           <h1 v-link="{path: '/'}" class="cc-logo">Chubbo-Chat</h1>
         </div>
         <div class="col-xs-4">
-          <img
-            v-on:click='handleMenu'
-            src="/images/hamburger.svg"
-            class={{menuIconClass}} 
-          />
-          <div class={{loginButtonsClass}}>
+          <div v-show="onDashboard">
+            <img
+              v-on:click='handleMenu'
+              src="/images/hamburger.svg"
+              class="cc-menuIcon-mobile"
+            />
             <p
-              v-show="!user"
+              v-on:click='handleLogout'
+              class="cc-logoutBtn"
+            >
+              logout
+            </p>
+          </div>
+          <div v-else>
+            <p
+              //only real users have uid
+              v-show="!user.uid"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -21,64 +30,21 @@ var navbar = Vue.extend({
             </p>
             <p
               v-else
-              v-on:click='handleLogout'
-              class="cc-logoutBtn"
+              v-link="{path: '/dashboard'}"
+              class="cc-dashboardShortcut"
             >
-              logout
+              dashboard
             </p>
           </div>
-          <p v-link="{path: '/dashboard'}" class={{dashButtonClass}}>
-            dashboard
-          </p>
         </div>
       </div>
     </div>
   `,
-  data: function() {
-    return {
-      user: firebase.auth().currentUser
-    };
-  },
-  ready: function() {
-    var me = this;
-    //set user to be based on store, once it has updated
-    //(firebase user doesn't update immediately)
-    window.setTimeout(function() {
-      me.user = me.userInStore.uid;
-    }, 1000);
-  },
   computed: {
-    loginButtonsClass: function() {
-      if (this.$route.path === '/') {
-        if (this.userInStore.uid) {
-          //if home and logged in, will show dashboard btn instead
-          return 'cc-loginBtns-hide';
-        } else {
-          return 'cc-loginBtns-show';
-        }
-      } else if (this.$route.path === '/dashboard') {
-        //if at dash on mobile, will show menuburger instead
-        return 'cc-loginBtns-hide-mobile';
-      }
-    },
-    menuIconClass: function() {
+    onDashboard: function() {
       if (this.$route.path === '/dashboard') {
-        //if on mobile, show menuburger
-        return 'cc-menuIcon-mobile';
-      } else {
-        return 'cc-menuIcon-hide';
-      }
-    },
-    dashButtonClass: function() {
-      if (this.$route.path === '/') {
-        if (this.userInStore.uid) {
-          //if home and logged in,show dash shortcut
-          return 'cc-dashButton';
-        } else {
-          return 'cc-dashButton-hide';
-        }
-      } else {
-        return 'cc-dashButton-hide';
+        //menu icon will be toggled with logout btn based on css media queries
+        return true;
       }
     }
   },
@@ -87,16 +53,12 @@ var navbar = Vue.extend({
       var me = this;
       window.login.signIn().then(function() {
         me.$router.go('/dashboard');
-        $('.cc-loginBtn').hide();
-        $('.cc-logoutBtn').show();
       });
     },
     handleLogout: function() {
       var me = this;
       window.login.signOut().then(function() {
-        me.$router.go('/')
-        $('.cc-logoutBtn').hide();
-        $('.cc-loginBtn').show();
+        me.$router.go('/');
       });
     },
     handleMenu: function() {
@@ -111,7 +73,7 @@ var navbar = Vue.extend({
   vuex: {
     getters: {
       menuStatus: function(state) {return state.leftPanelClass;},
-      userInStore: function(state) {return state.userInfo;}
+      user: function(state) {return state.userInfo;}
     },
     actions: {
       showMenu: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-show', 'leftPanelClass');},
