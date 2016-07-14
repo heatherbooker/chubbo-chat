@@ -29,6 +29,9 @@ var navbar = Vue.extend({
               logout
             </p>
           </div>
+          <p v-link="{path: '/dashboard'}" id={{dashButtonId}}>
+            dashboard
+          </p>
         </div>
       </div>
     </div>
@@ -48,7 +51,11 @@ var navbar = Vue.extend({
   computed: {
     loginButtonsId: function() {
       if (this.$route.path === '/') {
-        return 'cc-loginBtns-show'
+        if (this.userInStore.uid) {
+          return 'cc-loginBtns-hide';
+        } else {
+          return 'cc-loginBtns-show';
+        }
       } else if (this.$route.path === '/dashboard') {
         return 'cc-loginBtns-hide-mobile';
       }
@@ -58,6 +65,17 @@ var navbar = Vue.extend({
         return 'cc-menuIcon-mobile';
       } else {
         return '';
+      }
+    },
+    dashButtonId: function() {
+      if (this.$route.path === '/') {
+        if (this.userInStore.uid) {
+          return 'cc-dashButton';
+        } else {
+          return 'cc-dashButton-hide';
+        }
+      } else {
+        return 'cc-dashButton-hide';
       }
     }
   },

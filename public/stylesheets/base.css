@@ -37,13 +37,13 @@ a:hover {
   cursor: pointer;
 }
 
-.cc-loginBtn, .cc-logoutBtn {
+.cc-loginBtn, .cc-logoutBtn, #cc-dashButton {
   float: right;
   display: inline-block;
   padding: 10px;
   font-size: 2rem;
 }
-.cc-loginBtn:hover, .cc-logoutBtn:hover {
+.cc-loginBtn:hover, .cc-logoutBtn:hover, #cc-dashButton:hover {
   cursor: pointer;
   font-weight: bold;
 }
@@ -52,15 +52,15 @@ a:hover {
   display: block;
 }
 
-#cc-loginBtns-hide {
+#cc-loginBtns-hide, #cc-dashButton-hide {
   display: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 992px) {
   .cc-logo {
     font-size: 2.5rem;
   }
-  .cc-loginBtn, .cc-logoutBtn {
+  .cc-loginBtn, .cc-logoutBtn, #cc-dashButton {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
