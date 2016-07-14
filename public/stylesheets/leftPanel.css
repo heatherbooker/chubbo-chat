@@ -40,7 +40,7 @@
   width: 0;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 800px) {
   .cc-logout-leftPanel {
     display: block;
   }
