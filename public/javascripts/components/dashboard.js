@@ -15,7 +15,7 @@ var dashboard = Vue.extend({
             authStateChecked = true;
           }
         }
-      });
+      })
     }
   },
   created: function() {
