@@ -1,4 +1,4 @@
-function makeDots() {
+window.ChubboChat.services.makeDots = function() {
   var circles = [],
     canvas = document.getElementById('cc-dotsBackground');
   if (canvas) {

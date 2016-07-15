@@ -1,5 +1,5 @@
 //vuex state store to share state between all components
-function makeStore() {
+window.ChubboChat.stores.main = new Vuex.Store(function() {
   var userInfoDefault = {
     email: '',
     imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
@@ -27,6 +27,4 @@ function makeStore() {
       }
     }
   };
-}
-
-var store = new Vuex.Store(makeStore());
+}());

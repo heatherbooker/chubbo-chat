@@ -1,4 +1,4 @@
-var leftPanel = Vue.extend({
+window.ChubboChat.components.leftPanel = Vue.extend({
   template: `
   <div class="col-md-3 col-xs-10">
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
@@ -8,9 +8,15 @@ var leftPanel = Vue.extend({
     </div>
   </div>
   `,
+  data: function() {
+    return {
+      //vuex action dispatchers can access this.store
+      store: window.ChubboChat.stores.main
+    };
+  },
   methods: {
     handleLogout: function() {
-      window.login.signOut();
+      window.ChubboChat.services.login.signOut();
     }
   },
   //vuex(state store) getter(s) needed by this component

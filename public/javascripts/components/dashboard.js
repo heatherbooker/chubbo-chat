@@ -1,4 +1,4 @@
-var dashboard = Vue.extend({
+window.ChubboChat.components.dashboard = Vue.extend({
   route: {
     //make sure user is logged in
     activate: function(transition) {
@@ -15,8 +15,14 @@ var dashboard = Vue.extend({
             authStateChecked = true;
           }
         }
-      })
+      });
     }
+  },
+  data: function() {
+    return {
+      //vuex action dispatchers can access this.store
+      store: window.ChubboChat.stores.main
+    };
   },
   created: function() {
     this.hideMenuMobile();
@@ -29,12 +35,12 @@ var dashboard = Vue.extend({
     </div>
   `,
   components: {
-    'left-panel': leftPanel
+    'left-panel': window.ChubboChat.components.leftPanel
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      hideMenuMobile: function() {store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
+      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }
   }
 });

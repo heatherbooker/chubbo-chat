@@ -1,4 +1,4 @@
-var navbar = Vue.extend({
+window.ChubboChat.components.navbar = Vue.extend({
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
@@ -42,6 +42,12 @@ var navbar = Vue.extend({
       </div>
     </div>
   `,
+  data: function() {
+    return {
+      //vuex action dispatchers can access this.store
+      store: window.ChubboChat.stores.main
+    };
+  },
   computed: {
     onDashboard: function() {
       //dashboard: show menu icon or logout btn (based on css media queries)
@@ -53,7 +59,7 @@ var navbar = Vue.extend({
   },
   methods: {
     handleLogin: function() {
-      window.login.signIn();
+      window.ChubboChat.services.login.signIn();
       var me = this;
       firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
@@ -62,7 +68,7 @@ var navbar = Vue.extend({
       })
     },
     handleLogout: function() {
-      window.login.signOut();
+      window.ChubboChat.services.login.signOut();
     },
     handleMenu: function() {
       //show or hide menu on menu icon click
@@ -80,8 +86,8 @@ var navbar = Vue.extend({
       user: function(state) {return state.userInfo;}
     },
     actions: {
-      showMenu: function() {store.dispatch('toggleLeftPanel', true, 'isLeftPanelVisible');},
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
+      showMenu: function() {this.store.dispatch('toggleLeftPanel', true, 'isLeftPanelVisible');},
+      hideMenu: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }
   }
 });

@@ -1,7 +1,7 @@
-var landing = Vue.extend({
+window.ChubboChat.components.landing = Vue.extend({
   ready: function() {
     //animate background canvas
-    makeDots();
+    window.ChubboChat.services.makeDots();
   },
   template: `
     <div>
