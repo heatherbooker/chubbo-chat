@@ -14,14 +14,14 @@ window.ChubboChat.components.Main = Vue.extend({
   data: function() {
     return {
       //vuex action dispatchers can access this.store
-      store: window.ChubboChat.stores.main
+      store: window.ChubboChat.store
     };
   },
   components: {
     'nav-bar': window.ChubboChat.components.navbar
   },
   //vuex state store
-  store: window.ChubboChat.stores.main,
+  store: window.ChubboChat.store,
   //vuex action dispatcher(s) needed by this component
   vuex: {
     actions: {

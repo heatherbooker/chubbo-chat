@@ -11,7 +11,7 @@ window.ChubboChat.components.leftPanel = Vue.extend({
   data: function() {
     return {
       //vuex action dispatchers can access this.store
-      store: window.ChubboChat.stores.main
+      store: window.ChubboChat.store
     };
   },
   methods: {
