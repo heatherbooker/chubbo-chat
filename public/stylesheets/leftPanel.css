@@ -34,9 +34,13 @@
     display: block;
   }
   .cc-leftPanel-mobile-hide {
-    display: none;
+    transition: all .3s ease;
+    position: relative;
+    left: calc(-100% - 15px);
   }
   .cc-leftPanel-mobile-show {
-    display: block;
+    transition: all .3s ease;
+    position: relative;
+    left: 0px;
   }
 }
