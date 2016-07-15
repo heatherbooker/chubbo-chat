@@ -4,16 +4,13 @@ var leftPanel = Vue.extend({
     <div class={{leftPanelClass}}>
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ email }} </p>
-      <p v-on:click="handleLogout" class="cc-logout-leftPanel"> logout </p>
+      <p v-link="{path: '/'}" v-on:click="handleLogout" class="cc-logout-leftPanel"> logout </p>
     </div>
   </div>
   `,
   methods: {
     handleLogout: function() {
-      var me = this;
-      window.login.signOut().then(function() {
-        me.$router.go('/');
-      });
+      window.login.signOut();
     }
   },
   //vuex(state store) getter(s) needed by this component

@@ -13,6 +13,7 @@ var navbar = Vue.extend({
               class="cc-menuIcon-mobile"
             />
             <p
+              v-link="{path: '/'}"
               v-on:click='handleLogout'
               class="cc-logoutBtn"
             >
@@ -51,16 +52,16 @@ var navbar = Vue.extend({
   },
   methods: {
     handleLogin: function() {
+      window.login.signIn();
       var me = this;
-      window.login.signIn().then(function() {
-        me.$router.go('/dashboard');
-      });
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+          me.$router.go('/dashboard');
+        }
+      })
     },
     handleLogout: function() {
-      var me = this;
-      window.login.signOut().then(function() {
-        me.$router.go('/');
-      });
+      window.login.signOut();
     },
     handleMenu: function() {
       //show or hide menu on menu icon click
