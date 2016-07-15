@@ -2,11 +2,20 @@ var dashboard = Vue.extend({
   route: {
     //make sure user is logged in
     activate: function(transition) {
-      if (!firebase.auth().currentUser) {
-        transition.redirect('/');
-      } else {
-        transition.next();
-      }
+      var authStateChecked = false;
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+          //dashboard is for logged in users only! go to landing page
+          transition.redirect('/');
+        } else {
+          //without this check, transition.next() is called multiple times
+          if (!authStateChecked) {
+            //ok, you can continue to view dashboard
+            transition.next();
+            authStateChecked = true;
+          }
+        }
+      })
     }
   },
   created: function() {
@@ -22,7 +31,7 @@ var dashboard = Vue.extend({
   components: {
     'left-panel': leftPanel
   },
-  //vuex(state store) action dispatcher(s) needed by this component
+  //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
       hideMenuMobile: function() {store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
