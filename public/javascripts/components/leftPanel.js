@@ -10,7 +10,7 @@ window.ChubboChat.components.leftPanel = Vue.extend({
   `,
   data: function() {
     return {
-      //vuex action dispatchers can access this.store
+      //shortcut so vuex action dispatchers can access this.store
       store: window.ChubboChat.store
     };
   },
