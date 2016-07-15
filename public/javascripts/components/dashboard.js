@@ -1,17 +1,21 @@
 var dashboard = Vue.extend({
+  route: {
+    //make sure user is logged in
+    activate: function(transition) {
+      var checkLoggedIn = function() {
+        if (!firebase.auth().currentUser) {
+          alert('no dice on dashboard!');
+          transition.abort();
+        } else {
+          transition.next();
+        }
+      }
+      //firebase user isn't updated immediately, so check after it has updated
+      window.setTimeout(checkLoggedIn, 300);
+    }
+  },
   created: function() {
     this.hideMenuMobile();
-  },
-  ready: function() {
-    var me = this;
-    var checkLoggedIn = function() {
-      //kick user out of dashboard if not logged in
-      if (!firebase.auth().currentUser) {
-        me.$router.go('/');
-      }
-    }
-    //firebase user isn't updated immediately, so check after it has updated
-    window.setTimeout(checkLoggedIn, 800);
   },
   template: `
     <div class="container-fluid">
