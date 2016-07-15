@@ -135,7 +135,7 @@ function makeDots() {
     (function() {
       'use strict';
       canvas.width = $('body').innerWidth();
-      canvas.height = $('body').innerHeight() - 90;
+      canvas.height = $(window).height() - 77;
       buildArray();
       animate(false);
     }());
@@ -153,7 +153,7 @@ function makeDots() {
       delay(function() {
         'use strict';
         canvas.width = $('body').innerWidth();
-        canvas.height = $('body').innerHeight() - 90;
+        canvas.height = $(window).height() - 77;
         buildArray();
         animate(false);
       }, 1000);
