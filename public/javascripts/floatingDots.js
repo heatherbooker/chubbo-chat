@@ -132,10 +132,12 @@ function makeDots() {
       }
     }
 
+    var navbarHeight = 77
+
     (function() {
       'use strict';
       canvas.width = $('body').innerWidth();
-      canvas.height = $(window).height() - 77;
+      canvas.height = $(window).height() - navbarHeight;
       buildArray();
       animate(false);
     }());
@@ -153,7 +155,7 @@ function makeDots() {
       delay(function() {
         'use strict';
         canvas.width = $('body').innerWidth();
-        canvas.height = $(window).height() - 77;
+        canvas.height = $(window).height() - navbarHeight;
         buildArray();
         animate(false);
       }, 1000);
