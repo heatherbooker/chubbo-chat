@@ -5,7 +5,7 @@ var dashboard = Vue.extend({
       var checkLoggedIn = function() {
         if (!firebase.auth().currentUser) {
           alert('no dice on dashboard!');
-          transition.abort();
+          transition.redirect('/');
         } else {
           transition.next();
         }
