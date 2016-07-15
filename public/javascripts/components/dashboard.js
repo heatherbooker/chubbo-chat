@@ -25,7 +25,7 @@ var dashboard = Vue.extend({
   //vuex(state store) action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      hideMenuMobile: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-hide', 'leftPanelClass');}
+      hideMenuMobile: function() {store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }
   }
 });

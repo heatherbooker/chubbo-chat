@@ -1,7 +1,7 @@
 var leftPanel = Vue.extend({
   template: `
   <div class="col-md-3 col-xs-10">
-    <div class={{leftPanelClass}}>
+    <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ email }} </p>
       <p v-link="{path: '/'}" v-on:click="handleLogout" class="cc-logout-leftPanel"> logout </p>
@@ -16,7 +16,7 @@ var leftPanel = Vue.extend({
   //vuex(state store) getter(s) needed by this component
   vuex: {
     getters: {
-      leftPanelClass: function(state) {return state.leftPanelClass;},
+      isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
       email: function(state) {return state.userInfo.email;},
       userPic: function(state) {return state.userInfo.imgSrc}
     }

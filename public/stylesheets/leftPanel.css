@@ -1,8 +1,9 @@
 .cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
   display: block;
-  height: 85vh;
   border-right: 1px solid #F0F0F0;
+  height: 85vh;
   width: 100%;
+  padding-top: 30px;
 }
 
 .cc-userIcon-leftPanel {
@@ -10,7 +11,7 @@
   height: 120px;
   border-radius: 50%;
   display: block;
-  margin: 30px auto;
+  margin: 0px auto 30px auto;
 }
 
 .cc-userEmail-leftPanel {

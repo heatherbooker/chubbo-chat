@@ -11,6 +11,7 @@ var navbar = Vue.extend({
               v-on:click='handleMenu'
               src="/images/hamburger.svg"
               class="cc-menuIcon-mobile"
+              :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
             />
             <p
               v-link="{path: '/'}"
@@ -65,7 +66,7 @@ var navbar = Vue.extend({
     },
     handleMenu: function() {
       //show or hide menu on menu icon click
-      if (this.menuStatus === 'cc-leftPanel-mobile-hide') {
+      if (this.isMenuVisible === false) {
         this.showMenu();
       } else {
         this.hideMenu();
@@ -75,12 +76,12 @@ var navbar = Vue.extend({
   //vuex(state store) getter(s) and action dispatchers needed by this component
   vuex: {
     getters: {
-      menuStatus: function(state) {return state.leftPanelClass;},
+      isMenuVisible: function(state) {return state.isLeftPanelVisible;},
       user: function(state) {return state.userInfo;}
     },
     actions: {
-      showMenu: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-show', 'leftPanelClass');},
-      hideMenu: function() {store.dispatch('toggleState', 'cc-leftPanel-mobile-hide', 'leftPanelClass');}
+      showMenu: function() {store.dispatch('toggleLeftPanel', true, 'isLeftPanelVisible');},
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }
   }
 });

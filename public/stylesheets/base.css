@@ -29,8 +29,15 @@ a:hover {
   display: none;
   height: 30px;
   width: auto;
-  margin: 22px 5px;
+  margin: 20px 3px;
+  padding: 2px;
   float: right;
+}
+
+.cc-menuIcon-clicked {
+  box-shadow: 1px 1px 1px #89a5ba inset;
+  border: 1px solid #b5c8d7;
+  border-radius: 2px;
 }
 
 .cc-menuIcon-mobile:hover {

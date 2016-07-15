@@ -1,24 +1,17 @@
 //vuex state store to share state between all components
 function makeStore() {
-  var leftPanelClass = 'cc-leftPanel-mobile-hide',
-      userInfoDefault = {
-        email: '',
-        imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
-      },
-      userInfo = userInfoDefault;
-  if (firebase.auth().currentUser) {
-    var user = firebase.auth().currentUser;
-    user.imgSrc = user.photoURL || 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
-    userInfo = user;
-  }
+  var userInfoDefault = {
+    email: '',
+    imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
+  };
   return {
     state: {
-      leftPanelClass,
-      userInfo
+      isLeftPanelVisible: true,
+      userInfo: userInfoDefault
     },
     mutations: {
-      toggleState: function(state, newState, property) {
-        state[property] = newState;
+      toggleLeftPanel: function(state, newState) {
+        state.isLeftPanelVisible = newState;
       },
       setUser: function(state, user) {
         if (user) {
