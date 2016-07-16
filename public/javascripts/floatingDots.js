@@ -132,10 +132,12 @@ window.ChubboChat.services.makeDots = function() {
       }
     }
 
+    var navbarHeight = 77
+
     (function() {
       'use strict';
       canvas.width = $('body').innerWidth();
-      canvas.height = $('body').innerHeight() - 90;
+      canvas.height = $(window).height() - navbarHeight;
       buildArray();
       animate(false);
     }());
@@ -153,7 +155,7 @@ window.ChubboChat.services.makeDots = function() {
       delay(function() {
         'use strict';
         canvas.width = $('body').innerWidth();
-        canvas.height = $('body').innerHeight() - 90;
+        canvas.height = $(window).height() - navbarHeight;
         buildArray();
         animate(false);
       }, 1000);
