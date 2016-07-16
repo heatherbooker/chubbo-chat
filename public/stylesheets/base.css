@@ -21,25 +21,54 @@ a:hover {
   font-size: 3.3rem;
 }
 
-.cc-loginBtn, .cc-logoutBtn {
+.cc-logo:hover {
+  cursor: pointer;
+}
+
+.cc-menuIcon-mobile {
+  display: none;
+  height: 30px;
+  width: auto;
+  margin: 20px 3px;
+  padding: 2px;
   float: right;
-  display: inline-block;
+}
+
+.cc-menuIcon-clicked {
+  box-shadow: 1px 1px 1px #89a5ba inset;
+  border: 1px solid #b5c8d7;
+  border-radius: 2px;
+}
+
+.cc-menuIcon-mobile:hover {
+  cursor: pointer;
+}
+
+.cc-loginBtn, .cc-logoutBtn, .cc-dashboardShortcut {
+  float: right;
   padding: 10px;
   font-size: 2rem;
 }
-.cc-loginBtn:hover, .cc-logoutBtn:hover {
+
+.cc-loginBtn:hover, .cc-logoutBtn:hover, .cc-dashboardShortcut:hover {
   cursor: pointer;
   font-weight: bold;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 992px) {
   .cc-logo {
     font-size: 2.5rem;
   }
-  .cc-loginBtn, .cc-logoutBtn {
+ .cc-loginBtn, .cc-logoutBtn, .cc-dashboardShortcut {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
+  }
+  .cc-menuIcon-mobile {
+    display: block;
+  }
+  .cc-logoutBtn {
+    display: none;
   }
 }
 

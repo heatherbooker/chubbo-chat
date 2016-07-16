@@ -1,12 +1,46 @@
-var dashboard = Vue.extend({
+window.ChubboChat.components.dashboard = Vue.extend({
+  route: {
+    //make sure user is logged in
+    activate: function(transition) {
+      var authStateChecked = false;
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (!user) {
+          //dashboard is for logged in users only! go to landing page
+          transition.redirect('/');
+        } else {
+          //without this check, transition.next() is called multiple times
+          if (!authStateChecked) {
+            //ok, you can continue to view dashboard
+            transition.next();
+            authStateChecked = true;
+          }
+        }
+      });
+    }
+  },
+  data: function() {
+    return {
+      //shortcut so vuex action dispatchers can access this.store
+      store: window.ChubboChat.store
+    };
+  },
+  created: function() {
+    this.hideMenuMobile();
+  },
   template: `
-  <div class="container-fluid">
-    <div class="row">
-      <left-panel></left-panel>
+    <div class="container-fluid">
+      <div class="row">
+        <left-panel></left-panel>
+      </div>
     </div>
-  </div>
   `,
-    components: {
-    'left-panel': leftPanel
+  components: {
+    'left-panel': window.ChubboChat.components.leftPanel
+  },
+  //vuex(state store) getters / action dispatcher(s) needed by this component
+  vuex: {
+    actions: {
+      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
+    }
   }
 });

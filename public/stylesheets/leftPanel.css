@@ -1,6 +1,9 @@
-.cc-leftPanel {
-  height: 85vh;
+.cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
+  display: block;
   border-right: 1px solid #F0F0F0;
+  height: 85vh;
+  width: 100%;
+  padding-top: 30px;
 }
 
 .cc-userIcon-leftPanel {
@@ -8,11 +11,36 @@
   height: 120px;
   border-radius: 50%;
   display: block;
-  margin: 30px auto;
+  margin: 0px auto 30px auto;
 }
 
 .cc-userEmail-leftPanel {
   color: #545454;
   text-align: center;
   margin: 10px;
+}
+
+.cc-logout-leftPanel {
+  text-align: center;
+  display: none;
+}
+
+.cc-logout-leftPanel:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .cc-logout-leftPanel {
+    display: block;
+  }
+  .cc-leftPanel-mobile-hide {
+    transition: all .3s ease;
+    position: relative;
+    left: calc(-100% - 15px);
+  }
+  .cc-leftPanel-mobile-show {
+    transition: all .3s ease;
+    position: relative;
+    left: 0px;
+  }
 }
