@@ -30,6 +30,8 @@ window.ChubboChat.components.dashboard = Vue.extend({
   template: `
     <div class="container-fluid">
       <div class="row">
+        <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
+        </div>
         <left-panel></left-panel>
         <survey-form></survey-form>
       </div>
@@ -41,6 +43,9 @@ window.ChubboChat.components.dashboard = Vue.extend({
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
+    getters: {
+      isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
+    },
     actions: {
       hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }

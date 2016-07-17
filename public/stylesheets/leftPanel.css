@@ -35,12 +35,15 @@
   }
   .cc-leftPanel-mobile-hide {
     transition: all .3s ease;
-    position: relative;
+    position: absolute;
     left: calc(-100% - 15px);
   }
   .cc-leftPanel-mobile-show {
     transition: all .3s ease;
-    position: relative;
+    position: absolute;
     left: 0px;
+    /*on top of greyed out survey form (z-index=1) */
+    z-index: 2;
+    background-color: #fff;
   }
 }

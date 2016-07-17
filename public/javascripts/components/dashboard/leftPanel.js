@@ -1,6 +1,6 @@
 window.ChubboChat.components.leftPanel = Vue.extend({
   template: `
-  <div class="col-md-3 col-xs-10">
+  <div class="col-md-3 col-sm-7 col-xs-10">
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ email }} </p>
