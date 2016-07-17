@@ -1,0 +1,53 @@
+.cc-titleInput {
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #A4A4A4;
+  margin: 20px 10px;
+  font-size: 2.5rem;
+  width: 94%;
+}
+
+.cc-titleInput::-webkit-input-placeholder {
+  color: #3c5a71;
+  opacity: 1;
+}
+.cc-titleInput::-moz-placeholder {
+  color: #3c5a71;
+  opacity: 1;
+}
+.cc-titleInput:-ms-input-placeholder {
+  color: #3c5a71;
+  opacity: 1;
+}
+.cc-titleInput:-moz-placeholder {
+  color: #3c5a71;
+  opacity: 1;
+}
+
+.cc-questionInput {
+  background-color: #fff;
+  box-shadow: none;
+  border: 1px solid #A4A4A4;
+  border-radius: 20px;
+  margin: 20px 10px;
+  padding: 3px 7px;
+  font-size: 2.2rem;
+  width: 90%;
+}
+
+.cc-surveyFormList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cc-surveyFormList li {
+  counter-increment: step-counter;
+}
+
+.cc-surveyFormList li::before {
+  content: counter(step-counter) ".";
+  font-size: 2.5rem;
+  margin: 5px;
+  color: #8E8E8E;
+  font-weight: bold;
+}

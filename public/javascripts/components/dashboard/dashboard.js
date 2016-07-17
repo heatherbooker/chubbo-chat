@@ -31,11 +31,13 @@ window.ChubboChat.components.dashboard = Vue.extend({
     <div class="container-fluid">
       <div class="row">
         <left-panel></left-panel>
+        <survey-form></survey-form>
       </div>
     </div>
   `,
   components: {
-    'left-panel': window.ChubboChat.components.leftPanel
+    'left-panel': window.ChubboChat.components.leftPanel,
+    'survey-form': window.ChubboChat.components.surveyForm
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
