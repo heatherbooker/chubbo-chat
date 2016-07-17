@@ -132,7 +132,7 @@ window.ChubboChat.services.makeDots = function() {
       }
     }
 
-    var navbarHeight = 77
+    var navbarHeight = 77;
 
     (function() {
       'use strict';
