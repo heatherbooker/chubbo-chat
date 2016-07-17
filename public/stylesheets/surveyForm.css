@@ -1,3 +1,8 @@
+.cc-surveyForm {
+  position: absolute;
+  width: 100%;
+}
+
 .cc-titleInput {
   background-color: #fff;
   border: none;
@@ -32,7 +37,7 @@
   margin: 20px 10px;
   padding: 3px 7px;
   font-size: 2.2rem;
-  width: 90%;
+  width: 85%;
 }
 
 .cc-surveyFormList {
