@@ -28,17 +28,22 @@ window.ChubboChat.components.dashboard = Vue.extend({
     this.hideMenuMobile();
   },
   template: `
-    <div class="container-fluid">
-      <div class="row">
-        <left-panel></left-panel>
+    <div class="cc-dashboardPage">
+      <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
+      <left-panel></left-panel>
+      <survey-form></survey-form>
     </div>
   `,
   components: {
-    'left-panel': window.ChubboChat.components.leftPanel
+    'left-panel': window.ChubboChat.components.leftPanel,
+    'survey-form': window.ChubboChat.components.surveyForm
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
+    getters: {
+      isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
+    },
     actions: {
       hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
     }
