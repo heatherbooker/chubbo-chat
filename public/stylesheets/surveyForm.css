@@ -17,6 +17,7 @@
 
 .cc-submitBtnContainer {
   width: 20%;
+  -webkit-align-items: flex-end;
   align-items: flex-end;
   display: -webkit-box;
   display: -ms-flexbox;

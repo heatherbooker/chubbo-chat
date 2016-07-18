@@ -30,6 +30,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           <span class="cc-questionNumber">5.</span>
           <input type="text" v-model="question5" class="cc-questionInput">
         </div>
+        <div class="cc-inputRow">
+          <span class="cc-questionNumber">5.</span>
+          <input type="text" v-model="question5" class="cc-questionInput">
+        </div>
       </div>
       <div class="cc-submitBtnContainer">
         <span class="cc-submitSurveyFormBtn">
