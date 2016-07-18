@@ -28,13 +28,11 @@ window.ChubboChat.components.dashboard = Vue.extend({
     this.hideMenuMobile();
   },
   template: `
-    <div class="container-fluid">
-      <div class="row">
-        <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
-        </div>
-        <left-panel></left-panel>
-        <survey-form></survey-form>
+    <div class="cc-dashboardPage">
+      <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
+      <left-panel></left-panel>
+      <survey-form></survey-form>
     </div>
   `,
   components: {
