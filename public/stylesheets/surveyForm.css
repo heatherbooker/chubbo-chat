@@ -64,6 +64,10 @@
   display: flex;
 }
 
+input.cc-questionInput:focus, input.cc-titleInput:focus {
+  outline: none;
+}
+
 .cc-questionInputRow {
   counter-increment: up-by-one;
 }

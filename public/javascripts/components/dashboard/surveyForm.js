@@ -27,10 +27,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         </div>
       </div>
       <div class="cc-submitBtnContainer">
-        <span
-          class="cc-submitSurveyFormBtn"
-          v-on:click="handlePublishBtn"
-        >
+        <span class="cc-submitSurveyFormBtn">
           Publish
         </span>
       </div>
@@ -46,9 +43,6 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     addNewQuestion: function () {
       this.questions.push(this.newQuestion);
       this.newQuestion = '';
-    }
-    handlePublishBtn: function() {
-      this.questions.push(this.newQuestion);
     }
   }
 });
