@@ -4,6 +4,7 @@
   padding-top: 30px;
   -webkit-flex: 1;
   flex: 1;
+  min-height: 85vh;
 }
 
 .cc-userIcon-leftPanel {

@@ -13,6 +13,7 @@
 
 .cc-surveyFormInputs {
   width: 60%;
+  counter-reset: up-by-one;
 }
 
 .cc-submitBtnContainer {
@@ -55,7 +56,7 @@
   opacity: 1;
 }
 
-.cc-inputRow {
+.cc-questionInputRow, .cc-titleInputRow {
   margin: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -63,11 +64,8 @@
   display: flex;
 }
 
-.cc-questionNumber {
-  font-size: 2.5rem;
-  margin: auto 5px;
-  color: #8E8E8E;
-  font-weight: bold;
+.cc-questionInputRow {
+  counter-increment: up-by-one;
 }
 
 .cc-questionInput {
@@ -83,6 +81,14 @@
   -ms-flex: 1;
   flex: 1;
   min-width: 0px !important;
+}
+
+.cc-questionInputRow:before {
+  content: counter(up-by-one) ".";
+  font-size: 2.5rem;
+  margin: auto 5px;
+  color: #8E8E8E;
+  font-weight: bold;
 }
 
 .cc-submitSurveyFormBtn {
