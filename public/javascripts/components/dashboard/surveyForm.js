@@ -10,7 +10,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
             placeholder="Title..."
           >
         </div>
-        <div class="cc-questionInputRow" v-for="question in questions">
+        <div
+          class="cc-questionInputRow"
+          v-for="question in questions"
+          track-by="$index"
+        >
           <input
             type="text"
             v-model=question
@@ -36,7 +40,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   data: function() {
     return {
       title: this.title,
-      questions: []
+      questions: [],
+      newQuestion: ''
     };
   },
   methods: {
