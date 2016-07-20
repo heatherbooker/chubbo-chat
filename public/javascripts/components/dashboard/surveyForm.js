@@ -52,17 +52,15 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       console.log('title: ', this.title, '; questions: ', this.questions);
     },
     validateData: function(questions) {
-      //handle lack of data
-      if (questions[0] === '' && questions.length === 1) {
-        if (!this.title) {
-          sweetAlert({
-            title: 'Please add a title.',
-            type: 'warning',
-            allowEscapeKey: true,
-            allowOutsideClick: true
-          });
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        }
+      if (!this.title) {
+        sweetAlert({
+          title: 'Please add a title.',
+          type: 'warning',
+          allowEscapeKey: true,
+          allowOutsideClick: true
+        });
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      }
       } else {
         //remove blank questions
         for (var i = 0; i < this.numOfQuestions; i++) {
