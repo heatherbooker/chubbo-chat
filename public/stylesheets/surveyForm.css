@@ -39,21 +39,26 @@
   min-width: 0px !important;
 }
 
-.cc-titleInput::-webkit-input-placeholder {
-  color: #3c5a71;
-  opacity: 1;
+.cc-invalidInfo {
+  padding: 20px 10px;
+  color: #8E8E8E;
 }
-.cc-titleInput::-moz-placeholder {
-  color: #3c5a71;
-  opacity: 1;
+
+.cc-invalidInputIcon {
+  font-size: 2rem;
+  margin: auto 0px;
+  display: inline-block;
 }
-.cc-titleInput:-ms-input-placeholder {
-  color: #3c5a71;
-  opacity: 1;
+
+.cc-invalidInfoTooltip {
+  visibility: hidden;
+  position: absolute;
+  display: inline-block;
+  margin-left: 6px;
 }
-.cc-titleInput:-moz-placeholder {
-  color: #3c5a71;
-  opacity: 1;
+
+.cc-invalidInfo:hover .cc-invalidInfoTooltip {
+  visibility: visible;
 }
 
 .cc-questionInputRow, .cc-titleInputRow {
@@ -66,6 +71,7 @@
 
 input.cc-questionInput:focus, input.cc-titleInput:focus {
   outline: none;
+  border-color: #3c5a71;
 }
 
 .cc-questionInputRow {
@@ -118,7 +124,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   color: #8E8E8E;
 }
 
-.cc-questionInputRow:hover > .cc-deleteQuestionIcon {
+.cc-questionInputRow:hover .cc-deleteQuestionIcon {
   display: block;
 }
 

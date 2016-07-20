@@ -3,12 +3,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     <div class="cc-surveyFormPage">
       <div class="cc-surveyFormInputs">
         <div class="cc-titleInputRow">
-          <input
-            type="text"
-            v-model="title"
-            class="cc-titleInput"
-            placeholder="Title..."
-          >
+          <title-input :title.sync="title"></title-input>
         </div>
         <div
           class="cc-questionInputRow"
@@ -29,7 +24,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     </div>
   `,
   components: {
+    'title-input': window.ChubboChat.components.titleInput,
     'question-input': window.ChubboChat.components.questionInput
+  },
+  ready: function() {
+    $('.cc-titleInput').focus();
   },
   data: function() {
     return {
@@ -56,12 +55,15 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       //handle lack of data
       if (questions[0] === '' && questions.length === 1) {
         if (!this.title) {
-          alert('You have not entered a title or any questions!');
+          sweetAlert({
+            title: 'Please add a title.',
+            type: 'warning',
+            allowEscapeKey: true,
+            allowOutsideClick: true
+          });
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
       } else {
-        if (!this.title) {
-          this.title = 'My Survey';
-        }
         //remove blank questions
         for (var i = 0; i < this.numOfQuestions; i++) {
           if (this.questions[i] === '') {
