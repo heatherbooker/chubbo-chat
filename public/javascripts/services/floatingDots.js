@@ -132,7 +132,15 @@ window.ChubboChat.services.makeDots = function() {
       }
     }
 
-    var navbarHeight = 77;
+    var navbarHeight = (function() {
+      var mediaQuery = window.matchMedia("(max-width: 992px)");
+      if (mediaQuery.matches) {
+        //on mobile
+        return 77;
+      } else {
+        return 90;
+      }
+    })();
 
     (function() {
       'use strict';
