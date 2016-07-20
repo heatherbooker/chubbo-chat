@@ -41,7 +41,6 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   events: {
     enterKeyPressed: function() {
-      console.log(this.questions);
       this.questions.push('');
       //wait for new input to be inserted before moving focus to it
       this.$nextTick(function() {
