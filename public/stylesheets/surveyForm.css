@@ -110,6 +110,22 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   cursor: pointer;
 }
 
+.cc-deleteQuestionIcon {
+  display: none;
+  font-size: 2.5rem;
+  margin: auto 0px;
+  padding-bottom: 5px;
+  color: #8E8E8E;
+}
+
+.cc-questionInputRow:hover > .cc-deleteQuestionIcon {
+  display: block;
+}
+
+.cc-deleteQuestionIcon:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 992px) {
   .cc-surveyFormPage {
     display: block;
@@ -125,5 +141,8 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
     margin: 5px auto;
     padding: 6px 35px;
     border-radius: 26px;
+  }
+  .cc-deleteQuestionIcon {
+    display: block;
   }
 }

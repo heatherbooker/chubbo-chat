@@ -46,6 +46,9 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       this.$nextTick(function() {
         document.getElementById('cc-input-focus').focus();
       });
+    },
+    deleteQuestion: function(index) {
+      this.questions.splice(index, 1);
     }
   }
 });

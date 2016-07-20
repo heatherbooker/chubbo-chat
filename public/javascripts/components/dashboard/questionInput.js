@@ -14,8 +14,21 @@ window.ChubboChat.components.questionInput = Vue.extend({
       :id="getsFocus ? 'cc-input-focus' : ''"
       v-on:keyup.enter="dispatchEnterEvent"
     >
+    <span
+      v-show="!isSoleInput"
+      class="cc-deleteQuestionIcon"
+      v-on:click="dispatchDeleteEvent"
+    >
+      x
+    </span>
   `,
   computed: {
+    isSoleInput: function() {
+      if (this.maxIndex === 0) {
+        return true;
+      }
+      return false;
+    },
     getsFocus: function() {
       //if it's the newest input box
       if (this.index === this.maxIndex) {
@@ -29,8 +42,12 @@ window.ChubboChat.components.questionInput = Vue.extend({
   },
   methods: {
     dispatchEnterEvent: function () {
-      //dispatch event to parent
+      //tell parent(survey form) enter key was pressed
       this.$dispatch('enterKeyPressed');
+    },
+    dispatchDeleteEvent: function() {
+      //tell parent(survey form) to delete this question
+      this.$dispatch('deleteQuestion', this.index);
     }
   }
 });
