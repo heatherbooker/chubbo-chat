@@ -2,9 +2,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   template: `
     <div class="cc-surveyFormPage">
       <div class="cc-surveyFormInputs">
-        <div class="cc-titleInputRow">
-          <title-input :title.sync="title"></title-input>
-        </div>
+        <title-input
+          :title.sync="title"
+          :styles="titleError ? errorStyles : {}"
+        >
+        </title-input>
         <div
           class="cc-questionInputRow"
           v-for="question in questions"
@@ -34,6 +36,13 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     return {
       title: this.title,
       questions: [''],
+      titleError: false,
+      errorStyles: {
+        border: '1px solid #a94442',
+        borderRadius: '20px',
+        paddingLeft: '8px',
+        boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483'
+      },
       //shortcut so vuex action dispatchers can access this.store
       store: window.ChubboChat.store
     };
@@ -58,20 +67,21 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           type: 'warning',
           allowEscapeKey: true,
           allowOutsideClick: true
+        }, function() {
+          $('.cc-titleInput').focus();
         });
         //scroll up to title input and make it stand out
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-        $('.cc-titleInput').css({
-          border: '1px solid #a94442',
-          borderRadius: '20px',
-          paddingLeft: '8px',
-          boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483'
-        });
+        this.titleError = true;
       } else {
-        //remove blank questions
-        for (var i = 0; i < this.numOfQuestions; i++) {
-          if (this.questions[i] === '') {
-            this.deleteQuestion(i);
+        this.titleError = false;
+        //unless there's only one question,
+        if (this.questions[0] !== '' && this.numOfQuestions !== 1) {
+          //remove blank questions
+          for (var i = 0; i < this.numOfQuestions; i++) {
+            if (this.questions[i] === '') {
+              this.deleteQuestion(i);
+            }
           }
         }
       }

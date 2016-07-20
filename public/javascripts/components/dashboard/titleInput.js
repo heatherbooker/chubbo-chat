@@ -2,7 +2,8 @@ window.ChubboChat.components.titleInput = Vue.extend({
   props: {
     title: {
       twoWay: true
-    }
+    },
+    styles: Object
   },
   ready: function() {
     var me = this;
@@ -14,19 +15,22 @@ window.ChubboChat.components.titleInput = Vue.extend({
     });
   }, 
   template: `
-    <input
-      type="text"
-      v-model="title"
-      class="cc-titleInput"
-      placeholder="Title..."
-    >
-    <div class="cc-invalidInfo">
-      <span v-show="isInvalid" class="cc-invalidInputIcon">
-        *
-      </span>
-      <span class="cc-invalidInfoTooltip">
-        please add a title
-      </span>
+    <div class="cc-titleInputRow">
+      <input
+        type="text"
+        v-model="title"
+        class="cc-titleInput"
+        placeholder="Title..."
+        :style="styles"
+      >
+      <div class="cc-invalidInfo">
+        <span v-show="isInvalid" class="cc-invalidInputIcon">
+          *
+        </span>
+        <span class="cc-invalidInfoTooltip">
+          please add a title
+        </span>
+      </div>
     </div>
   `,
   data: function() {
