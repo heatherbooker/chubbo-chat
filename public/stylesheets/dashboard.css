@@ -5,9 +5,14 @@
   display: flex;
   position: absolute;
   width: 100%;
+  /*navbar is 90px*/
+  min-height: calc(100% - 90px);
 }
 
 @media (max-width: 992px) {
+  .cc-dashboardPage {
+    min-height: calc(100% - 77px);
+  }
   .cc-greyedSurveyForm {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -18,7 +23,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    min-height: 85vh;
+    min-height: 100%;
     /*on top of survey form*/
     z-index: 1;
   }
