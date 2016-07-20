@@ -59,8 +59,14 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           allowEscapeKey: true,
           allowOutsideClick: true
         });
+        //scroll up to title input and make it stand out
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-      }
+        $('.cc-titleInput').css({
+          border: '1px solid #a94442',
+          borderRadius: '20px',
+          paddingLeft: '8px',
+          boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483'
+        });
       } else {
         //remove blank questions
         for (var i = 0; i < this.numOfQuestions; i++) {
