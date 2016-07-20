@@ -45,7 +45,7 @@ window.ChubboChat.components.dashboard = Vue.extend({
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
     },
     actions: {
-      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
+      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false);}
     }
   }
 });

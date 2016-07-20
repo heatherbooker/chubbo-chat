@@ -19,7 +19,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         </div>
       </div>
       <div class="cc-submitBtnContainer">
-        <span class="cc-submitSurveyFormBtn">
+        <span
+          class="cc-submitSurveyFormBtn"
+          v-on:click="publishSurvey"
+        >
           Publish
         </span>
       </div>
@@ -31,12 +34,41 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   data: function() {
     return {
       title: this.title,
-      questions: ['']
+      questions: [''],
+      //shortcut so vuex action dispatchers can access this.store
+      store: window.ChubboChat.store
     };
   },
   computed: {
     numOfQuestions: function() {
       return this.questions.length;
+    }
+  },
+  methods: {
+    deleteQuestion: function(index) {
+      this.questions.splice(index, 1);
+    },
+    publishSurvey: function() {
+      this.validateData(this.questions);
+      console.log('title: ', this.title, '; questions: ', this.questions);
+    },
+    validateData: function(questions) {
+      //handle lack of data
+      if (questions[0] === '' && questions.length === 1) {
+        if (!this.title) {
+          alert('You have not entered a title or any questions!');
+        }
+      } else {
+        if (!this.title) {
+          this.title = 'My Survey';
+        }
+        //remove blank questions
+        for (var i = 0; i < this.numOfQuestions; i++) {
+          if (this.questions[i] === '') {
+            this.deleteQuestion(i);
+          }
+        }
+      }
     }
   },
   events: {
@@ -48,7 +80,13 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       });
     },
     deleteQuestion: function(index) {
-      this.questions.splice(index, 1);
+      this.deleteQuestion(index);
+    }
+  },
+  //vuex(state store) getters / action dispatcher(s) needed by this component
+  vuex: {
+    actions: {
+      createSurvey: function() {this.store.dispatch('createSurvey', this.title, this.questions);}
     }
   }
 });

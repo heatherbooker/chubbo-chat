@@ -7,7 +7,9 @@ window.ChubboChat.store = new Vuex.Store(function() {
   return {
     state: {
       isLeftPanelVisible: true,
-      userInfo: userInfoDefault
+      userInfo: userInfoDefault,
+      title: '',
+      questions: ['']
     },
     mutations: {
       toggleLeftPanel: function(state, newState) {
@@ -24,6 +26,10 @@ window.ChubboChat.store = new Vuex.Store(function() {
         } else {
           state.userInfo = userInfoDefault;
         }
+      },
+      createSurvey: function(state, title, questions) {
+        state.title = title;
+        state.questions = questions;
       }
     }
   };
