@@ -24,10 +24,8 @@ window.ChubboChat.components.questionInput = Vue.extend({
   `,
   computed: {
     isSoleInput: function() {
-      if (this.index === 0) {
-        if (this.index === this.maxIndex) {
-          return true;
-        }
+      if (this.maxIndex === 0) {
+        return true;
       }
       return false;
     },
@@ -44,11 +42,11 @@ window.ChubboChat.components.questionInput = Vue.extend({
   },
   methods: {
     dispatchEnterEvent: function () {
-      //dispatch event to parent
+      //tell parent(survey form) enter key was pressed
       this.$dispatch('enterKeyPressed');
     },
     dispatchDeleteEvent: function() {
-      //tell parent to delete this question
+      //tell parent(survey form) to delete this question
       this.$dispatch('deleteQuestion', this.index);
     }
   }
