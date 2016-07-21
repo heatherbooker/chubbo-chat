@@ -21,7 +21,7 @@ window.ChubboChat.components.questionInput = Vue.extend({
       v-on:keyup.enter="dispatchEnterEvent"
     >
     <span
-      class="cc-deleteQuestionIcon"
+      :class="isSoleAndEmptyInput ? 'cc-deleteQuestionIcon-hide' : 'cc-deleteQuestionIcon'"
       v-on:click="handleDeleteClick"
     >
       x
@@ -41,6 +41,12 @@ window.ChubboChat.components.questionInput = Vue.extend({
         if (this.index !== 0) {
           return true;
         }
+      }
+      return false;
+    },
+    isSoleAndEmptyInput: function() {
+      if (this.maxIndex === 0 && (this.question === '' || typeof this.question === 'undefined')) {
+        return true;
       }
       return false;
     },
