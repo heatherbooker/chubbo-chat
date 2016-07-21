@@ -18,7 +18,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
         v-model="title"
         class="cc-titleInput"
         placeholder="Title..."
-        v-bind:style="isBlank ? styles : ''"
+        v-bind:style="isBlank ? styles : {}"
         v-on:keyup.enter="moveFocusToQuestion"
       >
     </div>
