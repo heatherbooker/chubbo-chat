@@ -53,6 +53,12 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   border-color: #3c5a71;
 }
 
+.cc-titleInput-error, input.cc-titleInput-error:focus {
+  border: 1px solid rgb(234, 32, 28);
+  border-radius: 20px;
+  padding-left: 8px;
+}
+
 .cc-questionInputRow {
   counter-increment: up-by-one;
 }

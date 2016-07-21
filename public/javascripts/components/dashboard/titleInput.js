@@ -3,7 +3,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
     title: {
       twoWay: true
     },
-    styles: Object
+    errorStatus: Boolean
   },
   ready: function() {
     var me = this;
@@ -18,7 +18,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
         v-model="title"
         class="cc-titleInput"
         placeholder="Title..."
-        v-bind:style="isBlank ? styles : {}"
+        v-bind:class="hasErrorClass ? 'cc-titleInput-error' : ''"
         v-on:keyup.enter="moveFocusToQuestion"
       >
     </div>
@@ -30,9 +30,11 @@ window.ChubboChat.components.titleInput = Vue.extend({
     }
   },
   computed: {
-    isBlank: function() {
-      if (this.title === '' || typeof this.title === 'undefined') {
-        return true;
+    hasErrorClass: function() {
+      if (this.errorStatus) {
+        if (this.title === '' || typeof this.title === 'undefined') {
+          return true;
+        }
       }
       return false;
     }

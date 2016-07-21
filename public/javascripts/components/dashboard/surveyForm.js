@@ -4,7 +4,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       <div class="cc-surveyFormInputs">
         <title-input
           :title.sync="title"
-          :styles="titleError ? errorStyles : {}"
+          :error-status="titleError"
         >
         </title-input>
         <div
@@ -47,11 +47,6 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       title: this.title,
       questions: [''],
       titleError: false,
-      errorStyles: {
-        border: '1px solid rgb(234, 32, 28)',
-        borderRadius: '20px',
-        paddingLeft: '8px',
-      },
       //shortcut so vuex action dispatchers can access this.store
       store: window.ChubboChat.store
     };
