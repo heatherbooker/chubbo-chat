@@ -22,6 +22,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       </div>
       <div class="cc-submitBtnContainer">
         <span
+          class="cc-addQuestionInputBtn"
+          v-on:click="addQuestionInput">
+          +
+        </span>
+        <span
           class="cc-submitSurveyFormBtn"
           v-on:click="handlePublishButton"
         >
@@ -52,6 +57,13 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     };
   },
   methods: {
+    addQuestionInput: function() {
+      this.questions.push('');
+      //wait for new input to be inserted before moving focus to it
+      this.$nextTick(function() {
+        $('.cc-input-focus').focus();
+      });
+    },
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
         this.questions = this.tidyQuestions();
@@ -71,17 +83,9 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     },
     isValidatedData: function() {
       if (!this.title) {
-        sweetAlert({
-          title: 'Please add a title.',
-          type: 'warning',
-          allowEscapeKey: true,
-          allowOutsideClick: true
-        }, function() {
-          $('.cc-titleInput').focus();
-          //scroll up to title input and make it stand out
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        });
-        // $('body').scrollTop(0);
+        $('.cc-titleInput').focus();
+        //scroll up to title input and make it stand out
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.titleError = true;
         return false;
       } else {
@@ -92,11 +96,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   events: {
     enterKeyPressed: function() {
-      this.questions.push('');
-      //wait for new input to be inserted before moving focus to it
-      this.$nextTick(function() {
-        $('.cc-input-focus').focus();
-      });
+      this.addQuestionInput();
     },
     deleteQuestion: function(index) {
       this.questions.splice(index, 1);

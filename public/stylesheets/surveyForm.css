@@ -80,7 +80,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   font-weight: bold;
 }
 
-.cc-submitSurveyFormBtn {
+.cc-submitSurveyFormBtn, .cc-addQuestionInputBtn {
   border-radius: 20px;
   color: #fff;
   background-color: #9DE934;
@@ -91,7 +91,12 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   margin: 5px auto 22px auto;
 }
 
-.cc-submitSurveyFormBtn:hover {
+.cc-addQuestionInputBtn {
+  display: none;
+  margin: 35px 7% 5px 16%;
+}
+
+.cc-submitSurveyFormBtn:hover, .cc-addQuestionInputBtn {
   cursor: pointer;
 }
 
@@ -128,6 +133,9 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
     border-radius: 26px;
   }
   .cc-deleteQuestionIcon {
-    display: block;
+    visibility: visible;
+  }
+  .cc-addQuestionInputBtn {
+    display: inline-block;
   }
 }

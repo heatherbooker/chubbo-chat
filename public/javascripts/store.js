@@ -42,6 +42,7 @@ window.ChubboChat.store = new Vuex.Store(function() {
           questions
         });
         console.log('survey is now in store: ', state.surveys);
+        state.drafts.splice(0, 1);
       }
     }
   };
