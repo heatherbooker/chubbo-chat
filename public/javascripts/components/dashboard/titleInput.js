@@ -11,7 +11,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
       me.hasFocus = true;
     });
     $('.cc-titleInput').blur(function() {
-      me.hasFocus = false;
+      me.onBlur();
     });
   }, 
   template: `
@@ -35,7 +35,9 @@ window.ChubboChat.components.titleInput = Vue.extend({
   `,
   data: function() {
     return {
-      hasFocus: true
+      hasFocus: true,
+      //shortcut so vuex action dispatchers can access this.store
+      store: window.ChubboChat.store
     }
   },
   computed: {
@@ -48,6 +50,19 @@ window.ChubboChat.components.titleInput = Vue.extend({
         }
       }
       return false;
+    }
+  },
+  methods: {
+    onBlur: function() {
+      this.hasFocus = false;
+      //send info to store in form of draft
+      this.updateTitleInStore();
+    }
+  },
+  //vuex(state store) getters / action dispatcher(s) needed by this component
+  vuex: {
+    actions: {
+      updateTitleInStore: function() {this.store.dispatch('editTitle', this.title);}
     }
   }
 });

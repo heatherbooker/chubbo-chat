@@ -12,13 +12,18 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           v-for="question in questions"
           track-by="$index"
         >
-          <question-input :question.sync="question" :index="$index" :max-index="numOfQuestions - 1"></question-input>
+          <question-input
+            :question.sync="question"
+            :index="$index"
+            :max-index="this.questions.length - 1"
+          >
+          </question-input>
         </div>
       </div>
       <div class="cc-submitBtnContainer">
         <span
           class="cc-submitSurveyFormBtn"
-          v-on:click="publishSurvey"
+          v-on:click="handlePublishButton"
         >
           Publish
         </span>
@@ -47,20 +52,25 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       store: window.ChubboChat.store
     };
   },
-  computed: {
-    numOfQuestions: function() {
-      return this.questions.length;
-    }
-  },
   methods: {
-    deleteQuestion: function(index) {
-      this.questions.splice(index, 1);
+    handlePublishButton: function() {
+      if (this.isValidatedData(this.questions)) {
+        var questions = this.tidyQuestions();
+        this.publishSurvey(questions);
+      }
     },
-    publishSurvey: function() {
-      this.validateData(this.questions);
-      console.log('title: ', this.title, '; questions: ', this.questions);
+    tidyQuestions: function() {
+      var questions = this.questions;
+      //unless there's only one question,
+      if (this.questions.length > 1) {
+        //remove blank questions
+        questions = this.questions.filter(function(question) {
+          return question !== '';
+        });
+      }
+      return questions;
     },
-    validateData: function(questions) {
+    isValidatedData: function(questions) {
       if (!this.title) {
         sweetAlert({
           title: 'Please add a title.',
@@ -73,17 +83,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         //scroll up to title input and make it stand out
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.titleError = true;
+        return false;
       } else {
         this.titleError = false;
-        //unless there's only one question,
-        if (this.questions[0] !== '' && this.numOfQuestions !== 1) {
-          //remove blank questions
-          for (var i = 0; i < this.numOfQuestions; i++) {
-            if (this.questions[i] === '') {
-              this.deleteQuestion(i);
-            }
-          }
-        }
+        return true;
       }
     }
   },
@@ -92,17 +95,19 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       this.questions.push('');
       //wait for new input to be inserted before moving focus to it
       this.$nextTick(function() {
-        document.getElementById('cc-input-focus').focus();
+        $('.cc-input-focus').focus();
       });
     },
     deleteQuestion: function(index) {
-      this.deleteQuestion(index);
+      this.questions.splice(index, 1);
     }
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      createSurvey: function() {this.store.dispatch('createSurvey', this.title, this.questions);}
+      publishSurvey: function(store, questions) {
+        this.store.dispatch('publishSurvey', this.title, questions);
+      }
     }
   }
 });

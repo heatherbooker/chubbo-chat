@@ -26,6 +26,7 @@ window.ChubboChat.components.dashboard = Vue.extend({
   },
   created: function() {
     this.hideMenuMobile();
+    this.createNewSurvey();
   },
   template: `
     <div class="cc-dashboardPage">
@@ -45,7 +46,8 @@ window.ChubboChat.components.dashboard = Vue.extend({
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
     },
     actions: {
-      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false);}
+      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false);},
+      createNewSurvey: function() {this.store.dispatch('startDraft');}
     }
   }
 });
