@@ -55,8 +55,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   methods: {
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
-        var questions = this.tidyQuestions();
-        this.publishSurvey(questions);
+        this.questions = this.tidyQuestions();
+        this.publishSurvey();
       }
     },
     tidyQuestions: function() {
@@ -70,7 +70,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
       return questions;
     },
-    isValidatedData: function(questions) {
+    isValidatedData: function() {
       if (!this.title) {
         sweetAlert({
           title: 'Please add a title.',
@@ -82,6 +82,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         });
         //scroll up to title input and make it stand out
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+        $('body').scrollTop(0);
         this.titleError = true;
         return false;
       } else {
@@ -105,9 +106,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      publishSurvey: function(store, questions) {
-        this.store.dispatch('publishSurvey', this.title, questions);
-      }
+      publishSurvey: function() {this.store.dispatch('publishSurvey', this.title, this.questions);}
     }
   }
 });

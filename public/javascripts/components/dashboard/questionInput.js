@@ -9,7 +9,6 @@ window.ChubboChat.components.questionInput = Vue.extend({
   ready: function() {
     var me = this;
     $('#questionInput-id-' + me.index).blur(function() {
-      console.log('lost focus');
       me.updateQuestionInStore();
     });
   },
