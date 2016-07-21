@@ -18,7 +18,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
         v-model="title"
         class="cc-titleInput"
         placeholder="Title..."
-        :style="styles"
+        v-bind:style="isBlank ? styles : ''"
         v-on:keyup.enter="moveFocusToQuestion"
       >
     </div>
@@ -27,6 +27,14 @@ window.ChubboChat.components.titleInput = Vue.extend({
     return {
       //shortcut so vuex action dispatchers can access this.store
       store: window.ChubboChat.store
+    }
+  },
+  computed: {
+    isBlank: function() {
+      if (this.title === '' || typeof this.title === 'undefined') {
+        return true;
+      }
+      return false;
     }
   },
   methods: {

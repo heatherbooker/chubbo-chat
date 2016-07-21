@@ -78,10 +78,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           allowOutsideClick: true
         }, function() {
           $('.cc-titleInput').focus();
+          //scroll up to title input and make it stand out
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
         });
-        //scroll up to title input and make it stand out
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-        $('body').scrollTop(0);
+        // $('body').scrollTop(0);
         this.titleError = true;
         return false;
       } else {
