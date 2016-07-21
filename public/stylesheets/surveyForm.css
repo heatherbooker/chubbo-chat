@@ -30,6 +30,7 @@
   background-color: #fff;
   border: none;
   border-bottom: 1px solid #A4A4A4;
+  border-radius: 0px;
   margin: 20px 10px;
   font-size: 2.5rem;
   -webkit-box-flex: 1;
@@ -37,23 +38,6 @@
   -ms-flex: 1;
   flex: 1;
   min-width: 0px !important;
-}
-
-.cc-titleInput::-webkit-input-placeholder {
-  color: #3c5a71;
-  opacity: 1;
-}
-.cc-titleInput::-moz-placeholder {
-  color: #3c5a71;
-  opacity: 1;
-}
-.cc-titleInput:-ms-input-placeholder {
-  color: #3c5a71;
-  opacity: 1;
-}
-.cc-titleInput:-moz-placeholder {
-  color: #3c5a71;
-  opacity: 1;
 }
 
 .cc-questionInputRow, .cc-titleInputRow {
@@ -66,6 +50,13 @@
 
 input.cc-questionInput:focus, input.cc-titleInput:focus {
   outline: none;
+  border-color: #3c5a71;
+}
+
+.cc-titleInput-error, input.cc-titleInput-error:focus {
+  border: 1px solid rgb(234, 32, 28);
+  border-radius: 20px;
+  padding-left: 8px;
 }
 
 .cc-questionInputRow {
@@ -95,7 +86,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   font-weight: bold;
 }
 
-.cc-submitSurveyFormBtn {
+.cc-submitSurveyFormBtn, .cc-addQuestionInputBtn {
   border-radius: 20px;
   color: #fff;
   background-color: #9DE934;
@@ -106,20 +97,25 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   margin: 5px auto 22px auto;
 }
 
-.cc-submitSurveyFormBtn:hover {
+.cc-addQuestionInputBtn {
+  display: none;
+  margin: 35px 7% 5px 16%;
+}
+
+.cc-submitSurveyFormBtn:hover, .cc-addQuestionInputBtn {
   cursor: pointer;
 }
 
-.cc-deleteQuestionIcon {
-  display: none;
+.cc-deleteQuestionIcon, .cc-deleteQuestionIcon-hide {
+  visibility: hidden;
   font-size: 2.5rem;
   margin: auto 0px;
   padding-bottom: 5px;
   color: #8E8E8E;
 }
 
-.cc-questionInputRow:hover > .cc-deleteQuestionIcon {
-  display: block;
+.cc-questionInputRow:hover .cc-deleteQuestionIcon {
+  visibility: visible;
 }
 
 .cc-deleteQuestionIcon:hover {
@@ -143,6 +139,9 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
     border-radius: 26px;
   }
   .cc-deleteQuestionIcon {
-    display: block;
+    visibility: visible;
+  }
+  .cc-addQuestionInputBtn {
+    display: inline-block;
   }
 }

@@ -86,8 +86,8 @@ window.ChubboChat.components.navbar = Vue.extend({
       user: function(state) {return state.userInfo;}
     },
     actions: {
-      showMenu: function() {this.store.dispatch('toggleLeftPanel', true, 'isLeftPanelVisible');},
-      hideMenu: function() {this.store.dispatch('toggleLeftPanel', false, 'isLeftPanelVisible');}
+      showMenu: function() {this.store.dispatch('toggleLeftPanel', true);},
+      hideMenu: function() {this.store.dispatch('toggleLeftPanel', false);}
     }
   }
 });

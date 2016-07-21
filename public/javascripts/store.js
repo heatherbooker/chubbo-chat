@@ -7,7 +7,9 @@ window.ChubboChat.store = new Vuex.Store(function() {
   return {
     state: {
       isLeftPanelVisible: true,
-      userInfo: userInfoDefault
+      userInfo: userInfoDefault,
+      surveys: [],
+      drafts: []
     },
     mutations: {
       toggleLeftPanel: function(state, newState) {
@@ -24,6 +26,23 @@ window.ChubboChat.store = new Vuex.Store(function() {
         } else {
           state.userInfo = userInfoDefault;
         }
+      },
+      startDraft: function(state) {
+        state.drafts.push({questions: []});
+      },
+      editQuestion: function(state, index, question) {
+        state.drafts[0].questions[index] = question;
+      },
+      editTitle:  function(state, title) {
+        state.drafts[0].title = title;
+      },
+      publishSurvey: function(state, title, questions) {
+        state.surveys.push({
+          title,
+          questions
+        });
+        console.log('survey is now in store: ', state.surveys);
+        state.drafts.splice(0, 1);
       }
     }
   };
