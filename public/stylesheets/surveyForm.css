@@ -40,28 +40,6 @@
   min-width: 0px !important;
 }
 
-.cc-invalidInfo {
-  padding: 20px 10px;
-  color: #8E8E8E;
-}
-
-.cc-invalidInputIcon {
-  font-size: 2rem;
-  margin: auto 0px;
-  display: inline-block;
-}
-
-.cc-invalidInfoTooltip {
-  visibility: hidden;
-  position: absolute;
-  display: inline-block;
-  margin-left: 6px;
-}
-
-.cc-invalidInfo:hover .cc-invalidInfoTooltip {
-  visibility: visible;
-}
-
 .cc-questionInputRow, .cc-titleInputRow {
   margin: 5px;
   display: -webkit-box;
@@ -118,7 +96,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
 }
 
 .cc-deleteQuestionIcon {
-  display: none;
+  visibility: hidden;
   font-size: 2.5rem;
   margin: auto 0px;
   padding-bottom: 5px;
@@ -126,7 +104,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
 }
 
 .cc-questionInputRow:hover .cc-deleteQuestionIcon {
-  display: block;
+  visibility: visible;
 }
 
 .cc-deleteQuestionIcon:hover {

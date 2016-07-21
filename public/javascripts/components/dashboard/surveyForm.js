@@ -43,10 +43,9 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       questions: [''],
       titleError: false,
       errorStyles: {
-        border: '1px solid #a94442',
+        border: '1px solid rgb(234, 32, 28)',
         borderRadius: '20px',
         paddingLeft: '8px',
-        boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483'
       },
       //shortcut so vuex action dispatchers can access this.store
       store: window.ChubboChat.store
