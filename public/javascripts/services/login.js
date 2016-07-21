@@ -9,11 +9,16 @@ window.ChubboChat.services.Login = function (onAuthStateChangeCallback) {
 
 window.ChubboChat.services.Login.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
-  return this.auth.signInWithPopup(provider);
+  if (window.matchMedia("(max-width: 992px)").matches) {
+    //on mobile
+    this.auth.signInWithRedirect(provider);
+  } else {
+    this.auth.signInWithPopup(provider);    
+  }
 }
 
 window.ChubboChat.services.Login.prototype.signOut = function() {
-  return this.auth.signOut();
+  this.auth.signOut();
 }
 
 
