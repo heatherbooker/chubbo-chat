@@ -5,9 +5,9 @@ window.ChubboChat.services.surveyApi = {
         url: 'https://chubbo-chat.firebaseio.com/surveys.json?auth=' + authToken,
         method: 'POST',
         data: `{
-          "user": "`+ userName +`",
-          "surveyTitle": "`+ title +`",
-          "questions": "`+ questions +`"
+          "author": "${userName}",
+          "surveyTitle": "${title}",
+          "questions": "${questions}"
         }`
       };
     };
