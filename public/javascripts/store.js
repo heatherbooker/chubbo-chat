@@ -43,6 +43,7 @@ window.ChubboChat.store = new Vuex.Store(function() {
         });
         state.drafts.splice(0, 1);
         window.ChubboChat.services.surveyApi.publishSurvey(state.userInfo.displayName, title, questions);
+        // firebase.database().ref().push(newInfo);
       }
     }
   };
