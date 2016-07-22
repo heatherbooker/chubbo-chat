@@ -1,15 +1,14 @@
 window.ChubboChat.services.surveyApi = {
 
-  publishSurvey: function(data, callback) {
-    firebase.auth().currentUser.getToken().then(function(authToken) {
-      $.ajax({
-        url: 'https://chubbo-chat.firebaseio.com/surveys.json?auth=' + authToken,
-        method: 'POST',
-        data
-      }).done(function () {
-        callback();
-      }).fail(function () {
-        console.log('unable to complete "publish survey" request');
+  publishSurvey: function(survey) {
+    //returns promise with authentication token
+    var tokenPromise = firebase.auth().currentUser.getToken();
+
+    //return fetch promise to caller 
+    return tokenPromise.then(function(authToken) {
+      return fetch('https://chubbo-chat.firebaseio.com/surveys.json?auth=' + authToken, {
+        method: 'post',
+        body: survey
       });
     });
   }

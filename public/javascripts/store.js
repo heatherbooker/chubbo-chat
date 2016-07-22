@@ -42,12 +42,19 @@ window.ChubboChat.store = new Vuex.Store(function() {
           questions
         });
         state.drafts.splice(0, 1);
+
         window.ChubboChat.services.surveyApi.publishSurvey(`{
             "author": "${state.userInfo.displayName}",
             "surveyTitle": "${title}",
             "questions": "${questions}"
-          }`, function() {
-            sweetAlert({type: 'success', title: 'Survey successfully published'});
+          }`)
+          .then(function(response) {
+            //response from 'fetch' call to firebase
+            if (response.ok) {
+              sweetAlert({type: 'success', title: 'Survey successfully published'});
+            } else {
+              console.log('error: ', response.statusText);
+            }
         });
       }
     }
