@@ -42,7 +42,7 @@ window.ChubboChat.store = new Vuex.Store(function() {
           questions
         });
         state.drafts.splice(0, 1);
-        window.ChubboChat.services.surveyApi(state.userInfo.displayName, title, questions);
+        window.ChubboChat.services.surveyApi.publishSurvey(state.userInfo.displayName, title, questions);
       }
     }
   };
