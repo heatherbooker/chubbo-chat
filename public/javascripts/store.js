@@ -43,6 +43,19 @@ window.ChubboChat.store = new Vuex.Store(function() {
         });
         console.log('survey is now in store: ', state.surveys);
         state.drafts.splice(0, 1);
+        var me = state;
+        var settings = {
+          url: 'https://chubbo-chat.firebaseio.com/surveys.json',
+          method: 'POST',
+          data: `{
+            "user": "`+ me.userInfo.displayName +`",
+            "surveyTitle": "`+ title +`",
+            "questions": "`+ questions +`"
+          }`
+        }
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+        });
       }
     }
   };
