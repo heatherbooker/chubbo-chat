@@ -55,6 +55,10 @@ window.ChubboChat.store = new Vuex.Store(function() {
         }
         $.ajax(settings).done(function (response) {
           console.log(response);
+          sweetAlert({
+            title: 'Survey successfully published!',
+            type: 'success'
+          });
         });
       }
     }
