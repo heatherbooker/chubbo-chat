@@ -41,7 +41,6 @@ window.ChubboChat.store = new Vuex.Store(function() {
           title,
           questions
         });
-        console.log('survey is now in store: ', state.surveys);
         state.drafts.splice(0, 1);
         var me = state;
         var settings = {
@@ -54,7 +53,6 @@ window.ChubboChat.store = new Vuex.Store(function() {
           }`
         }
         $.ajax(settings).done(function (response) {
-          console.log(response);
           sweetAlert({
             title: 'Survey successfully published!',
             type: 'success'
