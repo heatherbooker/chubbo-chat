@@ -13,7 +13,9 @@ window.ChubboChat.services.Login.prototype.signIn = function() {
     //on mobile
     this.auth.signInWithRedirect(provider);
   } else {
-    this.auth.signInWithPopup(provider);    
+    this.auth.signInWithPopup(provider).then(function(result) {
+      window.hResult = result;
+    });    
   }
 }
 
