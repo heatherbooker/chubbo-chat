@@ -62,7 +62,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
         this.questions = this.tidyQuestions();
-        this.publishSurvey();
+        this.publishSurveyToStore();
+        this.publishSurveyToDatabase();
       }
     },
     tidyQuestions: function() {
@@ -87,6 +88,21 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         this.titleError = false;
         return true;
       }
+    },
+    publishSurveyToDatabase: function() {
+      window.ChubboChat.services.surveyApi.publishSurvey(`{
+            "author": "${this.userName}",
+            "surveyTitle": "${this.title}",
+            "questions": "${this.questions}"
+          }`)
+          .then(function(response) {
+            //response from 'fetch' call to firebase
+            if (response.ok) {
+              sweetAlert({type: 'success', title: 'Survey successfully published'});
+            } else {
+              console.log('error: ', response.statusText);
+            }
+        });
     }
   },
   events: {
@@ -99,8 +115,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
+    getters: {
+      userName: function(state) {return state.userInfo.displayName;}
+    },
     actions: {
-      publishSurvey: function() {this.store.dispatch('publishSurvey', this.title, this.questions);}
+      publishSurveyToStore: function() {this.store.dispatch('publishSurvey', this.title, this.questions);}
     }
   }
 });
