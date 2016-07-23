@@ -62,8 +62,12 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
         this.questions = this.tidyQuestions();
-        this.publishSurveyToStore();
-        this.publishSurveyToDatabase();
+        var me = this;
+        this.publishSurveyToDatabase().then(function(isPublished) {
+          if (isPublished) {
+            me.publishSurveyToStore();
+          }
+        });
       }
     },
     tidyQuestions: function() {
@@ -90,7 +94,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function() {
-      window.ChubboChat.services.surveyApi.publishSurvey(`{
+      return window.ChubboChat.services.surveyApi.publishSurvey(`{
             "author": "${this.userName}",
             "surveyTitle": "${this.title}",
             "questions": "${this.questions}"
@@ -99,8 +103,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
             //response from 'fetch' call to firebase
             if (response.ok) {
               sweetAlert({type: 'success', title: 'Survey successfully published'});
+              return true;
             } else {
               console.log('error: ', response.statusText);
+              return false;
             }
         });
     }
