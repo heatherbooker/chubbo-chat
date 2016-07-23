@@ -37,11 +37,11 @@ window.ChubboChat.store = new Vuex.Store(function() {
         state.drafts[0].title = title;
       },
       publishSurvey: function(state, title, questions) {
+        console.log('in the store!');
         state.surveys.push({
           title,
           questions
         });
-        console.log('survey is now in store: ', state.surveys);
         state.drafts.splice(0, 1);
       }
     }
