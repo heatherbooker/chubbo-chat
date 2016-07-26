@@ -11,5 +11,13 @@ window.ChubboChat.services.surveyApi = {
         body: survey
       });
     });
+  },
+
+  getSurvey: function() {
+    var tokenPromise = firebase.auth().currentUser.getToken();
+
+    return tokenPromise.then(function(authToken) {
+      return fetch('https://chubbo-chat.firebaseio.com/surveys.json?auth=' + authToken);
+    });
   }
 }

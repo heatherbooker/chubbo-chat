@@ -41,6 +41,22 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
+    var me = this;
+    window.ChubboChat.services.surveyApi.getSurvey()
+      .then(function(response) {
+        return response.json()
+      .then(function(data) {
+        var filteredSurveys = [];
+        for (survey in data) {
+          if (survey.author === this.userName) {
+            filteredSurveys.push(data[survey]);
+          }
+        }
+        console.log('what', filteredSurveys);
+        me.title = filteredSurveys[0]['surveyTitle'];
+        me.questions.$set(0, filteredSurveys[0]['questions']);
+      });
+    });
   },
   data: function() {
     return {
