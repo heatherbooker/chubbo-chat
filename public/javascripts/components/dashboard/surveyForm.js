@@ -120,22 +120,21 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function(finalQuestions) {
-      var survey = `{
+      return window.ChubboChat.services.surveyApi.publishSurvey(`{
         "author": "${this.userName}",
         "surveyTitle": "${this.title}",
         "questions": [${finalQuestions}]
-      }`;
-      return window.ChubboChat.services.surveyApi.publishSurvey(survey)
-          .then(function(response) {
-            //response from 'fetch' call to firebase
-            if (response.ok) {
-              sweetAlert({type: 'success', title: 'Survey successfully published'});
-              return true;
-            } else {
-              console.log('error: ', response);
-              return false;
-            }
-        });
+      }`)
+        .then(function(response) {
+          //response from 'fetch' call to firebase
+          if (response.ok) {
+            sweetAlert({type: 'success', title: 'Survey successfully published'});
+            return true;
+          } else {
+            console.log('error: ', response.statusText);
+            return false;
+          }
+      });
     }
   },
   events: {
