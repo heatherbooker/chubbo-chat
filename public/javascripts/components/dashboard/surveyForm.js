@@ -46,18 +46,19 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       .then(function(response) {
         return response.json()
       .then(function(data) {
-        var filteredSurveys = [];
+        //find latest(most recent) survey
+        var latestDate = 0;
+        var latestSurvey;
         for (surveyKey in data) {
-          //collect surveys by current user
-          if (data[surveyKey].author === me.userName) {
-            filteredSurveys.push(data[surveyKey]);
+          if (data[surveyKey].timestamp > latestDate) {
+            latestSurvey = data[surveyKey];
+            latestDate = data[surveyKey].timestamp;
           }
         }
         //populate fields with latest survey
-        var latestIndex = filteredSurveys.length - 1;
-        if (latestIndex >= 0) {
-          me.title = filteredSurveys[latestIndex].surveyTitle;
-          me.questions = filteredSurveys[latestIndex].questions.map(function(question) {
+        if (latestSurvey) {
+          me.title = latestSurvey.surveyTitle;
+          me.questions = latestSurvey.questions.map(function(question) {
             return question;
           });
         }
@@ -121,9 +122,9 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     },
     publishSurveyToDatabase: function(finalQuestions) {
       return window.ChubboChat.services.surveyApi.publishSurvey(`{
-        "author": "${this.userName}",
         "surveyTitle": "${this.title}",
-        "questions": [${finalQuestions}]
+        "questions": [${finalQuestions}],
+        "timestamp": "${Date.now()}"
       }`)
         .then(function(response) {
           //response from 'fetch' call to firebase
