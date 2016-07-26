@@ -41,6 +41,29 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
+    var me = this;
+    window.ChubboChat.services.surveyApi.getSurveys()
+      .then(function(response) {
+        return response.json()
+      .then(function(data) {
+        //find latest(most recent) survey
+        var latestDate = 0;
+        var latestSurvey;
+        for (surveyKey in data) {
+          if (data[surveyKey].timestamp > latestDate) {
+            latestSurvey = data[surveyKey];
+            latestDate = data[surveyKey].timestamp;
+          }
+        }
+        //populate fields with latest survey
+        if (latestSurvey) {
+          me.title = latestSurvey.surveyTitle;
+          me.questions = latestSurvey.questions.map(function(question) {
+            return question;
+          });
+        }
+      });
+    });
   },
   data: function() {
     return {
@@ -61,11 +84,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     },
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
-        this.questions = this.tidyQuestions();
+        var finalQuestions = this.tidyQuestions();
         var me = this;
-        this.publishSurveyToDatabase().then(function(isPublished) {
+        this.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
           if (isPublished) {
-            me.publishSurveyToStore();
+            me.publishSurveyToStore(finalQuestions);
           }
         });
       }
@@ -79,7 +102,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           return question !== '';
         });
       }
-      return questions;
+      //make valid json
+      var finalQuestions = questions.map(function(question) {
+        return `"${question}"`;
+      });
+      return finalQuestions;
     },
     isValidatedData: function() {
       if (!this.title) {
@@ -93,22 +120,22 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         return true;
       }
     },
-    publishSurveyToDatabase: function() {
+    publishSurveyToDatabase: function(finalQuestions) {
       return window.ChubboChat.services.surveyApi.publishSurvey(`{
-            "author": "${this.userName}",
-            "surveyTitle": "${this.title}",
-            "questions": "${this.questions}"
-          }`)
-          .then(function(response) {
-            //response from 'fetch' call to firebase
-            if (response.ok) {
-              sweetAlert({type: 'success', title: 'Survey successfully published'});
-              return true;
-            } else {
-              console.log('error: ', response.statusText);
-              return false;
-            }
-        });
+        "surveyTitle": "${this.title}",
+        "questions": [${finalQuestions}],
+        "timestamp": "${Date.now()}"
+      }`)
+        .then(function(response) {
+          //response from 'fetch' call to firebase
+          if (response.ok) {
+            sweetAlert({type: 'success', title: 'Survey successfully published'});
+            return true;
+          } else {
+            console.log('error: ', response.statusText);
+            return false;
+          }
+      });
     }
   },
   events: {
@@ -125,7 +152,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       userName: function(state) {return state.userInfo.displayName;}
     },
     actions: {
-      publishSurveyToStore: function() {this.store.dispatch('publishSurvey', this.title, this.questions);}
+      publishSurveyToStore: function(store, finalQuestions) {this.store.dispatch('publishSurvey', this.title, finalQuestions);}
     }
   }
 });
