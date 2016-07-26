@@ -47,10 +47,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         return response.json()
       .then(function(data) {
         var filteredSurveys = [];
-        for (survey in data) {
+        for (surveyKey in data) {
           //collect surveys by current user
-          if (survey.author === this.userName) {
-            filteredSurveys.push(data[survey]);
+          if (data[surveyKey].author === me.userName) {
+            filteredSurveys.push(data[surveyKey]);
           }
         }
         //populate fields with latest survey
