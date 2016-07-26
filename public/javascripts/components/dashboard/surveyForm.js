@@ -42,7 +42,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   ready: function() {
     $('.cc-titleInput').focus();
     var me = this;
-    window.ChubboChat.services.surveyApi.getSurvey()
+    window.ChubboChat.services.surveyApi.getSurveys()
       .then(function(response) {
         return response.json()
       .then(function(data) {

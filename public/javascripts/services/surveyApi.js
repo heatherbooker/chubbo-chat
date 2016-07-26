@@ -14,7 +14,7 @@ window.ChubboChat.services.surveyApi = {
     });
   },
 
-  getSurvey: function() {
+  getSurveys: function() {
     var user = firebase.auth().currentUser;
     var tokenPromise = user.getToken();
 
