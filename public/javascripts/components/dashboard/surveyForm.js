@@ -55,10 +55,12 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         }
         //populate fields with latest survey
         var latestIndex = filteredSurveys.length - 1;
-        me.title = filteredSurveys[latestIndex].surveyTitle;
-        me.questions = filteredSurveys[latestIndex].questions.map(function(question) {
-          return question;
-        });
+        if (latestIndex >= 0) {
+          me.title = filteredSurveys[latestIndex].surveyTitle;
+          me.questions = filteredSurveys[latestIndex].questions.map(function(question) {
+            return question;
+          });
+        }
       });
     });
   },
@@ -81,11 +83,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     },
     handlePublishButton: function() {
       if (this.isValidatedData(this.questions)) {
-        this.questions = this.tidyQuestions();
+        var finalQuestions = this.tidyQuestions();
         var me = this;
-        this.publishSurveyToDatabase().then(function(isPublished) {
+        this.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
           if (isPublished) {
-            me.publishSurveyToStore();
+            me.publishSurveyToStore(finalQuestions);
           }
         });
       }
@@ -117,11 +119,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         return true;
       }
     },
-    publishSurveyToDatabase: function() {
+    publishSurveyToDatabase: function(finalQuestions) {
       var survey = `{
         "author": "${this.userName}",
         "surveyTitle": "${this.title}",
-        "questions": [${this.questions}]
+        "questions": [${finalQuestions}]
       }`;
       return window.ChubboChat.services.surveyApi.publishSurvey(survey)
           .then(function(response) {
@@ -150,7 +152,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       userName: function(state) {return state.userInfo.displayName;}
     },
     actions: {
-      publishSurveyToStore: function() {this.store.dispatch('publishSurvey', this.title, this.questions);}
+      publishSurveyToStore: function(store, finalQuestions) {this.store.dispatch('publishSurvey', this.title, finalQuestions);}
     }
   }
 });
