@@ -48,13 +48,17 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       .then(function(data) {
         var filteredSurveys = [];
         for (survey in data) {
+          //collect surveys by current user
           if (survey.author === this.userName) {
             filteredSurveys.push(data[survey]);
           }
         }
-        console.log('what', filteredSurveys);
-        me.title = filteredSurveys[0]['surveyTitle'];
-        me.questions.$set(0, filteredSurveys[0]['questions']);
+        //populate fields with latest survey
+        var latestIndex = filteredSurveys.length - 1;
+        me.title = filteredSurveys[latestIndex].surveyTitle;
+        me.questions = filteredSurveys[latestIndex].questions.map(function(question) {
+          return question;
+        });
       });
     });
   },
@@ -95,7 +99,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           return question !== '';
         });
       }
-      return questions;
+      //make valid json
+      var finalQuestions = questions.map(function(question) {
+        return `"${question}"`;
+      });
+      return finalQuestions;
     },
     isValidatedData: function() {
       if (!this.title) {
@@ -110,18 +118,19 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function() {
-      return window.ChubboChat.services.surveyApi.publishSurvey(`{
-            "author": "${this.userName}",
-            "surveyTitle": "${this.title}",
-            "questions": "${this.questions}"
-          }`)
+      var survey = `{
+        "author": "${this.userName}",
+        "surveyTitle": "${this.title}",
+        "questions": [${this.questions}]
+      }`;
+      return window.ChubboChat.services.surveyApi.publishSurvey(survey)
           .then(function(response) {
             //response from 'fetch' call to firebase
             if (response.ok) {
               sweetAlert({type: 'success', title: 'Survey successfully published'});
               return true;
             } else {
-              console.log('error: ', response.statusText);
+              console.log('error: ', response);
               return false;
             }
         });
