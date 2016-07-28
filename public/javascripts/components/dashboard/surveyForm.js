@@ -91,10 +91,24 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       if (this.isValidatedData(this.questions)) {
         var finalQuestions = this.tidyQuestions();
         var me = this;
-        window.ChubboChat.services.login.signIn();
-        this.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
-          if (isPublished) {
-            me.publishSurveyToStore(finalQuestions);
+        if (!this.userName) {
+          sweetAlert({
+            type: 'warning',
+            title: 'Please log in to save your survey!',
+            showCancelButton: true
+          }, function() {
+            window.ChubboChat.services.login.signIn();
+          });
+        }
+        var published = false;
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user && !published) {
+            me.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
+              if (isPublished) {
+                me.publishSurveyToStore(finalQuestions);
+                published = true;
+              }
+            });
           }
         });
       }
@@ -127,22 +141,20 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function(finalQuestions) {
-      window.ChubboChat.services.login.convertUser().then(function() {
-        return window.ChubboChat.services.surveyApi.publishSurvey(`{
-          "surveyTitle": "${this.title}",
-          "questions": [${finalQuestions}],
-          "timestamp": "${Date.now()}"
-        }`)
-          .then(function(response) {
-            //response from 'fetch' call to firebase
-            if (response.ok) {
-              sweetAlert({type: 'success', title: 'Survey successfully published'});
-              return true;
-            } else {
-              console.log('error: ', response.statusText);
-              return false;
-            }
-        });
+      return window.ChubboChat.services.surveyApi.publishSurvey(`{
+        "surveyTitle": "${this.title}",
+        "questions": [${finalQuestions}],
+        "timestamp": "${Date.now()}"
+      }`)
+        .then(function(response) {
+          //response from 'fetch' call to firebase
+          if (response.ok) {
+            sweetAlert({type: 'success', title: 'Survey successfully published'});
+            return true;
+          } else {
+            console.log('error: ', response.statusText);
+            return false;
+          }
       });
     }
   },
