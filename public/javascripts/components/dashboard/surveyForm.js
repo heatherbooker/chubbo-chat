@@ -91,7 +91,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       if (this.isValidatedData(this.questions)) {
         var finalQuestions = this.tidyQuestions();
         var me = this;
-        if (!this.userName) {
+        if (!firebase.auth().currentUser) {
           sweetAlert({
             type: 'warning',
             title: 'Please log in to save your survey!',
