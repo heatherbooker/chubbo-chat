@@ -144,4 +144,9 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   .cc-addQuestionInputBtn {
     display: inline-block;
   }
+  .sweet-alert.cc-sweetAlert-size-mobile {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

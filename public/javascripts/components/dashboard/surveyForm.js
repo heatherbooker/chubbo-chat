@@ -95,7 +95,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           sweetAlert({
             type: 'warning',
             title: 'Please log in to save your survey!',
-            showCancelButton: true
+            showCancelButton: true,
+            customClass: 'cc-sweetAlert-size-mobile'
           }, function() {
             window.ChubboChat.services.login.signIn();
           });
@@ -149,7 +150,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         .then(function(response) {
           //response from 'fetch' call to firebase
           if (response.ok) {
-            sweetAlert({type: 'success', title: 'Survey successfully published'});
+            sweetAlert({
+              type: 'success',
+              title: 'Survey successfully published',
+              customClass: 'cc-sweetAlert-size-mobile'
+            });
             return true;
           } else {
             console.log('error: ', response.statusText);
