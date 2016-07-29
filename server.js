@@ -15,4 +15,8 @@ server.get('/', function(req, res, next) {
   res.render('index');
 });
 
+server.get('/chat', function(req, res, next) {
+  res.render('conversation');
+});
+
 server.listen(port);

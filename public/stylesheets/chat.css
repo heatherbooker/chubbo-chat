@@ -1,0 +1,95 @@
+html, body{
+	height: 100%;
+}
+
+#chubbo-chat--conversation {
+	height: calc(100% - 90px);
+}
+
+.cc-chatPage {
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: flex-end;
+	height: 100%;
+}
+
+.cc-chat-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	width: 50%;
+	border-left: 1px solid #bdbdbd;
+	border-right: 1px solid #bdbdbd;
+	height: 100%;
+}
+
+.cc-chatRow, .cc-chatRow-bot {
+	display: -webkit-flex;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: row-reverse;
+	max-width: 100%;
+	margin: 5px;
+}
+
+.cc-chatRow-bot {
+	flex-direction: row;
+}
+
+.cc-chatBubble-bot, .cc-chatBubble-reply {
+	padding: 7px 15px;
+	margin: 10px;
+	border-radius: 20px;
+	position: relative;
+	max-width: 70%;
+	font-size: 16px;
+}
+
+.cc-chatBubble-bot {
+	background-color: #3c5a71;
+	color: #fff;
+}
+
+.cc-chatBubble-reply {
+	border: 1px solid #bdbdbd;
+}
+
+
+
+/*input and send btn at bottom*/
+
+.cc-chat-inputBlock {
+	border-top: 1px solid #bdbdbd;
+	display: flex;
+	display: -webkit-flex;
+	height: 60px;
+}
+
+input.cc-chat-input {
+	flex: 9;
+	border: none;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.cc-chat-sendBtn {
+	flex: 1;
+	font-size: 24px;
+	width: 10%;
+	margin: auto;
+	padding: 10px;
+	padding-bottom: 20px;
+}
+
+.cc-chat-sendBtn:hover {
+	cursor: pointer;
+}
+
+
+@media (max-width: 992px) {
+	#chubbo-chat--conversation {
+		height: calc(100% - 77px);
+	}
+}
