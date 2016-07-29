@@ -17,6 +17,9 @@ window.ChubboChat.services.router = new VueRouter();
 window.ChubboChat.services.router.map({
   '/': {
     component: window.ChubboChat.components.conversation
+  },
+  '/:user/:title': {
+    component: window.ChubboChat.components.conversation
   }
 });
 

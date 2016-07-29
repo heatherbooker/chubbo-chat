@@ -12,17 +12,17 @@ html, body{
 	align-items: center;
 	flex-direction: column;
 	justify-content: flex-end;
-	height: 100%;
+	min-height: 100%;
 }
 
 .cc-chat-content {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	justify-content: flex-end;
 	width: 50%;
 	border-left: 1px solid #bdbdbd;
 	border-right: 1px solid #bdbdbd;
-	height: 100%;
 }
 
 .cc-chatRow, .cc-chatRow-bot {
@@ -55,7 +55,6 @@ html, body{
 .cc-chatBubble-reply {
 	border: 1px solid #bdbdbd;
 }
-
 
 
 /*input and send btn at bottom*/

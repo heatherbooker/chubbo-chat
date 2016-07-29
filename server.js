@@ -15,7 +15,7 @@ server.get('/', function(req, res, next) {
   res.render('index');
 });
 
-server.get('/chat', function(req, res, next) {
+server.get('/surveys', function(req, res, next) {
   res.render('conversation');
 });
 
