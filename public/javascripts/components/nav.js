@@ -14,6 +14,15 @@ window.ChubboChat.components.navbar = Vue.extend({
               :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
             />
             <p
+              //only real users have uid
+              v-show="!user.uid"
+              v-on:click='handleLogin'
+              class="cc-loginBtn"
+            >
+              login
+            </p>
+            <p
+              v-else
               v-link="{path: '/'}"
               v-on:click='handleLogout'
               class="cc-logoutBtn"

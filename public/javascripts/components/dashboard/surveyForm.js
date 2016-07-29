@@ -41,29 +41,16 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
-    var me = this;
-    window.ChubboChat.services.surveyApi.getSurveys()
-      .then(function(response) {
-        return response.json()
-      .then(function(data) {
-        //find latest(most recent) survey
-        var latestDate = 0;
-        var latestSurvey;
-        for (surveyKey in data) {
-          if (data[surveyKey].timestamp > latestDate) {
-            latestSurvey = data[surveyKey];
-            latestDate = data[surveyKey].timestamp;
-          }
-        }
-        //populate fields with latest survey
-        if (latestSurvey) {
-          me.title = latestSurvey.surveyTitle;
-          me.questions = latestSurvey.questions.map(function(question) {
-            return question;
-          });
-        }
-      });
-    });
+    if (this.userName) {
+      var me = this;
+      window.ChubboChat.services.surveyApi.getSurveys()
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          me.populateSurveyFields(data, me);
+        });
+    }
   },
   data: function() {
     return {
@@ -75,6 +62,24 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     };
   },
   methods: {
+    populateSurveyFields: function(data, me) {
+      //find latest(most recent) survey
+      var latestDate = 0;
+      var latestSurvey;
+      for (surveyKey in data) {
+        if (data[surveyKey].timestamp > latestDate) {
+          latestSurvey = data[surveyKey];
+          latestDate = data[surveyKey].timestamp;
+        }
+      }
+      //populate fields with latest survey
+      if (latestSurvey) {
+        me.title = latestSurvey.surveyTitle;
+        me.questions = latestSurvey.questions.map(function(question) {
+          return question;
+        });
+      }
+    },
     addQuestionInput: function() {
       this.questions.push('');
       //wait for new input to be inserted before moving focus to it
@@ -86,9 +91,25 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       if (this.isValidatedData(this.questions)) {
         var finalQuestions = this.tidyQuestions();
         var me = this;
-        this.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
-          if (isPublished) {
-            me.publishSurveyToStore(finalQuestions);
+        if (!firebase.auth().currentUser) {
+          sweetAlert({
+            type: 'warning',
+            title: 'Please log in to save your survey!',
+            showCancelButton: true,
+            customClass: 'cc-sweetAlert-size-mobile'
+          }, function() {
+            window.ChubboChat.services.login.signIn();
+          });
+        }
+        var published = false;
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user && !published) {
+            me.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
+              if (isPublished) {
+                me.publishSurveyToStore(finalQuestions);
+                published = true;
+              }
+            });
           }
         });
       }
@@ -129,7 +150,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         .then(function(response) {
           //response from 'fetch' call to firebase
           if (response.ok) {
-            sweetAlert({type: 'success', title: 'Survey successfully published'});
+            sweetAlert({
+              type: 'success',
+              title: 'Survey successfully published',
+              customClass: 'cc-sweetAlert-size-mobile'
+            });
             return true;
           } else {
             console.log('error: ', response.statusText);

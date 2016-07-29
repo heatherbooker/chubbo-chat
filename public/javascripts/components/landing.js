@@ -15,7 +15,7 @@ window.ChubboChat.components.landing = Vue.extend({
         <div class="row">
           <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
             <div class="cc-orbisAndBtn"><img src="/images/orbis.png" class="orbis"/>
-              <div class="cc-btnStart">Create a survey!</div>
+              <div class="cc-btnStart" v-link="{path: '/dashboard'}">Create a survey!</div>
             </div>
           </div>
         </div>

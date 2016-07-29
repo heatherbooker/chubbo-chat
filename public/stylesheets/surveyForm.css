@@ -145,3 +145,11 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
     display: inline-block;
   }
 }
+
+@media (max-width: 540px) {
+  .sweet-alert.cc-sweetAlert-size-mobile {
+    width: 250px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
