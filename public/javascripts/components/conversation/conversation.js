@@ -11,15 +11,14 @@ window.ChubboChat.components.conversation = Vue.extend({
               {{message.text}}
             </div>
           </div>
-          <div class="cc-signUpBtns" v-if="isSurveyComplete">
-            <span class="cc-signUpBtns-yes">
-              <a href="/#!/dashboard">
-                yes, sounds great!
+          <div v-if="isSurveyComplete" class="cc-chatRow-bot">
+            <div class="cc-chatBubble-bot">
+              Thanks for taking the survey -
+              <br>
+              <a class="cc-chat-createSurveyLink" href="/dashboard">
+                Click here to create your own survey!
               </a>
-            </span>
-            <span class="cc-signUpBtns-no" @click="handleNoSignUp">
-              no thanks
-            </span>
+            </div>
           </div>
         </div>
         <div class="cc-chat-inputBlock">
@@ -78,29 +77,19 @@ window.ChubboChat.components.conversation = Vue.extend({
       this.sendSurveyQuestion(this);
     },
     sendSurveyQuestion: function(me) {
-      var message;
       if (me.messages.length <= 1) {
         //first message!
-        message = {
+        me.messages.push({
           text: 'Hi there!',
           sender: 'bot'
-        };
+        });
       } else if (me.surveyQuestions.length === 0) {
-        //no survey questions left!
-        if (!me.isSurveyComplete) {
-          //we haven't said bye yet
-          message = {
-            text: 'Thanks for taking the survey! Would you like to create your own?',
-            sender: 'bot'
-          };
-          me.isSurveyComplete = true;
-        }
+        me.isSurveyComplete = true;
       } else {
         //send a survey question
-        message = me.surveyQuestions[0];
+        me.messages.push(me.surveyQuestions[0]);
         me.surveyQuestions.splice(0, 1);
       }
-      me.messages.push(message);
     },
     handleNoSignUp: function() {
       this.messages.push({

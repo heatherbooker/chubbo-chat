@@ -56,24 +56,13 @@ html, body{
 	border: 1px solid #bdbdbd;
 }
 
-.cc-signUpBtns {
-	display: flex;
-	justify-content: center;
-	height: 55px;
+.cc-chat-createSurveyLink {
+	font-weight: bold;
 }
 
-.cc-signUpBtns-yes, .cc-signUpBtns-no {
-	border-radius: 20px;
-	border: 1px solid pink;
-	padding: 10px 20px;
-	margin: 2px 6px 10px 6px;
-	background-color: pink;
-	font-size: 16px;
-}
-
-.cc-signUpBtns-yes:hover, .cc-signUpBtns-no:hover {
-	cursor: pointer;
-	border-color: #bdbdbd;
+.cc-chat-createSurveyLink:hover {
+	font-style: italic;
+	color: white;
 }
 
 /*input and send btn at bottom*/
@@ -120,9 +109,5 @@ input.cc-chat-input {
 	}
 	.cc-chat-sendBtn {
 		font-size: 18px;
-	}
-	.cc-signUpBtns-yes, .cc-signUpBtns-no {
-		font-size: 14px;
-		padding: 8px 10px;
 	}
 }
