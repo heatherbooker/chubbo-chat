@@ -60,7 +60,7 @@ window.ChubboChat.components.conversation = Vue.extend({
         return response.json();
       })
       .then(function(data) {
-        var surveyKey = Object.keys(data);
+        var surveyKey = Object.keys(data)[0];
         me.surveyQuestions = data[surveyKey].questions.map(function(question) {
           return {
             text: question,

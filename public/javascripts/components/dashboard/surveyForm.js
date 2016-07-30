@@ -23,7 +23,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       <div class="cc-submitBtnContainer">
         <span
           class="cc-addQuestionInputBtn"
-          v-on:click="addQuestionInput">
+          v-on:click="addQuestionInput"
+        >
           +
         </span>
         <span
@@ -41,16 +42,19 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
-    if (this.userName) {
-      var me = this;
-      window.ChubboChat.services.surveyApi.getSurveys()
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          me.populateSurveyFields(data, me);
-        });
-    }
+    var me = this;
+    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.ChubboChat.services.surveyApi.getSurveys()
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            me.populateSurveyFields(data, me);
+            unsubscribeAuthListener();
+          });
+        }
+      });
   },
   data: function() {
     return {
@@ -142,6 +146,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function(finalQuestions) {
+      var me = this;
       return window.ChubboChat.services.surveyApi.publishSurvey(`{
         "surveyTitle": "${this.title}",
         "questions": [${finalQuestions}],
@@ -153,6 +158,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
             sweetAlert({
               type: 'success',
               title: 'Survey successfully published',
+              html: true,
+              text: `People can take your survey at:<br>https://chubbo-chat.herokuapp.com/surveys#!/${me.user.uid}/${me.title}`,
               customClass: 'cc-sweetAlert-size-mobile'
             });
             return true;
@@ -174,7 +181,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      userName: function(state) {return state.userInfo.displayName;}
+      user: function(state) {return state.userInfo;}
     },
     actions: {
       publishSurveyToStore: function(store, finalQuestions) {this.store.dispatch('publishSurvey', this.title, finalQuestions);}
