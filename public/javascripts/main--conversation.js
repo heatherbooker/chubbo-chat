@@ -18,7 +18,7 @@ window.ChubboChat.services.router.map({
   '/': {
     component: window.ChubboChat.components.conversation
   },
-  '/:user/:title': {
+  '/:userId/:surveyId': {
     component: window.ChubboChat.components.conversation
   }
 });

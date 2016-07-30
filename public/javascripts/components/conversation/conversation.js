@@ -55,13 +55,13 @@ window.ChubboChat.components.conversation = Vue.extend({
   methods: {
     setUpSurvey: function() {
       var me = this;
-      return window.ChubboChat.services.surveyApi.getSpecificSurvey(this.$route.params.user, this.$route.params.title)
+      var surveyId = this.$route.params.surveyId;
+      return window.ChubboChat.services.surveyApi.getSpecificSurvey(this.$route.params.userId, surveyId)
       .then(function(response) {
         return response.json();
       })
       .then(function(data) {
-        var surveyKey = Object.keys(data)[0];
-        me.surveyQuestions = data[surveyKey].questions.map(function(question) {
+        me.surveyQuestions = data[surveyId].questions.map(function(question) {
           return {
             text: question,
             sender: 'bot'

@@ -96,12 +96,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         var finalQuestions = this.tidyQuestions();
         var me = this;
         if (!firebase.auth().currentUser) {
-          sweetAlert({
+          swal({
             type: 'warning',
             title: 'Please log in to save your survey!',
-            showCancelButton: true,
-            customClass: 'cc-sweetAlert-size-mobile'
-          }, function() {
+            showCancelButton: true
+          }).then(function() {
             window.ChubboChat.services.login.signIn();
           });
         }
@@ -155,14 +154,34 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         .then(function(response) {
           //response from 'fetch' call to firebase
           if (response.ok) {
-            sweetAlert({
-              type: 'success',
-              title: 'Survey successfully published',
-              html: true,
-              text: `People can take your survey at:<br>https://chubbo-chat.herokuapp.com/surveys#!/${me.user.uid}/${me.title}`,
-              customClass: 'cc-sweetAlert-size-mobile'
-            });
-            return true;
+            return response.json()
+            .then(function(responseData) {
+              return responseData.name;
+            }).then(function(surveyId) {
+              swal({
+                type: 'success',
+                title: 'Survey successfully published',
+                html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+                input: 'text',
+                inputValue: `https://chubbo-chat.herokuapp.com/surveys#!/${me.user.uid}/${surveyId}`
+              });
+              var isTextSelected = false;
+              //select and unselect all input text on click
+              $('.swal2-input').click(function() {
+                if (isTextSelected) {
+                  isTextSelected = false;
+                } else {
+                  $(this).select();
+                  isTextSelected = true;
+                }
+              });
+              //copy input text to users clipboard
+              $('.cc-copyBtn').click(function() {
+                $('.swal2-input').select();
+                document.execCommand('copy');
+              });
+              return true;
+            })
           } else {
             console.log('error: ', response.statusText);
             return false;
