@@ -4,12 +4,22 @@ window.ChubboChat.components.conversation = Vue.extend({
       <div class="cc-chat-content">
         <div class="cc-chat-messages">
           <div
-            :class="message.sender === 'bot' ? 'cc-chatRow-bot' : 'cc-chatRow'"
             v-for="message in messages"
+            :class="message.sender === 'bot' ? 'cc-chatRow-bot' : 'cc-chatRow'"
           >
             <div :class="message.sender === 'bot' ? 'cc-chatBubble-bot' : 'cc-chatBubble-reply'">
               {{message.text}}
             </div>
+          </div>
+          <div class="cc-signUpBtns" v-if="isSurveyComplete">
+            <span class="cc-signUpBtns-yes">
+              <a href="/#!/dashboard">
+                yes, sounds great!
+              </a>
+            </span>
+            <span class="cc-signUpBtns-no" @click="handleNoSignUp">
+              no thanks
+            </span>
           </div>
         </div>
         <div class="cc-chat-inputBlock">
@@ -28,8 +38,6 @@ window.ChubboChat.components.conversation = Vue.extend({
   `,
   data: function() {
     return {
-      //keep track of order of messages
-      index: 0,
       chatInput: '',
       messages: [],
       surveyQuestions: [],
@@ -63,43 +71,42 @@ window.ChubboChat.components.conversation = Vue.extend({
     },
     handleSubmitMsg: function() {
       this.messages.push({
-        index: this.index,
         text: this.chatInput,
         sender: 'user'
       });
-      this.index ++;
       this.chatInput = '';
       this.sendSurveyQuestion(this);
     },
     sendSurveyQuestion: function(me) {
       var message;
-      if (me.index === 0) {
+      if (me.messages.length <= 1) {
         //first message!
         message = {
-          index: 0,
           text: 'Hi there!',
           sender: 'bot'
-        }
+        };
       } else if (me.surveyQuestions.length === 0) {
         //no survey questions left!
         if (!me.isSurveyComplete) {
           //we haven't said bye yet
           message = {
-            index: me.index,
             text: 'Thanks for taking the survey! Would you like to create your own?',
             sender: 'bot'
-          }
+          };
           me.isSurveyComplete = true;
-          //TO DO: send some buttons, help them sign up
         }
       } else {
         //send a survey question
         message = me.surveyQuestions[0];
-        message.index = me.index;
         me.surveyQuestions.splice(0, 1);
       }
       me.messages.push(message);
-      me.index ++;
+    },
+    handleNoSignUp: function() {
+      this.messages.push({
+        text: 'Ok, have a great day!',
+        sender: 'bot'
+      });
     }
   }
  });

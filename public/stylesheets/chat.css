@@ -56,6 +56,25 @@ html, body{
 	border: 1px solid #bdbdbd;
 }
 
+.cc-signUpBtns {
+	display: flex;
+	justify-content: center;
+	height: 55px;
+}
+
+.cc-signUpBtns-yes, .cc-signUpBtns-no {
+	border-radius: 20px;
+	border: 1px solid pink;
+	padding: 10px 20px;
+	margin: 2px 6px 10px 6px;
+	background-color: pink;
+	font-size: 16px;
+}
+
+.cc-signUpBtns-yes:hover, .cc-signUpBtns-no:hover {
+	cursor: pointer;
+	border-color: #bdbdbd;
+}
 
 /*input and send btn at bottom*/
 
@@ -90,5 +109,15 @@ input.cc-chat-input {
 @media (max-width: 992px) {
 	#chubbo-chat--conversation {
 		height: calc(100% - 77px);
+	}
+}
+
+@media (max-width: 768px) {
+	.cc-chat-content {
+		border: none;
+		width: 100%;
+	}
+	.cc-chat-sendBtn {
+		font-size: 18px;
 	}
 }
