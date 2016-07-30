@@ -15,7 +15,7 @@ window.ChubboChat.components.conversation = Vue.extend({
             <div class="cc-chatBubble-bot">
               Thanks for taking the survey -
               <br>
-              <a class="cc-chat-createSurveyLink" href="/dashboard">
+              <a class="cc-chat-createSurveyLink" href="/#!/dashboard">
                 Click here to create your own survey!
               </a>
             </div>
