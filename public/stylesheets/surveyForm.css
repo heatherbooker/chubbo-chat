@@ -158,9 +158,9 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   box-shadow: none;
 }
 
-.swal2-modal button.styled {
+button.swal2-confirm.styled {
   border-color: rgb(121, 205, 205);
-  background-color: rgb(121, 205, 205);
+  background-color: rgb(121, 205, 205) !important;
 }
 
 .swal2-modal .cc-copyBtn {

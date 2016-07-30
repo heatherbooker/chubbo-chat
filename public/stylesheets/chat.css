@@ -90,6 +90,7 @@ input.cc-chat-input {
 	border: none;
 	padding: 10px;
 	font-size: 16px;
+	min-width: 0px !important;
 }
 
 .cc-chat-sendBtn {
@@ -119,5 +120,9 @@ input.cc-chat-input {
 	}
 	.cc-chat-sendBtn {
 		font-size: 18px;
+	}
+	.cc-signUpBtns-yes, .cc-signUpBtns-no {
+		font-size: 14px;
+		padding: 8px 10px;
 	}
 }
