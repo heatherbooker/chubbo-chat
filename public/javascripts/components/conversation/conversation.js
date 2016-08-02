@@ -3,23 +3,12 @@ window.ChubboChat.components.conversation = Vue.extend({
     <div class="cc-chatPage">
       <div class="cc-chat-content">
         <div class="cc-chat-messages">
-          <div
+          <message-bubble
             v-for="message in messages"
-            :class="message.sender === 'bot' ? 'cc-chatRow-bot' : 'cc-chatRow'"
+            :message="message"
+            :index="$index"
           >
-            <div :class="message.sender === 'bot' ? 'cc-chatBubble-bot' : 'cc-chatBubble-reply'">
-              {{message.text}}
-            </div>
-          </div>
-          <div v-if="isSurveyComplete" class="cc-chatRow-bot">
-            <div class="cc-chatBubble-bot">
-              Thanks for taking the survey -
-              <br>
-              <a class="cc-chat-createSurveyLink" href="/#!/dashboard">
-                Click here to create your own survey!
-              </a>
-            </div>
-          </div>
+          </message-bubble>
         </div>
         <div class="cc-chat-inputBlock">
           <input
@@ -35,6 +24,9 @@ window.ChubboChat.components.conversation = Vue.extend({
       </div>
     </div>
   `,
+  components: {
+    'message-bubble': window.ChubboChat.components.messageBubble
+  },
   data: function() {
     return {
       chatInput: '',
@@ -84,18 +76,19 @@ window.ChubboChat.components.conversation = Vue.extend({
           sender: 'bot'
         });
       } else if (me.surveyQuestions.length === 0) {
+        if (!me.isSurveyComplete) {
+          //say bye
+          me.messages.push({
+            text: 'Thanks for taking the survey! Visit chubbo-chat.herokuapp.com/#!/dashboard to create your own survey!',
+            sender: 'bot'
+          });
+        }
         me.isSurveyComplete = true;
       } else {
         //send a survey question
         me.messages.push(me.surveyQuestions[0]);
         me.surveyQuestions.splice(0, 1);
       }
-    },
-    handleNoSignUp: function() {
-      this.messages.push({
-        text: 'Ok, have a great day!',
-        sender: 'bot'
-      });
     }
   }
  });
