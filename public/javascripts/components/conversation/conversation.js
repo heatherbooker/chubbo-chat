@@ -6,6 +6,8 @@ window.ChubboChat.components.conversation = Vue.extend({
           <message-bubble
             v-for="message in messages"
             :message="message"
+            :index="$index"
+            :max-index="messages.length - 1"
           >
           </message-bubble>
         </div>
@@ -93,6 +95,12 @@ window.ChubboChat.components.conversation = Vue.extend({
         me.messages.push(me.surveyQuestions[0]);
         me.surveyQuestions.splice(0, 1);
       }
+      //after message is inserted, scroll to it
+      me.$nextTick(function() {
+        $('.cc-chat-messages').animate({
+          scrollTop: $(".cc-chat-focus").offset().top
+        }, 500);
+      });
     }
   }
  });

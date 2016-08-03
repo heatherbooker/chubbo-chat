@@ -1,12 +1,17 @@
 window.ChubboChat.components.messageBubble = Vue.extend({
-  props: ['message'],
+  props: ['message', 'index', 'max-index'],
   template: `
-    <div :class="classNames.row">
+    <div :class="[classNames.row, focusClass]">
       <div :class="classNames.message">
         {{{finalMessage}}}
       </div>
     </div>
   `,
+  data: function() {
+    return {
+      blah: 'ya'
+    }
+  },
   computed: {
     classNames: function() {
       if (this.message.sender === 'bot') {
@@ -29,6 +34,13 @@ window.ChubboChat.components.messageBubble = Vue.extend({
       var wholeMessageTidied = this.removeSpaces(wholeMessage);
       //html encode forward slash unless in </a>
       return wholeMessageTidied.replace(/\/(?!a>)/g, '&#x2F;');
+    },
+    focusClass: function() {
+      //if it's the newest message
+      if (this.index === this.maxIndex) {
+        return 'cc-chat-focus';
+      }
+      return '';
     }
   },
   methods: {

@@ -7,7 +7,7 @@ a {
 }
 
 #chubbo-chat--conversation {
-	height: calc(100% - 90px);
+	height: 100%;
 }
 
 .cc-chatPage {
@@ -16,18 +16,21 @@ a {
 	align-items: center;
 	flex-direction: column;
 	justify-content: flex-end;
-	min-height: 100%;
+	height: calc(100% - 90px);
 }
 
 .cc-chat-content {
 	display: flex;
-	flex: 1;
 	flex-direction: column;
 	justify-content: flex-end;
 	width: 50%;
+	height: 100%;
 	border-left: 1px solid #bdbdbd;
 	border-right: 1px solid #bdbdbd;
-	overflow-y: scroll;
+}
+
+.cc-chat-messages {
+	overflow-y: auto;
 }
 
 .cc-chatRow-bot, .cc-chatRow-reply {
@@ -94,7 +97,6 @@ input.cc-chat-input {
 	width: 10%;
 	margin: auto;
 	padding: 10px;
-	padding-bottom: 20px;
 }
 
 .cc-chat-sendBtn:hover {
