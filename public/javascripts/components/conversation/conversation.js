@@ -31,6 +31,11 @@ window.ChubboChat.components.conversation = Vue.extend({
       chatInput: '',
       messages: [],
       surveyQuestions: [],
+      botMessages: {
+        hello: 'Hi there!',
+        goodbye: `Thanks for taking the survey! Visit
+          chubbo-chat.herokuapp.com/#!/dashboard to create your own survey!`
+      },
       isSurveyComplete: false
     };
   },
@@ -71,14 +76,14 @@ window.ChubboChat.components.conversation = Vue.extend({
       if (me.messages.length <= 1) {
         //first message!
         me.messages.push({
-          text: 'Hi there!',
+          text: me.botMessages.hello,
           sender: 'bot'
         });
       } else if (me.surveyQuestions.length === 0) {
         if (!me.isSurveyComplete) {
           //say bye
           me.messages.push({
-            text: 'Thanks for taking the survey! Visit chubbo-chat.herokuapp.com/#!/dashboard to create your own survey!',
+            text: me.botMessages.goodbye,
             sender: 'bot'
           });
         }

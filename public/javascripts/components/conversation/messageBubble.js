@@ -1,12 +1,12 @@
 window.ChubboChat.components.messageBubble = Vue.extend({
   props: ['message'],
-	template: `
+  template: `
     <div :class="classNames.row">
       <div :class="classNames.message">
         {{{finalMessage}}}
       </div>
     </div>
-	`,
+  `,
   computed: {
     classNames: function() {
       if (this.message.sender === 'bot') {
