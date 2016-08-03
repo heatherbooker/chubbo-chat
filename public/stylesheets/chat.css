@@ -30,7 +30,7 @@ a {
 	overflow-y: scroll;
 }
 
-.cc-chatRow, .cc-chatRow-bot {
+.cc-chatRow-bot, .cc-chatRow-reply {
 	display: -webkit-flex;
 	display: flex;
 	align-items: flex-end;

@@ -6,7 +6,6 @@ window.ChubboChat.components.conversation = Vue.extend({
           <message-bubble
             v-for="message in messages"
             :message="message"
-            :index="$index"
           >
           </message-bubble>
         </div>
