@@ -10,9 +10,10 @@ window.ChubboChat.components.messageBubble = Vue.extend({
   computed: {
     finalMessage: function() {
       var htmlEscapedMessage = this.escapeHtml(this.message.text);
+      console.log('after escaping html: ', htmlEscapedMessage);
       var messageWithLinksEncoded = anchorme.js(htmlEscapedMessage, {html: false});
-      console.log(messageWithLinksEncoded);
       var wholeMessage = messageWithLinksEncoded.join(' ');
+      console.log('after anchorme: ', wholeMessage);
       wholeMessage = wholeMessage.split(" \n ").join("\n");
       wholeMessage = wholeMessage.split(" ( ").join("(");
       wholeMessage = wholeMessage.split(" ) ").join(")");
@@ -22,7 +23,7 @@ window.ChubboChat.components.messageBubble = Vue.extend({
       wholeMessage = wholeMessage.split(" > ").join(">");
       wholeMessage = wholeMessage.split(" &#39; ").join("&#39;");
       wholeMessage = wholeMessage.split(" &quot; ").join("&quot;");
-      return wholeMessage;
+      return wholeMessage.replace(/\/(?!a>)/g, '&#x2F;');
     },
     messageId: function() {
       return 'cc-messageBubble' + this.index;
@@ -36,7 +37,6 @@ window.ChubboChat.components.messageBubble = Vue.extend({
         .replace(/'/g, '&#39;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .replace(/\//g, '&#x2F;');
     }
   }
 })
