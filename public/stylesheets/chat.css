@@ -2,6 +2,10 @@ html, body{
 	height: 100%;
 }
 
+a {
+	text-decoration: underline;
+}
+
 #chubbo-chat--conversation {
 	height: calc(100% - 90px);
 }
@@ -23,9 +27,10 @@ html, body{
 	width: 50%;
 	border-left: 1px solid #bdbdbd;
 	border-right: 1px solid #bdbdbd;
+	overflow-y: scroll;
 }
 
-.cc-chatRow, .cc-chatRow-bot {
+.cc-chatRow-bot, .cc-chatRow-reply {
 	display: -webkit-flex;
 	display: flex;
 	align-items: flex-end;
@@ -45,6 +50,8 @@ html, body{
 	position: relative;
 	max-width: 70%;
 	font-size: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .cc-chatBubble-bot {
@@ -61,7 +68,6 @@ html, body{
 }
 
 .cc-chat-createSurveyLink:hover {
-	font-style: italic;
 	color: white;
 }
 
