@@ -10,10 +10,8 @@ window.ChubboChat.components.messageBubble = Vue.extend({
   computed: {
     finalMessage: function() {
       var htmlEscapedMessage = this.escapeHtml(this.message.text);
-      console.log('after escaping html: ', htmlEscapedMessage);
       var messageWithLinksEncoded = anchorme.js(htmlEscapedMessage, {html: false});
       var wholeMessage = messageWithLinksEncoded.join(' ');
-      console.log('after anchorme: ', wholeMessage);
       wholeMessage = wholeMessage.split(" \n ").join("\n");
       wholeMessage = wholeMessage.split(" ( ").join("(");
       wholeMessage = wholeMessage.split(" ) ").join(")");

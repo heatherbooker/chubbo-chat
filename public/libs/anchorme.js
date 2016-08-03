@@ -355,14 +355,14 @@
             var nice = (options.truncate <= 1) ? fragment : fragment.substring(0,options.truncate) + "...";
             
             if (options.attributes) {
-              splitedArray[i] = "<a href='" + url + "'";
+              splitedArray[i] = "<a target='_blank' href='" + url + "'";
               for (var name in options.attributes) {
                 splitedArray[i] = splitedArray[i] + " " + name + "='" + options.attributes[name] + "' ";
               }
               splitedArray[i] = splitedArray[i] + ">" + nice + "</a>";
             }
             else {
-              splitedArray[i] = "<a href='" + url + "'>" + nice + "</a>";
+              splitedArray[i] = "<a target='_blank' href='" + url + "'>" + nice + "</a>";
             }
           }
         }
