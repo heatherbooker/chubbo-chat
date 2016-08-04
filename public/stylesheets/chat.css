@@ -31,6 +31,8 @@ a {
 
 .cc-chat-messages {
 	overflow-y: auto;
+	/*90px navbar 60px text input box*/
+	max-height: calc(100% - 90px - 60px);
 }
 
 .cc-chatRow-bot, .cc-chatRow-reply {
@@ -107,6 +109,10 @@ input.cc-chat-input {
 @media (max-width: 992px) {
 	#chubbo-chat--conversation {
 		height: calc(100% - 77px);
+	}
+	.cc-chat-messages {
+		/*77px navbar 60px text input box*/
+		max-height: calc(100% - 77px - 60px);
 	}
 }
 
