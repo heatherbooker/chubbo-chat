@@ -93,12 +93,6 @@ window.ChubboChat.components.conversation = Vue.extend({
         me.messages.push(me.surveyQuestions[0]);
         me.surveyQuestions.splice(0, 1);
       }
-      //always scroll to bottom of messages after inserting one
-      me.$nextTick(function() {
-        $('.cc-chat-messages').animate({
-          scrollTop: $('.cc-chat-messages').prop('scrollHeight')
-        }, 500);
-      });
     }
   }
  });
