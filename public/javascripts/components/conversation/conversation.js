@@ -47,11 +47,17 @@ window.ChubboChat.components.conversation = Vue.extend({
       me.sendSurveyQuestion(me);
     });
     //scroll to bottom of messages div whenever something is added
-    new ResizeSensor($('.cc-chat-messages'), function() {
-      $('.cc-chat-messages').animate({
-        scrollTop: $('.cc-chat-messages').prop('scrollHeight')
-      }, 500);      
-    });
+    var messagesDiv = document.querySelector('.cc-chat-messages');
+    var scrollCallback = function() {
+      console.log('chat div resized!');
+    }
+    window.ChubboChat.services.stickyScroll.addResizeListener(messagesDiv, scrollCallback);
+    // new ResizeSensor($('.cc-chat-messages'), function() {
+    //   console.log('chat div resized!');
+    //   $('.cc-chat-messages').animate({
+    //     scrollTop: $('.cc-chat-messages').prop('scrollHeight')
+    //   }, 500);      
+    // });
   },
   methods: {
     setUpSurvey: function() {

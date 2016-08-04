@@ -93,6 +93,7 @@
          * @returns {String|Number}
          */
         function getComputedStyle(element, prop) {
+            console.log('getComputedStyle', prop);
             if (element.currentStyle) {
                 return element.currentStyle[prop];
             } else if (window.getComputedStyle) {
@@ -140,6 +141,7 @@
             var shrink = element.resizeSensor.childNodes[1];
 
             var reset = function() {
+                console.log('reset');
                 expandChild.style.width  = 100000 + 'px';
                 expandChild.style.height = 100000 + 'px';
 

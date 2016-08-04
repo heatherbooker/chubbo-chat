@@ -62,11 +62,11 @@
                 case "vw":
                     return value * document.documentElement.clientWidth / 100;
                 case "vh":
-                    return value * document.documentElement.clientHeight / 100;
+                    return value * document.documentElement.scrollHeight / 100;
                 case "vmin":
                 case "vmax":
                     var vw = document.documentElement.clientWidth / 100;
-                    var vh = document.documentElement.clientHeight / 100;
+                    var vh = document.documentElement.scrollHeight / 100;
                     var chooser = Math[units === "vmin" ? "min" : "max"];
                     return value * chooser(vw, vh);
                 default:
@@ -94,7 +94,7 @@
                 this.options[idx] = option;
             };
 
-            var attributes = ['min-width', 'min-height', 'max-width', 'max-height'];
+            var attributes = ['min-width', 'scroll-height', 'max-width', 'scroll-height'];
 
             /**
              * Extracts the computed width/height and sets to min/max- attribute.
@@ -102,7 +102,7 @@
             this.call = function() {
                 // extract current dimensions
                 width = this.element.offsetWidth;
-                height = this.element.offsetHeight;
+                height = this.element.scrollHeight;
 
                 attrValues = {};
 
@@ -173,6 +173,7 @@
          */
         var allQueries = {};
         function queueQuery(selector, mode, property, value) {
+            console.log('queueQuery');
             if (typeof(allQueries[mode]) == 'undefined') allQueries[mode] = {};
             if (typeof(allQueries[mode][property]) == 'undefined') allQueries[mode][property] = {};
             if (typeof(allQueries[mode][property][value]) == 'undefined') allQueries[mode][property][value] = selector;
@@ -235,7 +236,7 @@
                     children.push(element.children[i]);
 
                     var minWidth = element.children[i].getAttribute('min-width') || element.children[i].getAttribute('data-min-width');
-                    //var minHeight = element.children[i].getAttribute('min-height') || element.children[i].getAttribute('data-min-height');
+                    //var minHeight = element.children[i].getAttribute('scroll-height') || element.children[i].getAttribute('data-scroll-height');
                     var src = element.children[i].getAttribute('data-src') || element.children[i].getAttribute('url');
 
                     sources.push(src);
@@ -258,6 +259,7 @@
             lastActiveImage = defaultImageId;
 
             function check() {
+                console.log('check');
                 var imageToDisplay = false, i;
 
                 for (i in children){
@@ -323,8 +325,8 @@
             }
         }
 
-        var regex = /,?[\s\t]*([^,\n]*?)((?:\[[\s\t]*?(?:min|max)-(?:width|height)[\s\t]*?[~$\^]?=[\s\t]*?"[^"]*?"[\s\t]*?])+)([^,\n\s\{]*)/mgi;
-        var attrRegex = /\[[\s\t]*?(min|max)-(width|height)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]/mgi;
+        var regex = /,?[\s\t]*([^,\n]*?)((?:\[[\s\t]*?(?:min|max)-(?:width|scrollHeight)[\s\t]*?[~$\^]?=[\s\t]*?"[^"]*?"[\s\t]*?])+)([^,\n\s\{]*)/mgi;
+        var attrRegex = /\[[\s\t]*?(min|max)-(width|scrollHeight)[\s\t]*?[~$\^]?=[\s\t]*?"([^"]*?)"[\s\t]*?]/mgi;
         /**
          * @param {String} css
          */
@@ -359,7 +361,7 @@
                 for (var i = 0, j = rules.length; i < j; i++) {
                     if (1 === rules[i].type) {
                         selector = rules[i].selectorText || rules[i].cssText;
-                        if (-1 !== selector.indexOf('min-height') || -1 !== selector.indexOf('max-height')) {
+                        if (-1 !== selector.indexOf('scroll-height') || -1 !== selector.indexOf('scroll-height')) {
                             extractQuery(selector);
                         }else if(-1 !== selector.indexOf('min-width') || -1 !== selector.indexOf('max-width')) {
                             extractQuery(selector);
