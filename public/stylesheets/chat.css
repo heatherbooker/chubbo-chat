@@ -31,8 +31,6 @@ a {
 
 .cc-chat-messages {
 	overflow-y: auto;
-	position: relative;
-	bottom: 0;
 }
 
 .cc-chatRow-bot, .cc-chatRow-reply {

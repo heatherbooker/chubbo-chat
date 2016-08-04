@@ -46,6 +46,12 @@ window.ChubboChat.components.conversation = Vue.extend({
     this.setUpSurvey().then(function() {
       me.sendSurveyQuestion(me);
     });
+    //scroll to bottom of messages div whenever something is added
+    new ResizeSensor($('.cc-chat-messages'), function() {
+      $('.cc-chat-messages').animate({
+        scrollTop: $('.cc-chat-messages').prop('scrollHeight')
+      }, 500);      
+    });
   },
   methods: {
     setUpSurvey: function() {
