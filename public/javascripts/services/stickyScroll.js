@@ -1,85 +1,52 @@
-(function() {
+// scroll chat-messages div to bottom whenever new message is added
+window.ChubboChat.services.stickyScroll = function() {
 
-  var attachEvent = document.attachEvent;
-  var isIE = navigator.userAgent.match(/Trident/);
-  console.log(isIE);
-
-  var requestFrame = (function() {
-    var reqAnimFrame =
-      window.requestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      function (callback) {
-        return window.setTimeout(callback, 20);
-      };
-      return function(callback) { return reqAnimFrame(callback); };
-  })();
-
-  var cancelFrame = (function() {
-    var cancel =
-      window.cancelAnimationFrame ||
-      window.mozCancelAnimationFrame ||
-      window.webkitCancelAnimationFrame ||
-      window.clearTimeout;
-    return function(id) { return cancel(id); };
-  })();
-
-  function resizeListener(event) {
-    var win = event.target || event.srcElement;
-    if (win.resizeReqAnimFrame) {
-      cancelFrame(win.resizeReqAnimFrame);
+  // request animation frame polyfill
+  // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+  // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+  // requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+  // MIT license
+  (function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
     }
-    win.resizeReqAnimFrame = requestFrame(function() {
-      var trigger = window.resizeTrigger;
-      trigger.resizeListeners.forEach(function(callback) {
-        callback.call(trigger, event);
-      });
-    });
-  }
-
-  function objectLoad(event) {
-    this.contentDocument.defaultView.resizeTrigger = this.resizeElement;
-    this.contentDocument.defaultView.addEventListener('resize', resizeListener);
-  }
-
-  var addResizeListener = function(element, callback) {
-    if (!element.resizeListeners) {
-      element.resizeListeners = [];
-      if (attachEvent) {
-        element.resizeTrigger = element;
-        element.attachEvent('onresize', resizeListener);
-      } else {
-        if (getComputedStyle(element).position == 'static') {
-          element.style.position = 'relative';
-        }
-        var obj = element.resizeTrigger = document.createElement('object');
-        obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;');
-        obj.resizeElement = element;
-        obj.onload = objectLoad;
-        obj.type = 'text/html';
-        if (isIE) element.appendChild(obj);
-        obj.data = 'about:blank';
-        if (!isIE) element.appendChild(obj);
+ 
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+ 
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+  }());
+  
+  function stickyScroll() {
+    var chubboStickyScroll = window.ChubboChat.services.stickyScroll;
+    var chatMessagesDiv = document.querySelector('.cc-chat-messages');
+    var currentDivHeight = chatMessagesDiv.scrollHeight;
+    if (!chubboStickyScroll.divHeight) {
+      chubboStickyScroll.divHeight = currentDivHeight;
+    } else {
+      if (chubboStickyScroll.divHeight !== currentDivHeight) {
+        chubboStickyScroll.divHeight = currentDivHeight;
+        $(".cc-chat-messages").animate({ scrollTop: $('.cc-chat-messages').prop("scrollHeight")}, 300);
       }
     }
-    element.resizeListeners.push(callback);
+    window.requestAnimationFrame(stickyScroll);
   }
 
-  var removeResizeListener = function(element, callback) {
-    element.resizeListeners.splice(element.resizeListeners.indexOf(callback), 1);
-    if (!element.resizeListeners.length) {
-      if (attachEvent) {
-        element.detachEvent('onresize', resizeListener);
-      } else {
-        element.resizeTrigger.contentDocument.defaultView.removeEventListener('resize', resizeListener);
-        element.resizeTrigger = !element.removeChild(element.resizeTrigger);
-      }
-    }
-  }
+  window.ChubboChat.services.stickyScroll = {divHeight: null};
+  window.requestAnimationFrame(stickyScroll);
 
-  window.ChubboChat.services.stickyScroll = {
-    addResizeListener,
-    removeResizeListener
-  };
-
-})();
+};
