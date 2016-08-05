@@ -55,7 +55,7 @@ window.ChubboChat.components.conversation = Vue.extend({
       me.sendSurveyQuestion(me);
     });
     //scroll to bottom of messages div whenever something is added
-    window.ChubboChat.services.stickyScroll();
+    window.ChubboChat.services.stickyScroll('.cc-chat-messages');
   },
   methods: {
     setUpSurvey: function() {
@@ -83,6 +83,7 @@ window.ChubboChat.components.conversation = Vue.extend({
         this.chatInput = '';
         this.sendSurveyQuestion(this);
       }
+      $('.cc-chat-messages').css('color', 'green');
     },
     sendSurveyQuestion: function(me) {
       if (me.messages.length <= 1) {
