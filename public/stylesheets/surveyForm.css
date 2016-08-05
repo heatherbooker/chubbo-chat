@@ -150,6 +150,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   font-size: 14px;
   text-overflow: ellipsis;
   width: 85%;
+  min-width: 1px;
   margin-left: 0;
 }
 
@@ -166,7 +167,7 @@ button.swal2-confirm.styled {
 .swal2-modal .cc-copyBtn {
   color: rgb(121, 205, 205);
   position: relative;
-  left: 192px;
+  left: 43%;
   top: 50px;
 }
 
@@ -175,6 +176,10 @@ button.swal2-confirm.styled {
 }
 
 @media (max-width: 540px) {
+  .swal2-input:not([type="file"]) {
+    margin: 20px 0px;
+    width: 75%;
+  }
   .swal2-modal {
     width: 250px !important;
     margin-left: auto !important;
