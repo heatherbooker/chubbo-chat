@@ -67,12 +67,14 @@ window.ChubboChat.components.conversation = Vue.extend({
       });
     },
     handleSubmitMsg: function() {
-      this.messages.push({
-        text: this.chatInput,
-        sender: 'user'
-      });
-      this.chatInput = '';
-      this.sendSurveyQuestion(this);
+      if (this.chatInput !== '') {
+        this.messages.push({
+          text: this.chatInput,
+          sender: 'user'
+        });
+        this.chatInput = '';
+        this.sendSurveyQuestion(this);
+      }
     },
     sendSurveyQuestion: function(me) {
       if (me.messages.length <= 1) {
