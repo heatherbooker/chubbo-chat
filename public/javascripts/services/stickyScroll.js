@@ -40,7 +40,7 @@ window.ChubboChat.services.stickyScroll = function() {
     } else {
       if (chubboStickyScroll.divHeight !== currentDivHeight) {
         chubboStickyScroll.divHeight = currentDivHeight;
-        $(".cc-chat-messages").animate({ scrollTop: $('.cc-chat-messages').prop("scrollHeight")}, 300);
+        $(".cc-chat-messages").scrollTop($('.cc-chat-messages').prop("scrollHeight"));
       }
     }
     window.requestAnimationFrame(stickyScroll);
