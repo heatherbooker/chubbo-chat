@@ -146,8 +146,36 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   }
 }
 
+.swal2-input:not([type="file"]) {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  width: 85%;
+  margin-left: 0;
+}
+
+.swal2-input:focus:not([type="file"]) {
+  border: 1px solid #d7d7d7;
+  box-shadow: none;
+}
+
+button.swal2-confirm.styled {
+  border-color: rgb(121, 205, 205);
+  background-color: rgb(121, 205, 205) !important;
+}
+
+.swal2-modal .cc-copyBtn {
+  color: rgb(121, 205, 205);
+  position: relative;
+  left: 192px;
+  top: 50px;
+}
+
+.swal2-modal .cc-copyBtn:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 540px) {
-  .sweet-alert.cc-sweetAlert-size-mobile {
+  .swal2-modal {
     width: 250px !important;
     margin-left: auto !important;
     margin-right: auto !important;

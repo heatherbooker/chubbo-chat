@@ -23,7 +23,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       <div class="cc-submitBtnContainer">
         <span
           class="cc-addQuestionInputBtn"
-          v-on:click="addQuestionInput">
+          v-on:click="addQuestionInput"
+        >
           +
         </span>
         <span
@@ -41,16 +42,21 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
-    if (this.userName) {
-      var me = this;
-      window.ChubboChat.services.surveyApi.getSurveys()
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          me.populateSurveyFields(data, me);
-        });
-    }
+    var me = this;
+    //returns a reference to an unsubscriber
+    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.ChubboChat.services.surveyApi.getSurveys()
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            me.populateSurveyFields(data, me);
+            //we only needed the listener once
+            unsubscribeAuthListener();
+          });
+        }
+      });
   },
   data: function() {
     return {
@@ -92,12 +98,11 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         var finalQuestions = this.tidyQuestions();
         var me = this;
         if (!firebase.auth().currentUser) {
-          sweetAlert({
+          swal({
             type: 'warning',
             title: 'Please log in to save your survey!',
-            showCancelButton: true,
-            customClass: 'cc-sweetAlert-size-mobile'
-          }, function() {
+            showCancelButton: true
+          }).then(function() {
             window.ChubboChat.services.login.signIn();
           });
         }
@@ -142,6 +147,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       }
     },
     publishSurveyToDatabase: function(finalQuestions) {
+      var me = this;
       return window.ChubboChat.services.surveyApi.publishSurvey(`{
         "surveyTitle": "${this.title}",
         "questions": [${finalQuestions}],
@@ -150,12 +156,34 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         .then(function(response) {
           //response from 'fetch' call to firebase
           if (response.ok) {
-            sweetAlert({
-              type: 'success',
-              title: 'Survey successfully published',
-              customClass: 'cc-sweetAlert-size-mobile'
-            });
-            return true;
+            return response.json()
+            .then(function(responseData) {
+              return responseData.name;
+            }).then(function(surveyId) {
+              swal({
+                type: 'success',
+                title: 'Survey successfully published',
+                html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+                input: 'text',
+                inputValue: `https://chubbo-chat.herokuapp.com/surveys#!/${me.user.uid}/${surveyId}`
+              });
+              var isTextSelected = false;
+              //select and unselect all input text on click
+              $('.swal2-input').click(function() {
+                if (isTextSelected) {
+                  isTextSelected = false;
+                } else {
+                  $(this).select();
+                  isTextSelected = true;
+                }
+              });
+              //copy input text to users clipboard
+              $('.cc-copyBtn').click(function() {
+                $('.swal2-input').select();
+                document.execCommand('copy');
+              });
+              return true;
+            })
           } else {
             console.log('error: ', response.statusText);
             return false;
@@ -174,7 +202,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      userName: function(state) {return state.userInfo.displayName;}
+      user: function(state) {return state.userInfo;}
     },
     actions: {
       publishSurveyToStore: function(store, finalQuestions) {this.store.dispatch('publishSurvey', this.title, finalQuestions);}

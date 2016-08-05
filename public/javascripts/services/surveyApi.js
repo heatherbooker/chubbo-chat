@@ -21,5 +21,9 @@ window.ChubboChat.services.surveyApi = {
     return tokenPromise.then(function(authToken) {
       return fetch(`https://chubbo-chat.firebaseio.com/users/${user.uid}/surveys.json?auth=` + authToken);
     });
+  },
+
+  getSpecificSurvey: function(userId, surveyId) {
+    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys.json?orderBy="$key"&startAt="${surveyId}"&endAt="${surveyId}"`);
   }
 }

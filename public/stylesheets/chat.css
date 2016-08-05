@@ -1,0 +1,133 @@
+html, body{
+	height: 100%;
+}
+
+a {
+	text-decoration: underline;
+}
+
+#chubbo-chat--conversation {
+	height: 100%;
+}
+
+.cc-chatPage {
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: flex-end;
+	height: calc(100% - 90px);
+}
+
+.cc-chat-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	width: 50%;
+	height: 100%;
+	border-left: 1px solid #bdbdbd;
+	border-right: 1px solid #bdbdbd;
+}
+
+.cc-chat-messages {
+	overflow-y: auto;
+	/*60px text input box*/
+	max-height: calc(100% - 60px);
+}
+
+.cc-chatRow-bot, .cc-chatRow-reply {
+	display: -webkit-flex;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: row-reverse;
+	max-width: 100%;
+	margin: 5px;
+}
+
+.cc-chatRow-bot {
+	flex-direction: row;
+}
+
+.cc-chatBubble-bot, .cc-chatBubble-reply {
+	padding: 7px 15px;
+	margin: 10px;
+	border-radius: 20px;
+	position: relative;
+	max-width: 70%;
+	font-size: 16px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+.cc-chatBubble-bot {
+	background-color: #3c5a71;
+	color: #fff;
+}
+
+.cc-chatBubble-reply {
+	border: 1px solid #bdbdbd;
+}
+
+.cc-chat-createSurveyLink {
+	font-weight: bold;
+}
+
+.cc-chat-createSurveyLink:hover {
+	color: white;
+}
+
+/*input and send btn at bottom*/
+
+.cc-chat-inputBlock {
+	border-top: 1px solid #bdbdbd;
+	display: flex;
+	display: -webkit-flex;
+	height: 60px;
+}
+
+input.cc-chat-input {
+	flex: 9;
+	border: none;
+	padding: 10px;
+	font-size: 16px;
+	min-width: 0px !important;
+}
+
+.cc-chat-sendBtn, .cc-chat-sendBtn-disabled {
+	flex: 1;
+	font-size: 24px;
+	width: 10%;
+	margin: auto;
+	padding: 10px;
+}
+
+.cc-chat-sendBtn-disabled {
+	color: #bdbdbd;
+}
+
+.cc-chat-sendBtn:hover {
+	cursor: pointer;
+}
+
+
+@media (max-width: 992px) {
+	#chubbo-chat--conversation {
+		height: calc(100% - 77px);
+	}
+}
+
+@media (max-width: 768px) {
+	.cc-chat-content {
+		border: none;
+		width: 100%;
+	}
+	.cc-chat-sendBtn, .cc-chat-sendBtn-disabled {
+		font-size: 18px;
+	}
+}
