@@ -44,7 +44,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     $('.cc-titleInput').focus();
     var me = this;
     //returns a reference to an unsubscriber
-    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
+    me.unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         window.ChubboChat.services.surveyApi.getSurveys()
           .then(function(response) {
@@ -52,11 +52,10 @@ window.ChubboChat.components.surveyForm = Vue.extend({
           })
           .then(function(data) {
             me.populateSurveyFields(data, me);
-            //we only needed the listener once
-            unsubscribeAuthListener();
+            me.unsubscribeAuthListener();
           });
         }
-      });
+    });
   },
   data: function() {
     return {
@@ -94,6 +93,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       });
     },
     handlePublishButton: function() {
+      //make sure we are not still looking for a user to populate survey fields with past data
+      this.unsubscribeAuthListener();
       if (this.isValidatedData(this.questions)) {
         var finalQuestions = this.tidyQuestions();
         var me = this;
