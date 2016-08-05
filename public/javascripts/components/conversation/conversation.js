@@ -16,7 +16,7 @@ window.ChubboChat.components.conversation = Vue.extend({
             v-model="chatInput"
             @keyup.enter="handleSubmitMsg"
           >
-          <span class="cc-chat-sendBtn" @click="handleSubmitMsg">
+          <span :class="sendBtnClass" @click="handleSubmitMsg">
             send
           </span>
         </div>
@@ -38,6 +38,14 @@ window.ChubboChat.components.conversation = Vue.extend({
       },
       isSurveyComplete: false
     };
+  },
+  computed: {
+    sendBtnClass: function() {
+      if (this.chatInput === '') {
+        return 'cc-chat-sendBtn-disabled';
+      }
+      return 'cc-chat-sendBtn';
+    }
   },
   ready: function() {
     $('.cc-chat-input').focus();
