@@ -99,6 +99,11 @@ input.cc-chat-input {
 	min-width: 0px !important;
 }
 
+input.cc-chat-input:focus {
+	box-shadow: none;
+	outline: none;
+}
+
 .cc-chat-sendBtn, .cc-chat-sendBtn-disabled {
 	flex: 1;
 	font-size: 24px;
