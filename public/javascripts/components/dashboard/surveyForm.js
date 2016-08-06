@@ -45,7 +45,9 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     var me = this;
     //returns a reference to an unsubscriber
     me.unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
-      if (user && !this.title) {
+
+      if (user) {
+
         window.ChubboChat.services.surveyApi.getSurveys()
           .then(function(response) {
             return response.json();
@@ -54,7 +56,23 @@ window.ChubboChat.components.surveyForm = Vue.extend({
             me.populateSurveyFields(data, me);
             me.unsubscribeAuthListener();
           });
-        }
+
+      } else if (window.localStorage.getItem('isNewlySignedIn')) {
+
+        //user has already created survey which is saved in sessionStorage
+        var savedUserSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
+        //show them their survey
+        me.populateSurveyFields({isFromStorage: true, survey: savedUserSurvey}, me);
+        //and publish it
+        me.publishToDatabaseAndStore(me.tidyQuestions(), me);
+        me.unsubscribeAuthListener();
+      }
+      
+      //remove this for next time the page is refreshed/opened
+      window.localStorage.removeItem('isNewlySignedIn');
+      //clean up after ourselves
+      window.sessionStorage.removeItem('cc-userSurvey');
+
     });
   },
   data: function() {
@@ -68,21 +86,29 @@ window.ChubboChat.components.surveyForm = Vue.extend({
   },
   methods: {
     populateSurveyFields: function(data, me) {
-      //find latest(most recent) survey
-      var latestDate = 0;
-      var latestSurvey;
-      for (surveyKey in data) {
-        if (data[surveyKey].timestamp > latestDate) {
-          latestSurvey = data[surveyKey];
-          latestDate = data[surveyKey].timestamp;
-        }
-      }
-      //populate fields with latest survey
-      if (latestSurvey) {
-        me.title = latestSurvey.surveyTitle;
-        me.questions = latestSurvey.questions.map(function(question) {
-          return question;
+      if (data.isFromStorage) {
+        me.title = data.survey.title;
+        me.questions = data.survey.questions.map(function(question) {
+          //get rid of extra quotes
+          return question.substring(1, question.length - 1);
         });
+      } else {
+        //find latest(most recent) survey from database
+        var latestDate = 0;
+        var latestSurvey;
+        for (surveyKey in data) {
+          if (data[surveyKey].timestamp > latestDate) {
+            latestSurvey = data[surveyKey];
+            latestDate = data[surveyKey].timestamp;
+          }
+        }
+        //populate fields with latest survey
+        if (latestSurvey) {
+          me.title = latestSurvey.surveyTitle;
+          me.questions = latestSurvey.questions.map(function(question) {
+            return question;
+          });
+        }
       }
     },
     addQuestionInput: function() {
@@ -104,20 +130,22 @@ window.ChubboChat.components.surveyForm = Vue.extend({
             title: 'Please log in to save your survey!',
             showCancelButton: true
           }).then(function() {
-            window.ChubboChat.services.login.signIn();
-          });
-        }
-        var published = false;
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user && !published) {
-            me.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
-              if (isPublished) {
-                me.publishSurveyToStore(finalQuestions);
-                published = true;
-              }
+            var surveyObject = {
+              title: me.title,
+              questions: finalQuestions
+            };
+            //on mobile: the login service refreshes the page, so we need to save survey data
+            window.sessionStorage.setItem('cc-userSurvey', JSON.stringify(surveyObject));
+            window.ChubboChat.services.login.signIn().then(function() {
+              //need this line if page redirects
+              window.localStorage.setItem('isNewlySignedIn', true);
+              //need this line if it doesn't
+              me.publishToDatabaseAndStore(finalQuestions, me);
             });
-          }
-        });
+          });
+        } else {
+          me.publishToDatabaseAndStore(finalQuestions, me);
+        }
       }
     },
     tidyQuestions: function() {
@@ -146,6 +174,19 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         this.titleError = false;
         return true;
       }
+    },
+    publishToDatabaseAndStore: function(finalQuestions, me) {
+      var published = false;
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user && !published) {
+            me.publishSurveyToDatabase(finalQuestions).then(function(isPublished) {
+              if (isPublished) {
+                me.publishSurveyToStore(finalQuestions);
+                published = true;
+              }
+            });
+          }
+        });
     },
     publishSurveyToDatabase: function(finalQuestions) {
       var me = this;

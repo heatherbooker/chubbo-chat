@@ -11,9 +11,9 @@ window.ChubboChat.services.Login.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
   if (window.matchMedia("(max-width: 992px)").matches) {
     //on mobile
-    this.auth.signInWithRedirect(provider);
+    return this.auth.signInWithRedirect(provider);
   } else {
-    this.auth.signInWithPopup(provider);    
+    return this.auth.signInWithPopup(provider);    
   }
 }
 

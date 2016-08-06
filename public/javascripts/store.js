@@ -31,9 +31,15 @@ window.ChubboChat.store = new Vuex.Store(function() {
         state.drafts.push({questions: []});
       },
       editQuestion: function(state, index, question) {
+        if (state.drafts.length === 0) {
+          state.drafts.push({questions: []})
+        }
         state.drafts[0].questions[index] = question;
       },
       editTitle:  function(state, title) {
+        if (state.drafts.length === 0) {
+          state.drafts.push({questions: []})
+        }
         state.drafts[0].title = title;
       },
       publishSurvey: function(state, title, questions) {
