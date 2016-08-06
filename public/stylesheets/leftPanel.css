@@ -78,4 +78,7 @@
     margin-top: 30px;
     margin-bottom: 25px;
   }
+  .cc-leftPanel-surveyBtn, .cc-leftPanel-metricsBtn, .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+    width: 80%;
+  }
 }
