@@ -45,7 +45,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     var me = this;
     //returns a reference to an unsubscriber
     me.unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
+      if (user && !this.title) {
         window.ChubboChat.services.surveyApi.getSurveys()
           .then(function(response) {
             return response.json();
