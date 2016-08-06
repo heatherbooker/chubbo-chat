@@ -37,8 +37,8 @@
 }
 
 .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
-  box-shadow: 7px 5px 5px #9C9A9A;
-  border: 1px solid #eaeaea;
+  box-shadow: 4px 2px 2px #D5D5D5;
+  border: 1px solid #F0F0F0;
 }
 
 .cc-leftPanel-surveyBtn:hover, .cc-leftPanel-metricsBtn:hover, .cc-leftPanel-surveyBtn-selected:hover, .cc-leftPanel-metricsBtn-selected:hover {
