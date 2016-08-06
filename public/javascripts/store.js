@@ -7,6 +7,7 @@ window.ChubboChat.store = new Vuex.Store(function() {
   return {
     state: {
       isLeftPanelVisible: true,
+      dashboardView: 'survey',
       userInfo: userInfoDefault,
       surveys: [],
       drafts: []
@@ -14,6 +15,9 @@ window.ChubboChat.store = new Vuex.Store(function() {
     mutations: {
       toggleLeftPanel: function(state, newState) {
         state.isLeftPanelVisible = newState;
+      },
+      toggleDashboardView: function(state, newState) {
+        state.dashboardView = newState;
       },
       setUser: function(state, user) {
         if (user) {

@@ -21,6 +21,30 @@
   margin: 10px;
 }
 
+.cc-leftPanel-seperatingLine {
+  width: 50%;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+
+.cc-leftPanel-surveyBtn, .cc-leftPanel-metricsBtn, .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+  text-align: center;
+  padding: 5px;
+  font-size: 1.8rem;
+  width: 90%;
+  margin: 20px auto 10px auto;
+  border: 1px solid #ffffff;
+}
+
+.cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+  box-shadow: 7px 5px 5px #9C9A9A;
+  border: 1px solid #eaeaea;
+}
+
+.cc-leftPanel-surveyBtn:hover, .cc-leftPanel-metricsBtn:hover, .cc-leftPanel-surveyBtn-selected:hover, .cc-leftPanel-metricsBtn-selected:hover {
+  cursor: pointer;
+}
+
 .cc-logout-leftPanel {
   text-align: center;
   display: none;
@@ -49,5 +73,9 @@
     /*on top of greyed out survey form (z-index=1) */
     z-index: 2;
     background-color: #fff;
+  }
+  .cc-leftPanel-seperatingLine {
+    margin-top: 30px;
+    margin-bottom: 25px;
   }
 }
