@@ -1,6 +1,8 @@
 window.ChubboChat.components.surveyForm = Vue.extend({
   template: `
     <div class="cc-surveyFormPage">
+      <ring-loader :loading="loading" :color="#3c5a71">
+      </ring-loader>
       <div class="cc-surveyFormInputs">
         <title-input
           :title.sync="title"
