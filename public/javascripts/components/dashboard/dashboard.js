@@ -14,16 +14,19 @@ window.ChubboChat.components.dashboard = Vue.extend({
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
       <left-panel></left-panel>
-      <survey-form></survey-form>
+      <survey-form v-show="dashboardView === 'survey'"></survey-form>
+      <metrics-page v-else></metrics-page>
     </div>
   `,
   components: {
     'left-panel': window.ChubboChat.components.leftPanel,
-    'survey-form': window.ChubboChat.components.surveyForm
+    'survey-form': window.ChubboChat.components.surveyForm,
+    'metrics-page': window.ChubboChat.components.metricsPage
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
+      dashboardView: function(state) {return state.dashboardView;},
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
     },
     actions: {
