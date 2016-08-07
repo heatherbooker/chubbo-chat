@@ -14,7 +14,7 @@ window.ChubboChat.components.dashboard = Vue.extend({
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
       <left-panel></left-panel>
-      <survey-form v-show="dashboardView === 'survey'"></survey-form>
+      <survey-form v-if="dashboardView === 'survey'"></survey-form>
       <metrics-page v-else></metrics-page>
     </div>
   `,
