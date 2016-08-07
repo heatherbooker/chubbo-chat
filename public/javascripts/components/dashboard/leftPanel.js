@@ -21,12 +21,16 @@ window.ChubboChat.components.leftPanel = Vue.extend({
   },
   computed: {
     surveyBtnClass: function() {
-      if (this.$route.path === '/dashboard/survey') return 'cc-leftPanel-surveyBtn-selected';
-      else return 'cc-leftPanel-surveyBtn';
+      if (this.$route.path === '/dashboard/survey') {
+        return 'cc-leftPanel-surveyBtn-selected';
+      }
+      return 'cc-leftPanel-surveyBtn';
     },
     responsesBtnClass: function() {
-      if (this.$route.path === '/dashboard/responses') return 'cc-leftPanel-responsesBtn-selected';
-      else return 'cc-leftPanel-responsesBtn';
+      if (this.$route.path === '/dashboard/responses') {
+        return 'cc-leftPanel-responsesBtn-selected';
+      }
+      return 'cc-leftPanel-responsesBtn';
     }
   },
   methods: {
