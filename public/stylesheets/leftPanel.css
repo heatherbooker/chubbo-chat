@@ -24,24 +24,21 @@
 .cc-leftPanel-seperatingLine {
   width: 50%;
   margin-top: 60px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
-.cc-leftPanel-surveyBtn, .cc-leftPanel-metricsBtn, .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+a.cc-leftPanel-surveyBtn, a.cc-leftPanel-responsesBtn, a.cc-leftPanel-surveyBtn-selected, a.cc-leftPanel-responsesBtn-selected {
+  display: block;
   text-align: center;
-  padding: 5px;
   font-size: 1.8rem;
   width: 90%;
-  margin: 20px auto 10px auto;
-  border: 1px solid #ffffff;
+  margin: 19px auto;
+  padding: 9px 0px;
+  border: 1px solid transparent;
 }
 
-.cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+a.cc-leftPanel-surveyBtn-selected, a.cc-leftPanel-responsesBtn-selected {
   border: 1px solid #F0F0F0;
-}
-
-.cc-leftPanel-surveyBtn:hover, .cc-leftPanel-metricsBtn:hover, .cc-leftPanel-surveyBtn-selected:hover, .cc-leftPanel-metricsBtn-selected:hover {
-  cursor: pointer;
 }
 
 .cc-logout-leftPanel {
@@ -77,7 +74,7 @@
     margin-top: 30px;
     margin-bottom: 25px;
   }
-  .cc-leftPanel-surveyBtn, .cc-leftPanel-metricsBtn, .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-metricsBtn-selected {
+  .cc-leftPanel-surveyBtn, .cc-leftPanel-responsesBtn, .cc-leftPanel-surveyBtn-selected, .cc-leftPanel-responsesBtn-selected {
     width: 80%;
   }
 }

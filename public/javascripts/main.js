@@ -37,8 +37,21 @@ window.ChubboChat.services.router.map({
     component: window.ChubboChat.components.landing
   },
   '/dashboard': {
-    component: window.ChubboChat.components.dashboard
+    component: window.ChubboChat.components.dashboard,
+
+    subRoutes: {
+      '/survey': {
+        component: window.ChubboChat.components.surveyForm
+      },
+      '/responses': {
+        component: window.ChubboChat.components.responsesPage
+      }
+    }
   }
+});
+
+window.ChubboChat.services.router.redirect({
+  '/dashboard': '/dashboard/survey'
 });
 
 window.ChubboChat.services.router.start(window.ChubboChat.components.Main, '#chubbo-chat');
