@@ -24,6 +24,18 @@ window.ChubboChat.services.surveyApi = {
   },
 
   getSpecificSurvey: function(userId, surveyId) {
-    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys.json?orderBy="$key"&startAt="${surveyId}"&endAt="${surveyId}"`);
+    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}.json`);
+  },
+
+  sendSurveyResponses: function(userId, surveyId, surveyResponses) {
+    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}/responses.json`, {
+      method: 'post',
+      body: surveyResponses
+    });
+  },
+
+  getSurveyResponses: function(userId, surveyId) {
+    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}/responses.json`);
   }
+  
 }
