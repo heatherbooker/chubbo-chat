@@ -82,7 +82,7 @@ window.ChubboChat.components.conversation = Vue.extend({
           text: this.chatInput,
           sender: 'user'
         });
-        this.surveyResponses.push('"' + this.chatInput + '"');
+        this.surveyResponses.push(`{"text": "${this.chatInput}"}`);
         this.chatInput = '';
         //send responses to databse if survey is done
         if (this.surveyQuestions.length === 0) {
