@@ -7,6 +7,19 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cc-responsesPage-content {
+  margin: 20px;
+}
+
+.cc-responsesPage-question {
+  font-size: 18px;
+}
+
+.cc-responsesPage-question:hover {
+  cursor: pointer;
 }
