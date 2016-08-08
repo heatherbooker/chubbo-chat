@@ -1,4 +1,5 @@
 window.ChubboChat.services.surveyApi = {
+  var API_ENDPOINT = 'https://chubbo-chat.firebaseio.com';
 
   publishSurvey: function(survey) {
     var user = firebase.auth().currentUser;
@@ -7,7 +8,7 @@ window.ChubboChat.services.surveyApi = {
 
     //return fetch promise to caller 
     return tokenPromise.then(function(authToken) {
-      return fetch(`https://chubbo-chat.firebaseio.com/users/${user.uid}/surveys.json?auth=` + authToken, {
+      return fetch(`${API_ENDPOINT}/users/${user.uid}/surveys.json?auth=` + authToken, {
         method: 'post',
         body: survey
       });
@@ -19,23 +20,23 @@ window.ChubboChat.services.surveyApi = {
     var tokenPromise = user.getToken();
 
     return tokenPromise.then(function(authToken) {
-      return fetch(`https://chubbo-chat.firebaseio.com/users/${user.uid}/surveys.json?auth=` + authToken);
+      return fetch(`${API_ENDPOINT}/users/${user.uid}/surveys.json?auth=` + authToken);
     });
   },
 
   getSpecificSurvey: function(userId, surveyId) {
-    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}.json`);
+    return fetch(`${API_ENDPOINT}/users/${userId}/surveys/${surveyId}.json`);
   },
 
   sendSurveyResponses: function(userId, surveyId, surveyResponses) {
-    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}/responses.json`, {
+    return fetch(`${API_ENDPOINT}/users/${userId}/surveys/${surveyId}/responses.json`, {
       method: 'post',
       body: surveyResponses
     });
   },
 
   getSurveyResponses: function(userId, surveyId) {
-    return fetch(`https://chubbo-chat.firebaseio.com/users/${userId}/surveys/${surveyId}/responses.json`);
+    return fetch(`${API_ENDPOINT}/users/${userId}/surveys/${surveyId}/responses.json`);
   }
-  
+
 }

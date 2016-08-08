@@ -118,9 +118,7 @@ window.ChubboChat.components.conversation = Vue.extend({
     sendToDatabase: function() {
       window.ChubboChat.services.surveyApi.sendSurveyResponses(
         this.surveyInfo.userId, this.surveyInfo.surveyId, `[${this.surveyResponses}]`
-      ).then(function(response) {
-        console.log(response);
-      });
+      );
     }
   }
  });
