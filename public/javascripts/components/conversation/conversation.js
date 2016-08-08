@@ -30,7 +30,12 @@ window.ChubboChat.components.conversation = Vue.extend({
     return {
       chatInput: '',
       messages: [],
+      surveyInfo: {
+        userId: this.$route.params.userId,
+        surveyId: this.$route.params.surveyId
+      },
       surveyQuestions: [],
+      surveyResponses: [],
       botMessages: {
         hello: 'Hi there!',
         goodbye: `Thanks for taking the survey! Visit
@@ -58,13 +63,12 @@ window.ChubboChat.components.conversation = Vue.extend({
   methods: {
     setUpSurvey: function() {
       var me = this;
-      var surveyId = this.$route.params.surveyId;
-      return window.ChubboChat.services.surveyApi.getSpecificSurvey(this.$route.params.userId, surveyId)
+      return window.ChubboChat.services.surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
       .then(function(response) {
         return response.json();
       })
       .then(function(data) {
-        me.surveyQuestions = data[surveyId].questions.map(function(question) {
+        me.surveyQuestions = data.questions.map(function(question) {
           return {
             text: question,
             sender: 'bot'
@@ -78,7 +82,14 @@ window.ChubboChat.components.conversation = Vue.extend({
           text: this.chatInput,
           sender: 'user'
         });
+        this.surveyResponses.push(`{"text": "${this.chatInput}"}`);
         this.chatInput = '';
+        //send responses to databse if survey is done
+        if (this.surveyQuestions.length === 0) {
+          if (!this.isSurveyComplete) {
+            this.sendToDatabase();
+          }
+        }
         this.sendSurveyQuestion(this);
       }
     },
@@ -103,6 +114,11 @@ window.ChubboChat.components.conversation = Vue.extend({
         me.messages.push(me.surveyQuestions[0]);
         me.surveyQuestions.splice(0, 1);
       }
+    },
+    sendToDatabase: function() {
+      window.ChubboChat.services.surveyApi.sendSurveyResponses(
+        this.surveyInfo.userId, this.surveyInfo.surveyId, `[${this.surveyResponses}]`
+      );
     }
   }
  });
