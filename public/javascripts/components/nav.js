@@ -61,9 +61,7 @@ window.ChubboChat.components.navbar = Vue.extend({
     onDashboard: function() {
       //dashboard: show menu icon or logout btn (based on css media queries)
       //landing: show dashboard shortcut or login btn (based on user login status)
-      if (this.$route.path === '/dashboard') {
-        return true;
-      }
+      return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
     }
   },
   methods: {

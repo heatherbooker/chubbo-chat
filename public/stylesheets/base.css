@@ -13,6 +13,11 @@ a:hover {
 a:focus {
   color: inherit;
 }
+a:link, a:visited {
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
 
 .cc-navbar {
   border-bottom: 2px solid #F0F0F0;
