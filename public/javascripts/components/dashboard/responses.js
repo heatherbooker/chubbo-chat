@@ -18,18 +18,6 @@ window.ChubboChat.components.responsesPage = Vue.extend({
       </ol>
     </div>
   `,
-  components: {
-    'responses-list': window.ChubboChat.components.responsesList
-  },
-  ready: function() {
-    // window.ChubboChat.services.surveyApi.getSurveyResponses(`zh8Ll5U6uKUkhZe34YLtuiW8X8x2`, `-KOSjDewTnvgDDi72Fqs`)
-    //   .then(function(response) {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(function(data) {
-    //     console.log(data);
-    //   });
-  },
   data: function() {
     return {
       questions: [{
