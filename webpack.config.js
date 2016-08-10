@@ -38,7 +38,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './views/index.pug'
+      template: './src/views/index.pug'
     }),
     new webpack.ProvidePlugin({
       $: "jquery"

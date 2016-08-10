@@ -2,16 +2,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex'
 //views
-import '../views/index.pug';
+import './views/index.pug';
 //setup
-import store from '../public/javascripts/store.js';
-import router from '../public/javascripts/services/router.js';
+import store from './javascripts/store.js';
+import router from './javascripts/services/router.js';
 //services
-import Login from '../public/javascripts/services/login.js';
+import Login from './javascripts/services/login.js';
 //components
-import navbar from '../public/javascripts/components/nav.js';
+import navbar from './javascripts/components/nav.js';
 //styles
-import '../public/stylesheets/base.css'
+import './stylesheets/base.css'
 
 
 var mainComponent = Vue.extend({
