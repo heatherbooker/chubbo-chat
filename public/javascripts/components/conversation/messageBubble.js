@@ -1,4 +1,9 @@
-window.ChubboChat.components.messageBubble = Vue.extend({
+import Vue from 'vue'
+import anchorme from '../../../libs/anchorme.js'
+import store from '../../store.js'
+
+
+export default Vue.extend({
   props: ['message'],
   template: `
     <div :class="classNames.row">

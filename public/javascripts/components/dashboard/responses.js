@@ -1,4 +1,10 @@
-window.ChubboChat.components.responsesPage = Vue.extend({
+import Vue from 'vue'
+import store from '../../store.js'
+//styles
+import '../../../stylesheets/responses.css'
+
+
+export default Vue.extend({
   template: `
     <div class="cc-responsesPage">
       <h1 class="cc-responsesPage-title">Reponses</h1>

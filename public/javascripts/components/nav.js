@@ -1,15 +1,20 @@
-window.ChubboChat.components.navbar = Vue.extend({
+import Vue from 'vue';
+import store from '../store.js'
+import '../../libs/bootstrap/css/bootstrap.css'
+
+
+export default Vue.extend({
   template: `
     <div class="container-fluid">
       <div class="row cc-navbar">
         <div class="col-xs-8">
           <h1 v-link="{path: '/'}" class="cc-logo">Chubbo-Chat</h1>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" v-if="!onSimpleNav">
           <div v-show="onDashboard">
             <img
               v-on:click='handleMenu'
-              src="/images/hamburger.svg"
+              :src="menuIconSource"
               class="cc-menuIcon-mobile"
               :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
             />
@@ -53,8 +58,7 @@ window.ChubboChat.components.navbar = Vue.extend({
   `,
   data: function() {
     return {
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
+      menuIconSource: require('../../images/hamburger.svg')
     };
   },
   computed: {
@@ -62,6 +66,9 @@ window.ChubboChat.components.navbar = Vue.extend({
       //dashboard: show menu icon or logout btn (based on css media queries)
       //landing: show dashboard shortcut or login btn (based on user login status)
       return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
+    },
+    onSimpleNav: function() {
+      return (this.$route.path.substring(0, 8) === '/surveys');
     }
   },
   methods: {
@@ -93,8 +100,8 @@ window.ChubboChat.components.navbar = Vue.extend({
       user: function(state) {return state.userInfo;}
     },
     actions: {
-      showMenu: function() {this.store.dispatch('toggleLeftPanel', true);},
-      hideMenu: function() {this.store.dispatch('toggleLeftPanel', false);}
+      showMenu: function() {store.dispatch('toggleLeftPanel', true);},
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     }
   }
 });

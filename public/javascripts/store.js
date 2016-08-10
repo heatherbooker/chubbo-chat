@@ -1,5 +1,11 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex);
+
+
 //vuex state store to share state between all components
-window.ChubboChat.store = new Vuex.Store(function() {
+export default new Vuex.Store(function() {
   var userInfoDefault = {
     email: 'not signed in',
     imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'

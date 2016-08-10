@@ -1,4 +1,4 @@
-window.ChubboChat.services.surveyApi = (function() {
+export default (function() {
   var API_ENDPOINT = 'https://chubbo-chat.firebaseio.com';
 
   return {

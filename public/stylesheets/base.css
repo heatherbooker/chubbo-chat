@@ -16,7 +16,7 @@ a:focus {
 a:link, a:visited {
   text-decoration: none;
   outline: none;
-  border: none;
+  border-style: none;
 }
 
 .cc-navbar {

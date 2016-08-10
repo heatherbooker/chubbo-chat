@@ -1,7 +1,16 @@
-window.ChubboChat.components.landing = Vue.extend({
+//libraries
+import Vue from 'vue';
+import '../../libs/bootstrap/css/bootstrap.css'
+//services
+import makeDots from '../services/floatingDots.js';
+//styles
+import '../../stylesheets/landing.css'
+
+
+module.exports = Vue.extend({
   ready: function() {
     //animate background canvas
-    window.ChubboChat.services.makeDots();
+    makeDots();
   },
   template: `
     <div>
@@ -14,12 +23,18 @@ window.ChubboChat.components.landing = Vue.extend({
         </div>
         <div class="row">
           <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <div class="cc-orbisAndBtn"><img src="/images/orbis.png" class="orbis"/>
+            <div class="cc-orbisAndBtn">
+              <img :src="orbisSource" class="orbis"/>
               <div class="cc-btnStart" v-link="{path: '/dashboard'}">Create a survey!</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  `
+  `,
+  data: function() {
+    return {
+      orbisSource: require('../../images/orbis.png')
+    };
+  }
 });

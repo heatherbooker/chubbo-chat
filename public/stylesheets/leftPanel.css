@@ -37,7 +37,7 @@ a.cc-leftPanel-surveyBtn, a.cc-leftPanel-responsesBtn, a.cc-leftPanel-surveyBtn-
   border: 1px solid transparent;
 }
 
-a.cc-leftPanel-surveyBtn-selected, a.cc-leftPanel-responsesBtn-selected {
+a:link.cc-leftPanel-surveyBtn-selected, a:link.cc-leftPanel-responsesBtn-selected {
   border: 1px solid #F0F0F0;
 }
 

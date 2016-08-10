@@ -1,4 +1,69 @@
-window.ChubboChat.components.conversation = Vue.extend({
+import Vue from 'vue'
+
+import store from '../../store.js'
+
+import surveyApi from '../../services/surveyApi.js'
+//components
+import messageBubble from './messageBubble.js'
+//styles
+import '../../../stylesheets/chat.css'
+
+Vue.directive('sticky-scroll', {
+  bind: function() {
+
+    //use browser MutationObserver object
+    var observer = new MutationObserver(scrollToBottom);
+    //looking for new children that will change the height
+    var config = { childList: true };
+    observer.observe(this.el, config);
+
+    //need reference to this, otherwise 'this'=MutationObserver
+    var me = this;
+
+    function animateScroll(duration) {
+
+      var start = me.el.scrollTop;
+      var end = me.el.scrollHeight;
+      var change = end - start;
+      var increment = 20;
+
+      function easeInOut(currentTime, start, change, duration) {
+        //by Robert Penner
+        currentTime /= duration / 2;
+        if (currentTime < 1) {
+          return change / 2 * currentTime * currentTime + start;
+        }
+        currentTime -= 1;
+        return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+      }
+
+      function animate(elapsedTime) {
+        elapsedTime += increment;
+        var position = easeInOut(elapsedTime, start, change, duration);
+        me.el.scrollTop = position;
+        if (elapsedTime < duration) {
+          setTimeout(function() {
+            animate(elapsedTime);
+          }, increment)
+        }
+      }
+      animate(0);
+    }
+
+    function scrollToBottom() {
+      if (me.arg === 'animate') {
+        //default is 300
+        var duration = Number(me.expression) || 300;
+        animateScroll(duration);
+      } else {
+        //default is jump to bottom
+        me.el.scrollTop = me.el.scrollHeight;
+      }
+    }
+  }
+});
+
+export default Vue.extend({
   template: `
     <div class="cc-chatPage">
       <div class="cc-chat-content">
@@ -24,7 +89,7 @@ window.ChubboChat.components.conversation = Vue.extend({
     </div>
   `,
   components: {
-    'message-bubble': window.ChubboChat.components.messageBubble
+    'message-bubble': messageBubble
   },
   data: function() {
     return {
@@ -63,7 +128,7 @@ window.ChubboChat.components.conversation = Vue.extend({
   methods: {
     setUpSurvey: function() {
       var me = this;
-      return window.ChubboChat.services.surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
+      return surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
       .then(function(response) {
         return response.json();
       })
@@ -116,7 +181,7 @@ window.ChubboChat.components.conversation = Vue.extend({
       }
     },
     sendToDatabase: function() {
-      window.ChubboChat.services.surveyApi.sendSurveyResponses(
+      surveyApi.sendSurveyResponses(
         this.surveyInfo.userId, this.surveyInfo.surveyId, `[${this.surveyResponses}]`
       );
     }
