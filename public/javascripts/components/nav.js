@@ -1,6 +1,8 @@
+//libraries
 import Vue from 'vue';
-import store from '../store.js'
 import '../../libs/bootstrap/css/bootstrap.css'
+//vuex shared state store
+import store from '../store.js'
 
 
 export default Vue.extend({

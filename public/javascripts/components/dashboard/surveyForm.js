@@ -1,7 +1,7 @@
 //libraries
 import Vue from 'vue'
 import swal from 'sweetalert2'
-//vuex store
+//vuex shared state store
 import store from '../../store.js'
 //services
 import surveyApi from '../../services/surveyApi.js'

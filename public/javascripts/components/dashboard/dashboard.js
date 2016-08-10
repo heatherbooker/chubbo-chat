@@ -1,4 +1,6 @@
+//libraries
 import Vue from 'vue'
+//vuex shared state store
 import store from '../../store.js'
 //components
 import leftPanel from './leftPanel.js'

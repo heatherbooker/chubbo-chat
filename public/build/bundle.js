@@ -44,13 +44,12 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	module.exports = __webpack_require__(3);
+	__webpack_require__(1);
+	module.exports = __webpack_require__(2);
 
 
 /***/ },
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -489,58 +488,51 @@
 
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vuex = __webpack_require__(6);
+	var _vuex = __webpack_require__(5);
 
 	var _vuex2 = _interopRequireDefault(_vuex);
 
-	__webpack_require__(7);
+	__webpack_require__(6);
 
-	__webpack_require__(10);
-
-	var _globalApp = __webpack_require__(11);
-
-	var _globalApp2 = _interopRequireDefault(_globalApp);
-
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _router = __webpack_require__(13);
+	var _router = __webpack_require__(10);
 
 	var _router2 = _interopRequireDefault(_router);
 
-	var _login = __webpack_require__(46);
+	var _login = __webpack_require__(44);
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _nav = __webpack_require__(47);
+	var _nav = __webpack_require__(45);
 
 	var _nav2 = _interopRequireDefault(_nav);
 
-	__webpack_require__(49);
+	__webpack_require__(47);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//components
 
-	//setup
-
 	//views
 	//libraries
 	var mainComponent = _vue2.default.extend({
 	  created: function created() {
-	    //start instance of app to connect to firebase
 	    var me = this;
-	    //pass callback to login constructor to update when authorization state changes
+	    //start instance of app to connect to firebase
+	    //pass callback to login constructor to update store when authorization state changes
+	    window.ChubboChat = { services: {} };
 	    window.ChubboChat.services.login = new _login2.default(function (user) {
 	      me.updateUser(user);
 	    });
@@ -560,16 +552,17 @@
 	    }
 	  }
 	});
-
 	//styles
 
 	//services
+
+	//setup
 
 
 	_router2.default.start(mainComponent, '#chubbo-chat');
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {/*!
@@ -10646,10 +10639,10 @@
 	}, 0);
 
 	module.exports = Vue;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(5)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)))
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -10815,7 +10808,7 @@
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -11482,16 +11475,16 @@
 	}));
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pug = __webpack_require__(8);
+	var pug = __webpack_require__(7);
 
 	function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;pug_html = pug_html + "\u003C!DOCTYPE html\u003E\u003Chtml\u003E\u003Chead\u003E\u003Ctitle\u003EChubbo-Chat\u003C\u002Ftitle\u003E\u003Cmeta meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\u003E\u003Clink rel=\"stylesheet\" href=\"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Pacifico|Quicksand:300,400\"\u003E\u003Clink rel=\"stylesheet\" href=\"..\u002Fnode_modules\u002Fsweetalert2\u002Fdist\u002Fsweetalert2.min.css\"\u003E\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Cscript src=\"https:\u002F\u002Fwww.gstatic.com\u002Ffirebasejs\u002F3.1.0\u002Ffirebase.js\"\u003E\u003C\u002Fscript\u003E\u003Cscript\u003E\u002F\u002F Initialize Firebase\nvar config = {\n  apiKey: \"AIzaSyBAsiVLXUpWhLHdqFu1Ngvnyo8QrCqRDJI\",\n  authDomain: \"chubbo-chat.firebaseapp.com\",\n  databaseURL: \"https:\u002F\u002Fchubbo-chat.firebaseio.com\",\n  storageBucket: \"chubbo-chat.appspot.com\",\n};\nfirebase.initializeApp(config);\n\u003C\u002Fscript\u003E\u003Cbody\u003E\u003Cdiv id=\"chubbo-chat\"\u003E\u003C\u002Fdiv\u003E\u003C\u002Fbody\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";;return pug_html;};
 	module.exports = template;
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11724,7 +11717,7 @@
 	    throw err;
 	  }
 	  try {
-	    str = str || __webpack_require__(9).readFileSync(filename, 'utf8')
+	    str = str || __webpack_require__(8).readFileSync(filename, 'utf8')
 	  } catch (ex) {
 	    pug_rethrow(err, null, lineno)
 	  }
@@ -11751,36 +11744,13 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var pug = __webpack_require__(8);
-
-	function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;pug_html = pug_html + "\u003C!DOCTYPE html\u003E\u003Chtml\u003E\u003Chead\u003E\u003Ctitle\u003EChubbo-Chat\u003C\u002Ftitle\u003E\u003Cmeta meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\u003E\u003Clink rel=\"stylesheet\" href=\"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Pacifico|Quicksand:300,400\"\u003E\u003Clink rel=\"stylesheet\" href=\"..\u002Fnode_modules\u002Fsweetalert2\u002Fdist\u002Fsweetalert2.min.css\"\u003E\u003C\u002Fhead\u003E\u003Cbody\u003E\u003Cscript src=\"https:\u002F\u002Fwww.gstatic.com\u002Ffirebasejs\u002F3.1.0\u002Ffirebase.js\"\u003E\u003C\u002Fscript\u003E\u003Cscript\u003E\u002F\u002F Initialize Firebase\nvar config = {\n  apiKey: \"AIzaSyBAsiVLXUpWhLHdqFu1Ngvnyo8QrCqRDJI\",\n  authDomain: \"chubbo-chat.firebaseapp.com\",\n  databaseURL: \"https:\u002F\u002Fchubbo-chat.firebaseio.com\",\n  storageBucket: \"chubbo-chat.appspot.com\",\n};\nfirebase.initializeApp(config);\n\u003C\u002Fscript\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";;return pug_html;};
-	module.exports = template;
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	//register ChubboChat object on window to contain all globals
-	(function () {
-	  var ChubboChat = {
-	    services: {}
-	  };
-	  window.ChubboChat = ChubboChat;
-	})();
-
-/***/ },
-/* 12 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11789,35 +11759,44 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vuex = __webpack_require__(6);
+	var _vuex = __webpack_require__(5);
 
 	var _vuex2 = _interopRequireDefault(_vuex);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//libraries
 	_vue2.default.use(_vuex2.default);
 
 	//vuex state store to share state between all components
 	exports.default = new _vuex2.default.Store(function () {
+
 	  var userInfoDefault = {
 	    email: 'not signed in',
 	    imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
 	  };
+
 	  return {
+
 	    state: {
+
 	      isLeftPanelVisible: true,
 	      userInfo: userInfoDefault,
 	      surveys: [],
 	      drafts: []
+
 	    },
+
 	    mutations: {
+
 	      toggleLeftPanel: function toggleLeftPanel(state, newState) {
 	        state.isLeftPanelVisible = newState;
 	      },
+
 	      setUser: function setUser(state, user) {
 	        if (user) {
 	          if (!user.photoURL) {
@@ -11830,21 +11809,25 @@
 	          state.userInfo = userInfoDefault;
 	        }
 	      },
+
 	      startDraft: function startDraft(state) {
 	        state.drafts.push({ questions: [] });
 	      },
+
 	      editQuestion: function editQuestion(state, index, question) {
 	        if (state.drafts.length === 0) {
 	          state.drafts.push({ questions: [] });
 	        }
 	        state.drafts[0].questions[index] = question;
 	      },
+
 	      editTitle: function editTitle(state, title) {
 	        if (state.drafts.length === 0) {
 	          state.drafts.push({ questions: [] });
 	        }
 	        state.drafts[0].title = title;
 	      },
+
 	      publishSurvey: function publishSurvey(state, title, questions) {
 	        state.surveys.push({
 	          title: title,
@@ -11852,41 +11835,43 @@
 	        });
 	        state.drafts.splice(0, 1);
 	      }
+
 	    }
+
 	  };
 	}());
 
 /***/ },
-/* 13 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _vueRouter = __webpack_require__(14);
+	var _vueRouter = __webpack_require__(11);
 
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-	var _landing = __webpack_require__(15);
+	var _landing = __webpack_require__(12);
 
 	var _landing2 = _interopRequireDefault(_landing);
 
-	var _surveyForm = __webpack_require__(25);
+	var _surveyForm = __webpack_require__(22);
 
 	var _surveyForm2 = _interopRequireDefault(_surveyForm);
 
-	var _responses = __webpack_require__(32);
+	var _responses = __webpack_require__(29);
 
 	var _responses2 = _interopRequireDefault(_responses);
 
-	var _dashboard = __webpack_require__(35);
+	var _dashboard = __webpack_require__(32);
 
 	var _dashboard2 = _interopRequireDefault(_dashboard);
 
-	var _conversation = __webpack_require__(41);
+	var _conversation = __webpack_require__(38);
 
 	var _conversation2 = _interopRequireDefault(_conversation);
 
@@ -11933,7 +11918,7 @@
 	module.exports = router;
 
 /***/ },
-/* 14 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -14647,22 +14632,22 @@
 	}));
 
 /***/ },
-/* 15 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	__webpack_require__(16);
+	__webpack_require__(13);
 
-	var _floatingDots = __webpack_require__(20);
+	var _floatingDots = __webpack_require__(17);
 
 	var _floatingDots2 = _interopRequireDefault(_floatingDots);
 
-	__webpack_require__(22);
+	__webpack_require__(19);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14676,23 +14661,23 @@
 	  template: '\n    <div>\n      <canvas id="cc-dotsBackground"></canvas>\n      <div class="container-fluid">\n        <div class="row">\n          <div class="col-md-12">\n            <h2 class="cc-tagline">Create free surveys that feel like chats</h2>\n          </div>\n        </div>\n        <div class="row">\n          <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">\n            <div class="cc-orbisAndBtn">\n              <img :src="orbisSource" class="orbis"/>\n              <div class="cc-btnStart" v-link="{path: \'/dashboard\'}">Create a survey!</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  ',
 	  data: function data() {
 	    return {
-	      orbisSource: __webpack_require__(24)
+	      orbisSource: __webpack_require__(21)
 	    };
 	  }
 	});
 	//styles
 
 /***/ },
-/* 16 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(17);
+	var content = __webpack_require__(14);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -14709,10 +14694,10 @@
 	}
 
 /***/ },
-/* 17 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -14723,7 +14708,7 @@
 
 
 /***/ },
-/* 18 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/*
@@ -14779,7 +14764,7 @@
 
 
 /***/ },
-/* 19 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -15031,7 +15016,7 @@
 
 
 /***/ },
-/* 20 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -15221,10 +15206,10 @@
 	    })();
 	  }
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 21 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*eslint-disable no-unused-vars*/
@@ -25304,16 +25289,16 @@
 
 
 /***/ },
-/* 22 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(23);
+	var content = __webpack_require__(20);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25330,10 +25315,10 @@
 	}
 
 /***/ },
-/* 23 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -25344,13 +25329,13 @@
 
 
 /***/ },
-/* 24 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "74b61b30fb63c59fd0dc251de3a491a9.png";
 
 /***/ },
-/* 25 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -25359,31 +25344,31 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _sweetalert = __webpack_require__(26);
+	var _sweetalert = __webpack_require__(23);
 
 	var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _surveyApi = __webpack_require__(27);
+	var _surveyApi = __webpack_require__(24);
 
 	var _surveyApi2 = _interopRequireDefault(_surveyApi);
 
-	var _questionInput = __webpack_require__(28);
+	var _questionInput = __webpack_require__(25);
 
 	var _questionInput2 = _interopRequireDefault(_questionInput);
 
-	var _titleInput = __webpack_require__(29);
+	var _titleInput = __webpack_require__(26);
 
 	var _titleInput2 = _interopRequireDefault(_titleInput);
 
-	__webpack_require__(30);
+	__webpack_require__(27);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25601,12 +25586,12 @@
 
 	//components
 
-	//vuex store
+	//vuex shared state store
 	//libraries
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 26 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -26974,7 +26959,7 @@
 	}));
 
 /***/ },
-/* 27 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26982,54 +26967,50 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	var API_ENDPOINT = 'https://chubbo-chat.firebaseio.com';
 
-	exports.default = function () {
-	  var API_ENDPOINT = 'https://chubbo-chat.firebaseio.com';
+	exports.default = {
+	  publishSurvey: function publishSurvey(survey) {
+	    var user = firebase.auth().currentUser;
+	    //returns promise with authentication token
+	    var tokenPromise = user.getToken();
 
-	  return {
-
-	    publishSurvey: function publishSurvey(survey) {
-	      var user = firebase.auth().currentUser;
-	      //returns promise with authentication token
-	      var tokenPromise = user.getToken();
-
-	      //return fetch promise to caller 
-	      return tokenPromise.then(function (authToken) {
-	        return fetch(API_ENDPOINT + '/users/' + user.uid + '/surveys.json?auth=' + authToken, {
-	          method: 'post',
-	          body: survey
-	        });
-	      });
-	    },
-
-	    getSurveys: function getSurveys() {
-	      var user = firebase.auth().currentUser;
-	      var tokenPromise = user.getToken();
-
-	      return tokenPromise.then(function (authToken) {
-	        return fetch(API_ENDPOINT + '/users/' + user.uid + '/surveys.json?auth=' + authToken);
-	      });
-	    },
-
-	    getSpecificSurvey: function getSpecificSurvey(userId, surveyId) {
-	      return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '.json');
-	    },
-
-	    sendSurveyResponses: function sendSurveyResponses(userId, surveyId, surveyResponses) {
-	      return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '/responses.json', {
+	    //return fetch promise to caller 
+	    return tokenPromise.then(function (authToken) {
+	      return fetch(API_ENDPOINT + '/users/' + user.uid + '/surveys.json?auth=' + authToken, {
 	        method: 'post',
-	        body: surveyResponses
+	        body: survey
 	      });
-	    },
+	    });
+	  },
 
-	    getSurveyResponses: function getSurveyResponses(userId, surveyId) {
-	      return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '/responses.json');
-	    }
-	  };
-	}();
+	  getSurveys: function getSurveys() {
+	    var user = firebase.auth().currentUser;
+	    var tokenPromise = user.getToken();
+
+	    return tokenPromise.then(function (authToken) {
+	      return fetch(API_ENDPOINT + '/users/' + user.uid + '/surveys.json?auth=' + authToken);
+	    });
+	  },
+
+	  getSpecificSurvey: function getSpecificSurvey(userId, surveyId) {
+	    return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '.json');
+	  },
+
+	  sendSurveyResponses: function sendSurveyResponses(userId, surveyId, surveyResponses) {
+	    return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '/responses.json', {
+	      method: 'post',
+	      body: surveyResponses
+	    });
+	  },
+
+	  getSurveyResponses: function getSurveyResponses(userId, surveyId) {
+	    return fetch(API_ENDPOINT + '/users/' + userId + '/surveys/' + surveyId + '/responses.json');
+	  }
+	};
 
 /***/ },
-/* 28 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -27038,16 +27019,17 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//libraries
 	exports.default = _vue2.default.extend({
 	  props: {
 	    question: {
@@ -27109,10 +27091,11 @@
 	    }
 	  }
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	//vuex shared state store
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 29 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -27121,16 +27104,17 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//libraries
 	exports.default = _vue2.default.extend({
 	  props: {
 	    title: {
@@ -27169,19 +27153,20 @@
 	    }
 	  }
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	//vuex shared state store
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 30 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(31);
+	var content = __webpack_require__(28);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27198,10 +27183,10 @@
 	}
 
 /***/ },
-/* 31 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -27212,7 +27197,7 @@
 
 
 /***/ },
-/* 32 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27221,18 +27206,19 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	__webpack_require__(33);
+	__webpack_require__(30);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//vuex shared state store
 	exports.default = _vue2.default.extend({
 	  template: '\n    <div class="cc-responsesPage">\n      <h1 class="cc-responsesPage-title">Reponses</h1>\n      <ol class="cc-responsesPage-content">\n        <li\n          v-for="question in questions"\n          @click="question.revealResponses ? question.revealResponses = false : question.revealResponses = true"\n          class="cc-responsesPage-question"\n        >\n          {{question.text}}\n          <ul v-show="question.revealResponses">\n            <li v-for="response in question.responses">\n              {{response}}\n            </li>\n          </ul>\n        </li>\n      </ol>\n    </div>\n  ',
 	  data: function data() {
@@ -27259,18 +27245,19 @@
 	  }
 	});
 	//styles
+	//libraries
 
 /***/ },
-/* 33 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(34);
+	var content = __webpack_require__(31);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27287,10 +27274,10 @@
 	}
 
 /***/ },
-/* 34 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -27301,7 +27288,7 @@
 
 
 /***/ },
-/* 35 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27310,23 +27297,24 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _leftPanel = __webpack_require__(36);
+	var _leftPanel = __webpack_require__(33);
 
 	var _leftPanel2 = _interopRequireDefault(_leftPanel);
 
-	__webpack_require__(39);
+	__webpack_require__(36);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//components
+	//libraries
 	exports.default = _vue2.default.extend({
 	  created: function created() {
 	    this.hideMenuMobile();
@@ -27355,8 +27343,10 @@
 	});
 	//styles
 
+	//vuex shared state store
+
 /***/ },
-/* 36 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27365,18 +27355,19 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	__webpack_require__(37);
+	__webpack_require__(34);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//vuex shared state store
 	exports.default = _vue2.default.extend({
 	  template: '\n    <div v-bind:class="isLeftPanelVisible ? \'cc-leftPanel-mobile-show\' : \'cc-leftPanel-mobile-hide\'">\n      <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>\n      <p class="cc-userEmail-leftPanel"> {{ emailField }} </p>\n      <p v-link="{path: \'/\'}" v-on:click="handleLogout" class="cc-logout-leftPanel"> logout </p>\n      <hr class="cc-leftPanel-seperatingLine">\n      <a @click="hideMenu" v-link="\'/dashboard/survey\'" :class="surveyBtnClass">\n        survey\n      </a>\n      <a @click="hideMenu" v-link="\'/dashboard/responses\'" :class="responsesBtnClass">\n        responses\n      </a>\n    </div>\n  ',
 	  computed: {
@@ -27419,18 +27410,19 @@
 	  }
 	});
 	//styles
+	//libraries
 
 /***/ },
-/* 37 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(38);
+	var content = __webpack_require__(35);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27447,10 +27439,10 @@
 	}
 
 /***/ },
-/* 38 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -27461,16 +27453,16 @@
 
 
 /***/ },
-/* 39 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(37);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27487,10 +27479,10 @@
 	}
 
 /***/ },
-/* 40 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -27501,7 +27493,7 @@
 
 
 /***/ },
-/* 41 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -27510,82 +27502,32 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _surveyApi = __webpack_require__(27);
+	var _surveyApi = __webpack_require__(24);
 
 	var _surveyApi2 = _interopRequireDefault(_surveyApi);
 
-	var _messageBubble = __webpack_require__(42);
+	__webpack_require__(39);
+
+	var _messageBubble = __webpack_require__(40);
 
 	var _messageBubble2 = _interopRequireDefault(_messageBubble);
 
-	__webpack_require__(44);
+	__webpack_require__(42);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//components
-	_vue2.default.directive('sticky-scroll', {
-	  bind: function bind() {
 
-	    //use browser MutationObserver object
-	    var observer = new MutationObserver(scrollToBottom);
-	    //looking for new children that will change the height
-	    var config = { childList: true };
-	    observer.observe(this.el, config);
-
-	    //need reference to this, otherwise 'this'=MutationObserver
-	    var me = this;
-
-	    function animateScroll(duration) {
-
-	      var start = me.el.scrollTop;
-	      var end = me.el.scrollHeight;
-	      var change = end - start;
-	      var increment = 20;
-
-	      function easeInOut(currentTime, start, change, duration) {
-	        //by Robert Penner
-	        currentTime /= duration / 2;
-	        if (currentTime < 1) {
-	          return change / 2 * currentTime * currentTime + start;
-	        }
-	        currentTime -= 1;
-	        return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
-	      }
-
-	      function animate(elapsedTime) {
-	        elapsedTime += increment;
-	        var position = easeInOut(elapsedTime, start, change, duration);
-	        me.el.scrollTop = position;
-	        if (elapsedTime < duration) {
-	          setTimeout(function () {
-	            animate(elapsedTime);
-	          }, increment);
-	        }
-	      }
-	      animate(0);
-	    }
-
-	    function scrollToBottom() {
-	      if (me.arg === 'animate') {
-	        //default is 300
-	        var duration = Number(me.expression) || 300;
-	        animateScroll(duration);
-	      } else {
-	        //default is jump to bottom
-	        me.el.scrollTop = me.el.scrollHeight;
-	      }
-	    }
-	  }
-	});
-	//styles
+	//services
+	//libraries
 	exports.default = _vue2.default.extend({
 	  template: '\n    <div class="cc-chatPage">\n      <div class="cc-chat-content">\n        <div class="cc-chat-messages" v-sticky-scroll>\n          <message-bubble\n            v-for="message in messages"\n            :message="message"\n          >\n          </message-bubble>\n        </div>\n        <div class="cc-chat-inputBlock">\n          <input\n            type="text"\n            class="cc-chat-input"\n            v-model="chatInput"\n            @keyup.enter="handleSubmitMsg"\n          >\n          <span :class="sendBtnClass" @click="handleSubmitMsg">\n            send\n          </span>\n        </div>\n      </div>\n    </div>\n  ',
 	  components: {
@@ -27682,10 +27624,13 @@
 	    }
 	  }
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+	//styles
+
+	//vuex shared state store
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 42 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27694,20 +27639,92 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _anchorme = __webpack_require__(43);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _vue2.default.directive('sticky-scroll', {
+	  bind: function bind() {
+
+	    //use browser MutationObserver object
+	    var observer = new MutationObserver(scrollToBottom);
+	    //looking for new children that will change the height
+	    var config = { childList: true };
+	    observer.observe(this.el, config);
+
+	    //need reference to this, otherwise 'this'=MutationObserver
+	    var me = this;
+
+	    function animateScroll(duration) {
+
+	      var start = me.el.scrollTop;
+	      var end = me.el.scrollHeight;
+	      var change = end - start;
+	      var increment = 20;
+
+	      function easeInOut(currentTime, start, change, duration) {
+	        //by Robert Penner
+	        currentTime /= duration / 2;
+	        if (currentTime < 1) {
+	          return change / 2 * currentTime * currentTime + start;
+	        }
+	        currentTime -= 1;
+	        return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+	      }
+
+	      function animate(elapsedTime) {
+	        elapsedTime += increment;
+	        var position = easeInOut(elapsedTime, start, change, duration);
+	        me.el.scrollTop = position;
+	        if (elapsedTime < duration) {
+	          setTimeout(function () {
+	            animate(elapsedTime);
+	          }, increment);
+	        }
+	      }
+	      animate(0);
+	    }
+
+	    function scrollToBottom() {
+	      if (me.arg === 'animate') {
+	        //default is 300
+	        var duration = Number(me.expression) || 300;
+	        animateScroll(duration);
+	      } else {
+	        //default is jump to bottom
+	        me.el.scrollTop = me.el.scrollHeight;
+	      }
+	    }
+	  }
+	}); //libraries
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _vue = __webpack_require__(3);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _anchorme = __webpack_require__(41);
 
 	var _anchorme2 = _interopRequireDefault(_anchorme);
 
-	var _store = __webpack_require__(12);
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//services - anchorme finds URLs and converts to <a> tags
 	exports.default = _vue2.default.extend({
 	  props: ['message'],
 	  template: '\n    <div :class="classNames.row">\n      <div :class="classNames.message">\n        {{{finalMessage}}}\n      </div>\n    </div>\n  ',
@@ -27744,9 +27761,11 @@
 	    }
 	  }
 	});
+	//vuex shared state store
+	//libraries
 
 /***/ },
-/* 43 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28176,16 +28195,16 @@
 	})((typeof window === 'undefined' ? 'undefined' : _typeof(window)) === 'object' ? window : undefined /* it runs in node */);
 
 /***/ },
-/* 44 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(45);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -28202,10 +28221,10 @@
 	}
 
 /***/ },
-/* 45 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 
@@ -28216,7 +28235,7 @@
 
 
 /***/ },
-/* 46 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28247,7 +28266,7 @@
 	module.exports = Login;
 
 /***/ },
-/* 47 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28256,15 +28275,15 @@
 	  value: true
 	});
 
-	var _vue = __webpack_require__(4);
+	var _vue = __webpack_require__(3);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _store = __webpack_require__(12);
+	__webpack_require__(13);
+
+	var _store = __webpack_require__(9);
 
 	var _store2 = _interopRequireDefault(_store);
-
-	__webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28272,7 +28291,7 @@
 	  template: '\n    <div class="container-fluid">\n      <div class="row cc-navbar">\n        <div class="col-xs-8">\n          <h1 v-link="{path: \'/\'}" class="cc-logo">Chubbo-Chat</h1>\n        </div>\n        <div class="col-xs-4" v-if="!onSimpleNav">\n          <div v-show="onDashboard">\n            <img\n              v-on:click=\'handleMenu\'\n              :src="menuIconSource"\n              class="cc-menuIcon-mobile"\n              :class="isMenuVisible ? \'cc-menuIcon-clicked\' : \'\'"\n            />\n            <p\n              //only real users have uid\n              v-show="!user.uid"\n              v-on:click=\'handleLogin\'\n              class="cc-loginBtn"\n            >\n              login\n            </p>\n            <p\n              v-else\n              v-link="{path: \'/\'}"\n              v-on:click=\'handleLogout\'\n              class="cc-logoutBtn"\n            >\n              logout\n            </p>\n          </div>\n          <div v-else>\n            <p\n              //only real users have uid\n              v-show="!user.uid"\n              v-on:click=\'handleLogin\'\n              class="cc-loginBtn"\n            >\n              login\n            </p>\n            <p\n              v-else\n              v-link="{path: \'/dashboard\'}"\n              class="cc-dashboardShortcut"\n            >\n              dashboard\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  ',
 	  data: function data() {
 	    return {
-	      menuIconSource: __webpack_require__(48)
+	      menuIconSource: __webpack_require__(46)
 	    };
 	  },
 	  computed: {
@@ -28327,24 +28346,26 @@
 	    }
 	  }
 	});
+	//vuex shared state store
+	//libraries
 
 /***/ },
-/* 48 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "e7c2f0dd0dcb70e3b8aa3d43e90096d6.svg";
 
 /***/ },
-/* 49 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(50);
+	var content = __webpack_require__(48);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(16)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -28361,10 +28382,10 @@
 	}
 
 /***/ },
-/* 50 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(15)();
 	// imports
 
 

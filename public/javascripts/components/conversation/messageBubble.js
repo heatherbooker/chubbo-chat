@@ -1,5 +1,8 @@
+//libraries
 import Vue from 'vue'
+//services - anchorme finds URLs and converts to <a> tags
 import anchorme from '../../../libs/anchorme.js'
+//vuex shared state store
 import store from '../../store.js'
 
 

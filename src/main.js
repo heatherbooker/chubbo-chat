@@ -3,25 +3,23 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 //views
 import '../views/index.pug';
-import '../views/layout.pug';
 //setup
-import globalApp from '../public/javascripts/globalApp.js';
 import store from '../public/javascripts/store.js';
 import router from '../public/javascripts/services/router.js';
 //services
 import Login from '../public/javascripts/services/login.js';
 //components
 import navbar from '../public/javascripts/components/nav.js';
-
 //styles
 import '../public/stylesheets/base.css'
 
 
 var mainComponent = Vue.extend({
   created: function() {
-    //start instance of app to connect to firebase
     var me = this;
-    //pass callback to login constructor to update when authorization state changes
+    //start instance of app to connect to firebase
+    //pass callback to login constructor to update store when authorization state changes
+    window.ChubboChat = {services: {}};
     window.ChubboChat.services.login = new Login(function(user) {me.updateUser(user);});
   },
   template: `
