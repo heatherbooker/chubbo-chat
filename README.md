@@ -2,7 +2,7 @@
 
 ##### **a simple chat bot** to make surveys easier and more enjoyable! 
 
-uses *vue.js* with express and firebase
+uses *vue.js* with firebase and webpack
 
 **under construction**
 

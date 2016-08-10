@@ -1,4 +1,10 @@
-window.ChubboChat.components.questionInput = Vue.extend({
+//libraries
+import Vue from 'vue'
+//vuex shared state store
+import store from '../../store.js'
+
+
+export default Vue.extend({
   props: {
     question: {
       twoWay: true
@@ -27,12 +33,6 @@ window.ChubboChat.components.questionInput = Vue.extend({
       x
     </span>
   `,
-  data: function() {
-    return {
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
-    }
-  },
   computed: {
     getsFocus: function() {
       //if it's the newest input box
@@ -73,7 +73,7 @@ window.ChubboChat.components.questionInput = Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateQuestionInStore: function() {this.store.dispatch('editQuestion', this.index, this.question);}
+      updateQuestionInStore: function() {store.dispatch('editQuestion', this.index, this.question);}
     }
   }
 });

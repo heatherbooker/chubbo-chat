@@ -1,10 +1,14 @@
-window.ChubboChat.components.dashboard = Vue.extend({
-  data: function() {
-    return {
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
-    };
-  },
+//libraries
+import Vue from 'vue'
+//vuex shared state store
+import store from '../../store.js'
+//components
+import leftPanel from './leftPanel.js'
+//styles
+import '../../../stylesheets/dashboard.css'
+
+
+export default Vue.extend({
   created: function() {
     this.hideMenuMobile();
     this.createNewSurvey();
@@ -13,12 +17,12 @@ window.ChubboChat.components.dashboard = Vue.extend({
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-      <left-panel></left-panel>
+        <left-panel></left-panel>
       <router-view></router-view>
     </div>
   `,
   components: {
-    'left-panel': window.ChubboChat.components.leftPanel
+    'left-panel': leftPanel
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
@@ -26,8 +30,8 @@ window.ChubboChat.components.dashboard = Vue.extend({
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;}
     },
     actions: {
-      hideMenuMobile: function() {this.store.dispatch('toggleLeftPanel', false);},
-      createNewSurvey: function() {this.store.dispatch('startDraft');}
+      hideMenuMobile: function() {store.dispatch('toggleLeftPanel', false);},
+      createNewSurvey: function() {store.dispatch('startDraft');}
     }
   }
 });

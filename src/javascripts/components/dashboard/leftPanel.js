@@ -1,4 +1,11 @@
-window.ChubboChat.components.leftPanel = Vue.extend({
+//libraries
+import Vue from 'vue'
+//vuex shared state store
+import store from '../../store.js'
+//styles
+import '../../../stylesheets/leftPanel.css'
+
+export default Vue.extend({
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
@@ -13,12 +20,6 @@ window.ChubboChat.components.leftPanel = Vue.extend({
       </a>
     </div>
   `,
-  data: function() {
-    return {
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
-    };
-  },
   computed: {
     surveyBtnClass: function() {
       if (this.$route.path === '/dashboard/survey') {
@@ -41,7 +42,7 @@ window.ChubboChat.components.leftPanel = Vue.extend({
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
     actions: {
-      hideMenu: function() {this.store.dispatch('toggleLeftPanel', false);}
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     },
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},

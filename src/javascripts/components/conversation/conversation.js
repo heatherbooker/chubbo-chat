@@ -1,4 +1,17 @@
-window.ChubboChat.components.conversation = Vue.extend({
+//libraries
+import Vue from 'vue'
+//vuex shared state store
+import store from '../../store.js'
+//services
+import surveyApi from '../../services/surveyApi.js'
+import '../../services/stickyScroll.js'
+//components
+import messageBubble from './messageBubble.js'
+//styles
+import '../../../stylesheets/chat.css'
+
+
+export default Vue.extend({
   template: `
     <div class="cc-chatPage">
       <div class="cc-chat-content">
@@ -24,7 +37,7 @@ window.ChubboChat.components.conversation = Vue.extend({
     </div>
   `,
   components: {
-    'message-bubble': window.ChubboChat.components.messageBubble
+    'message-bubble': messageBubble
   },
   data: function() {
     return {
@@ -63,7 +76,7 @@ window.ChubboChat.components.conversation = Vue.extend({
   methods: {
     setUpSurvey: function() {
       var me = this;
-      return window.ChubboChat.services.surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
+      return surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
       .then(function(response) {
         return response.json();
       })
@@ -116,7 +129,7 @@ window.ChubboChat.components.conversation = Vue.extend({
       }
     },
     sendToDatabase: function() {
-      window.ChubboChat.services.surveyApi.sendSurveyResponses(
+      surveyApi.sendSurveyResponses(
         this.surveyInfo.userId, this.surveyInfo.surveyId, `[${this.surveyResponses}]`
       );
     }

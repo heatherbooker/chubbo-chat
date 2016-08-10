@@ -6,17 +6,13 @@ var server = express();
 var port = process.env.PORT || 3000;
 
 // view engine setup
-server.set('views', path.join(__dirname, 'views'));
+server.set('src/views', path.join(__dirname, 'src/views'));
 server.set('view engine', 'pug');
-server.use(express.static(path.join(__dirname, 'public')));
+server.use(express.static(path.join(__dirname, 'build')));
 
 
 server.get('/', function(req, res, next) {
   res.render('index');
-});
-
-server.get('/surveys', function(req, res, next) {
-  res.render('conversation');
 });
 
 server.listen(port);

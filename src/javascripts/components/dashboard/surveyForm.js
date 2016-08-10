@@ -1,4 +1,18 @@
-window.ChubboChat.components.surveyForm = Vue.extend({
+//libraries
+import Vue from 'vue'
+import swal from 'sweetalert2'
+//vuex shared state store
+import store from '../../store.js'
+//services
+import surveyApi from '../../services/surveyApi.js'
+//components
+import questionInput from './questionInput.js'
+import titleInput from './titleInput.js'
+//styles
+import '../../../stylesheets/surveyForm.css'
+
+
+export default Vue.extend({
   template: `
     <div class="cc-surveyFormPage">
       <div class="cc-surveyFormInputs">
@@ -37,8 +51,8 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     </div>
   `,
   components: {
-    'title-input': window.ChubboChat.components.titleInput,
-    'question-input': window.ChubboChat.components.questionInput
+    'title-input': titleInput,
+    'question-input': questionInput
   },
   ready: function() {
     $('.cc-titleInput').focus();
@@ -48,7 +62,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
 
       if (user) {
 
-        window.ChubboChat.services.surveyApi.getSurveys()
+        surveyApi.getSurveys()
           .then(function(response) {
             return response.json();
           })
@@ -79,9 +93,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     return {
       title: this.title,
       questions: [''],
-      titleError: false,
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
+      titleError: false
     };
   },
   methods: {
@@ -96,7 +108,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
         //find latest(most recent) survey from database
         var latestDate = 0;
         var latestSurvey;
-        for (surveyKey in data) {
+        for (var surveyKey in data) {
           if (data[surveyKey].timestamp > latestDate) {
             latestSurvey = data[surveyKey];
             latestDate = data[surveyKey].timestamp;
@@ -190,7 +202,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
     },
     publishSurveyToDatabase: function(finalQuestions) {
       var me = this;
-      return window.ChubboChat.services.surveyApi.publishSurvey(`{
+      return surveyApi.publishSurvey(`{
         "surveyTitle": "${this.title}",
         "questions": [${finalQuestions}],
         "timestamp": "${Date.now()}"
@@ -247,7 +259,7 @@ window.ChubboChat.components.surveyForm = Vue.extend({
       user: function(state) {return state.userInfo;}
     },
     actions: {
-      publishSurveyToStore: function(store, finalQuestions) {this.store.dispatch('publishSurvey', this.title, finalQuestions);}
+      publishSurveyToStore: function(store, finalQuestions) {store.dispatch('publishSurvey', this.title, finalQuestions);}
     }
   }
 });

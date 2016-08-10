@@ -1,4 +1,10 @@
-window.ChubboChat.components.titleInput = Vue.extend({
+//libraries
+import Vue from 'vue'
+//vuex shared state store
+import store from '../../store.js'
+
+
+export default Vue.extend({
   props: {
     title: {
       twoWay: true
@@ -23,12 +29,6 @@ window.ChubboChat.components.titleInput = Vue.extend({
       >
     </div>
   `,
-  data: function() {
-    return {
-      //shortcut so vuex action dispatchers can access this.store
-      store: window.ChubboChat.store
-    }
-  },
   computed: {
     hasErrorClass: function() {
       if (this.errorStatus) {
@@ -47,7 +47,7 @@ window.ChubboChat.components.titleInput = Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateTitleInStore: function() {this.store.dispatch('editTitle', this.title);}
+      updateTitleInStore: function() {store.dispatch('editTitle', this.title);}
     }
   }
 });
