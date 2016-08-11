@@ -10,6 +10,7 @@ import questionInput from './questionInput.js'
 import titleInput from './titleInput.js'
 //styles
 import '../../../stylesheets/surveyForm.css'
+import '../../../../node_modules/sweetalert2/dist/sweetalert2.min.css'
 
 
 export default Vue.extend({
