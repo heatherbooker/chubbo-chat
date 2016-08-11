@@ -9,6 +9,18 @@ import '../../../stylesheets/responses.css'
 
 
 export default Vue.extend({
+  route: {
+    canActivate: function(transition) {
+      var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          transition.next();
+          unsubscribeAuthListener();
+        } else {
+          transition.abort();
+        }
+      })
+    }
+  },
   template: `
     <div class="cc-responsesPage">
       <div class="cc-responsesPage-container">
@@ -88,6 +100,9 @@ export default Vue.extend({
       }
     },
     toggleViewReponses: function(question) {
+      if (question.responses.length < 1) {
+        question.responses.push('no responses yet :(');
+      }
       if (question.revealResponses === true) {
         question.revealResponses = false;
       } else {
