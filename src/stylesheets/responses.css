@@ -1,0 +1,67 @@
+.cc-responsesPage {
+  -webkit-box-flex: 3;
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cc-responsesPage-container {
+  width: 80%;
+}
+
+.cc-responsesPage-title {
+  font-size: 2.5rem;
+  padding: 20px 0px;
+  font-weight: 400;
+  font-variant: small-caps;
+}
+
+.cc-responsesPage-questionRow {
+  margin: 20px 0px;
+}
+
+img.cc-responsesPage-arrowIcon {
+  display: inline-block;
+  vertical-align: baseline;
+  -webkit-transition: -webkit-transform 0.4s ease-out;
+  -moz-transition: -moz-transform 0.4s ease-out;
+  -o-transition: -o-transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
+}
+
+img.cc-responsesPage-arrowIcon-rotated {
+  display: inline-block;
+  vertical-align: baseline;
+  -webkit-transition: -webkit-transform 0.4s ease-out;
+  -moz-transition: -moz-transform 0.4s ease-out;
+  -o-transition: -o-transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.cc-responsesPage-question {
+  font-size: 2.5rem;
+  display: inline-block;
+  margin: 0px;
+  padding-left: 6px;
+}
+
+.cc-responsesPage-questionRow:hover {
+  cursor: pointer;
+}
+
+.cc-responsesPage-response {
+  font-size: 2.2rem;
+  padding-left: 40px;
+}
