@@ -27,10 +27,18 @@ export default Vue.extend({
         <h2 class="cc-responsesPage-title">responses</h2>
           <div v-for="question in questions">
             <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
-              <img :src="arrowImgSrc"  :class="question.revealResponses ? arrowClassReveal : arrowClass"/>
+              <img
+                :src="arrowImgSrc"
+                :class="question.revealResponses ? arrowClassReveal : arrowClass"
+              />
               <h4 class="cc-responsesPage-question">{{question.text}}</h4>
             </div>
-            <p v-show="question.revealResponses" v-for="response in question.responses" track-by="$index" class="cc-responsesPage-response">
+            <p
+              v-show="question.revealResponses"
+              v-for="response in question.responses"
+              track-by="$index"
+              class="cc-responsesPage-response"
+            >
               {{response}}
             </p>
           </div>
