@@ -9,10 +9,6 @@ import '../../../stylesheets/dashboard.css'
 
 
 export default Vue.extend({
-  created: function() {
-    this.hideMenuMobile();
-    this.createNewSurvey();
-  },
   template: `
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
@@ -23,6 +19,10 @@ export default Vue.extend({
   `,
   components: {
     'left-panel': leftPanel
+  },
+  created: function() {
+    this.hideMenuMobile();
+    this.createNewSurvey();
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
