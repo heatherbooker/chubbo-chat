@@ -220,7 +220,7 @@ export default Vue.extend({
                 title: 'Survey successfully published',
                 html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
                 input: 'text',
-                inputValue: `https://chubbo-chat.herokuapp.com/surveys#!/${me.user.uid}/${surveyId}`
+                inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${me.user.uid}/${surveyId}`
               });
               var isTextSelected = false;
               //select and unselect all input text on click
