@@ -2,6 +2,8 @@
 import Vue from 'vue'
 //vuex shared state store
 import store from '../../store.js'
+//services
+import surveyApi from '../../services/surveyApi.js'
 //styles
 import '../../../stylesheets/responses.css'
 
@@ -9,45 +11,88 @@ import '../../../stylesheets/responses.css'
 export default Vue.extend({
   template: `
     <div class="cc-responsesPage">
-      <h1 class="cc-responsesPage-title">Reponses</h1>
-      <ol class="cc-responsesPage-content">
-        <li
-          v-for="question in questions"
-          @click="question.revealResponses ? question.revealResponses = false : question.revealResponses = true"
-          class="cc-responsesPage-question"
-        >
-          {{question.text}}
-          <ul v-show="question.revealResponses">
-            <li v-for="response in question.responses">
+      <div class="cc-responsesPage-container">
+        <h2 class="cc-responsesPage-title">responses</h2>
+          <div v-for="question in questions">
+            <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
+              <img :src="arrowImgSrc"  :class="question.revealResponses ? arrowClassReveal : arrowClass"/>
+              <h4 class="cc-responsesPage-question">{{question.text}}</h4>
+            </div>
+            <p v-show="question.revealResponses" v-for="response in question.responses" track-by="$index" class="cc-responsesPage-response">
               {{response}}
-            </li>
-          </ul>
-        </li>
-      </ol>
+            </p>
+          </div>
+      </div>
     </div>
   `,
+  ready: function() {
+    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        surveyApi.getSurveys()
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.setQuestions(data);
+              this.setResponses(data);
+              unsubscribeAuthListener();
+            });
+      }
+    });
+  },
   data: function() {
     return {
-      questions: [{
-        text: 'demo?',
-        responses: ['response', 'otherresponse'],
-        revealResponses: false
+      surveyInfo: {
+        userId: this.$route.params.userId,
+        surveyId: this.$route.params.surveyId
       },
-      {
-        text: 'Here is the second survey question??',
-        responses: ['response', 'otherresponse'],
-        revealResponses: false
-      },
-      {
-        text: 'What did you think about the third question?',
-        responses: ['response', 'otherresponse'],
-        revealResponses: false
-      }]
+      latestSurvey: {},
+      questions: [],
+      arrowImgSrc: require('../../../images/arrow-right.svg'),
+      arrowClass: 'cc-responsesPage-arrowIcon',
+      arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated'
     }
   },
   methods: {
-    toggleResponses: function() {
-      question.revealResponses = true;
+    setQuestions: function(data) {
+      //find latest(most recent) survey from database
+      var latestDate = 0;
+      var latestSurvey;
+      for (var surveyKey in data) {
+        if (data[surveyKey].timestamp > latestDate) {
+          latestSurvey = data[surveyKey];
+          latestDate = data[surveyKey].timestamp;
+        }
+      }
+      //store it for the setResponses method
+      this.latestSurvey = latestSurvey;
+      var numOfQuestions = latestSurvey.questions.length;
+      for (var i = 0; i < numOfQuestions; i ++) {
+        var newQuestion = {
+          text: latestSurvey.questions[i],
+          responses: [],
+          revealResponses: false
+        };
+        this.questions.push(newQuestion);
+      }
+    },
+    setResponses: function(data) {
+      if ('responses' in this.latestSurvey) {
+        var numOfQuestions = this.questions.length;
+        for (var responseKey in this.latestSurvey.responses) {
+          for (var i = 0; i < numOfQuestions; i ++) {
+            //i + 1 because 0 is the users greeting to the bot
+            this.questions[i].responses.push(this.latestSurvey.responses[responseKey][i + 1].text)
+          }
+        }
+      }
+    },
+    toggleViewReponses: function(question) {
+      if (question.revealResponses === true) {
+        question.revealResponses = false;
+      } else {
+        question.revealResponses = true;
+      }
     }
   }
 });
