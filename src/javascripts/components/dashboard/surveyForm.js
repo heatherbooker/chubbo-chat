@@ -76,8 +76,8 @@ export default Vue.extend({
     $('.cc-titleInput').focus();
 
     if (window.sessionStorage.getItem('cc-userSurvey')) {
-      // User has already created survey which is saved in sessionStorage:
-      // they just logged in to publish it, so let's do that.
+      // User has already started / created survey which is saved in sessionStorage:
+      // They were redirected to login after clicking either the login or publish button.
       // Also, unsubscribe to checking for user because we already have the survey.
       this.unsubscribeAuthListener();
       var survey = this.getLocalSurvey();
@@ -118,7 +118,7 @@ export default Vue.extend({
     getSurveyData: function(caller) {
       var promise = new Promise((resolve, reject) => {
         if (window.sessionStorage.getItem('cc-userSurvey')) {
-          // user has already created survey which is saved in sessionStorage
+          // User has already created survey which is saved in sessionStorage
           resolve(this.getLocalSurvey());
         }
         this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
@@ -142,7 +142,6 @@ export default Vue.extend({
       return promise;
     },
     getLocalSurvey: function() {
-      // user has already created survey which is saved in sessionStorage
       var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
       var questions = savedSurvey.questions.map((question) => {
         // remove quotes
@@ -213,7 +212,7 @@ export default Vue.extend({
           return question !== '';
         });
       }
-      // To make it valid json for sending to database
+      // Adding quotes to make it valid json for sending to database
       var finalQuestions = filteredQuestions.map(function(question) {
         return `"${question}"`;
       });
