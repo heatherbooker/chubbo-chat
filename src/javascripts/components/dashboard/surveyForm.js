@@ -26,39 +26,45 @@ export default Vue.extend({
     }
   },
   template: `
-    <div class="cc-surveyFormPage">
-      <div class="cc-surveyFormInputs">
-        <title-input
-          :title.sync="title"
-          :error-status="titleError"
-        >
-        </title-input>
-        <div
-          class="cc-questionInputRow"
-          v-for="question in questions"
-          track-by="$index"
-        >
-          <question-input
-            :question.sync="question"
-            :index="$index"
-            :max-index="this.questions.length - 1"
+    <div class="cc-surveyFormPage-container">
+      <span
+        v-if="$loadingRouteData"
+        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
+      </span>
+      <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
+        <div class="cc-surveyFormInputs">
+          <title-input
+            :title.sync="title"
+            :error-status="titleError"
           >
-          </question-input>
+          </title-input>
+          <div
+            class="cc-questionInputRow"
+            v-for="question in questions"
+            track-by="$index"
+          >
+            <question-input
+              :question.sync="question"
+              :index="$index"
+              :max-index="this.questions.length - 1"
+            >
+            </question-input>
+          </div>
         </div>
-      </div>
-      <div class="cc-submitBtnContainer">
-        <span
-          class="cc-addQuestionInputBtn"
-          v-on:click="addQuestionInput"
-        >
-          +
-        </span>
-        <span
-          class="cc-submitSurveyFormBtn"
-          v-on:click="handlePublishButton"
-        >
-          Publish
-        </span>
+        <div class="cc-submitBtnContainer">
+          <span
+            class="cc-addQuestionInputBtn"
+            v-on:click="addQuestionInput"
+          >
+            +
+          </span>
+          <span
+            class="cc-submitSurveyFormBtn"
+            v-on:click="handlePublishButton"
+          >
+            Publish
+          </span>
+        </div>
       </div>
     </div>
   `,
