@@ -16,8 +16,8 @@ import '../../../stylesheets/surveyForm.css'
 export default Vue.extend({
   route: {
     data: function(transition) {
-      this.getSurveyData()
-          .then(surveyData => {
+      this.getSurveyData('router')
+          .then((surveyData) => {
             transition.next({
               title: surveyData.title,
               questions: surveyData.questions
@@ -75,7 +75,7 @@ export default Vue.extend({
   ready: function() {
     $('.cc-titleInput').focus();
 
-    if (window.localStorage.getItem('isNewlySignedIn')) {
+    if (window.sessionStorage.getItem('cc-userSurvey')) {
       //user has already created survey which is saved in sessionStorage
       //they just logged in to publish it, so let's do that
       new Promise((resolve, reject) => {
@@ -87,6 +87,11 @@ export default Vue.extend({
         (this.publishToDatabaseAndStore(this.tidyQuestions(), this));
       });
     }
+
+    //listen for user logging in
+    document.addEventListener('cc-refreshDash', () => {
+      this.updateData();
+    })
   },
   data: function() {
     return {
@@ -96,20 +101,33 @@ export default Vue.extend({
     };
   },
   methods: {
-    getSurveyData: function() {
+    updateData: function() {
+      this.getSurveyData().then((survey) => {
+        this.title = survey.title;
+        this.questions = survey.questions;
+      })
+    },
+    getSurveyData: function(caller) {
       var promise = new Promise((resolve, reject) => {
-        if (window.localStorage.getItem('isNewlySignedIn')) {
+        if (window.sessionStorage.getItem('cc-userSurvey')) {
           //user has already created survey which is saved in sessionStorage
           resolve(this.getLocalSurvey());
         }
         this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
           if (user) {
-            surveyApi.getSurveys()
+            return surveyApi.getSurveys()
                 .then(response => response.json())
                 .then((jsonResponse) => {
                   this.unsubscribeAuthListener();
-                  resolve(this.getLatestSurvey(jsonResponse));
+                  var surevy = this.getLatestSurvey(jsonResponse);
+                  if (caller === 'router') {
+                    this.title = surevy.title;
+                    this.questions = surevy.questions;
+                  }
+                  resolve(surevy);
                 });
+          } else {
+            resolve({title: '', questions: ['']});
           }
         });
       });
@@ -136,7 +154,6 @@ export default Vue.extend({
           latestDate = data[surveyKey].timestamp;
         }
       }
-
       return {title: latestSurvey.surveyTitle, questions: latestSurvey.questions};
     },
     addQuestionInput: function() {
@@ -240,7 +257,7 @@ export default Vue.extend({
                     title: 'Survey successfully published',
                     html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
                     input: 'text',
-                    inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${me.user.uid}/${surveyId}`
+                    inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${me.userId}/${surveyId}`
                   });
                   var isTextSelected = false;
                   //select and unselect all input text on click
@@ -277,8 +294,8 @@ export default Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      user: function(state) {
-        return state.userInfo;
+      userId: function(state) {
+        return state.userInfo.uid;
       }
     },
     actions: {

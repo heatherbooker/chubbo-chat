@@ -70,6 +70,7 @@ export default Vue.extend({
       return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
     },
     onSimpleNav: function() {
+      //conversation page: no login
       return (this.$route.path.substring(0, 8) === '/surveys');
     }
   },
@@ -80,6 +81,7 @@ export default Vue.extend({
       firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
           me.$router.go('/dashboard');
+          document.dispatchEvent(new Event('cc-refreshDash'));
         }
       })
     },
