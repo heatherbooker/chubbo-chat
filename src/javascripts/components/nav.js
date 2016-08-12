@@ -76,6 +76,7 @@ export default Vue.extend({
   },
   methods: {
     handleLogin: function() {
+      document.dispatchEvent(new Event('cc-saveSurveyState'));
       window.ChubboChat.services.login.signIn();
       var me = this;
       firebase.auth().onAuthStateChanged(function(user) {
