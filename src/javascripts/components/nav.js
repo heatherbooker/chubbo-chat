@@ -70,16 +70,21 @@ export default Vue.extend({
       return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
     },
     onSimpleNav: function() {
+      // Conversation page: login option is not available, therefore no need to show login button.
       return (this.$route.path.substring(0, 8) === '/surveys');
     }
   },
   methods: {
     handleLogin: function() {
+      // Survey Form component is listening to this event
+      document.dispatchEvent(new Event('cc-saveSurveyState'));
       window.ChubboChat.services.login.signIn();
       var me = this;
       firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
           me.$router.go('/dashboard');
+          // Survey Form component is listening to this event
+          document.dispatchEvent(new Event('cc-refreshDash'));
         }
       })
     },
