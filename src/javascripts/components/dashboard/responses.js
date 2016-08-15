@@ -19,47 +19,51 @@ export default Vue.extend({
           transition.abort();
         }
       })
+    },
+    data: function(transition) {
+      var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          surveyApi.getSurveys()
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                transition.next();
+                this.setQuestions(data);
+                this.setResponses(data);
+                unsubscribeAuthListener();
+              });
+        }
+      });
     }
   },
   template: `
     <div class="cc-responsesPage">
-      <div class="cc-responsesPage-container">
-        <h2 class="cc-responsesPage-title">responses</h2>
-          <div v-for="question in questions">
-            <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
-              <img
-                :src="arrowImgSrc"
-                :class="question.revealResponses ? arrowClassReveal : arrowClass"
-              />
-              <h4 class="cc-responsesPage-question">{{question.text}}</h4>
-            </div>
-            <p
-              v-show="question.revealResponses"
-              v-for="response in question.responses"
-              track-by="$index"
-              class="cc-responsesPage-response"
-            >
-              {{response}}
-            </p>
+      <span
+        v-if="$loadingRouteData"
+        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
+      </span>
+      <div v-if="!$loadingRouteData" class="cc-responsesPage-container">
+        <div v-for="question in questions">
+          <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
+            <img
+              :src="arrowImgSrc"
+              :class="question.revealResponses ? arrowClassReveal : arrowClass"
+            />
+            <p class="cc-responsesPage-question">{{question.text}}</p>
           </div>
+          <p
+            v-show="question.revealResponses"
+            v-for="response in question.responses"
+            track-by="$index"
+            class="cc-responsesPage-response"
+          >
+            {{response}}
+          </p>
+        </div>
       </div>
     </div>
   `,
-  ready: function() {
-    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        surveyApi.getSurveys()
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              this.setQuestions(data);
-              this.setResponses(data);
-              unsubscribeAuthListener();
-            });
-      }
-    });
-  },
   data: function() {
     return {
       surveyInfo: {

@@ -6,6 +6,7 @@ import store from '../../store.js'
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
+  props: ['isLoggedIn'],
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
@@ -17,31 +18,8 @@ export default Vue.extend({
         v-show="isLoggedIn"
       > logout </p>
       <hr class="cc-leftPanel-seperatingLine">
-      <a @click="hideMenu" v-link="'/dashboard/survey'" :class="surveyBtnClass">
-        survey
-      </a>
-      <a
-        @click="hideMenu"
-        v-link="'/dashboard/responses'"
-        :class="responsesBtnClass"
-        v-show="isLoggedIn"
-      >
-        responses
-      </a>
     </div>
   `,
-  created: function() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-      }
-    });
-  },
-  data: function() {
-    return {
-      isLoggedIn: false
-    };
-  },
   computed: {
     surveyBtnClass: function() {
       if (this.$route.path === '/dashboard/survey') {

@@ -4,6 +4,7 @@ import Vue from 'vue'
 import store from '../../store.js'
 //components
 import leftPanel from './leftPanel.js'
+import tabBar from './tabBar.js'
 //styles
 import '../../../stylesheets/dashboard.css'
 
@@ -13,16 +14,30 @@ export default Vue.extend({
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-        <left-panel></left-panel>
-      <router-view></router-view>
+      <left-panel :is-logged-in="isLoggedIn"></left-panel>
+      <div class="cc-dashboard-main">
+        <tab-bar :is-logged-in="isLoggedIn"></tab-bar>
+        <router-view></router-view>
+      </div>
     </div>
   `,
   components: {
-    'left-panel': leftPanel
+    'left-panel': leftPanel,
+    'tab-bar': tabBar
   },
   created: function() {
     this.hideMenuMobile();
     this.createNewSurvey();
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.isLoggedIn = true;
+      }
+    });
+  },
+  data: function() {
+    return {
+      isLoggedIn: false
+    };
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {

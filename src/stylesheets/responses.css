@@ -1,8 +1,8 @@
 .cc-responsesPage {
-  -webkit-box-flex: 3;
-  -webkit-flex: 3;
-  -ms-flex: 3;
-  flex: 3;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -14,13 +14,7 @@
 
 .cc-responsesPage-container {
   width: 80%;
-}
-
-.cc-responsesPage-title {
-  font-size: 2.5rem;
-  padding: 20px 0px;
-  font-weight: 400;
-  font-variant: small-caps;
+  padding-top: 12px;
 }
 
 .cc-responsesPage-questionRow {
