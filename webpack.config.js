@@ -1,5 +1,9 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+// Dashboard is a nice CLI display for webpack output.
+var Dashboard = require('webpack-dashboard');
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var dashboard = new Dashboard();
 
 module.exports = {
 
@@ -42,6 +46,11 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       $: "jquery"
-    })
-  ]
+    }),
+    new DashboardPlugin(dashboard.setData)
+  ],
+  
+  devServer: {
+    stats: 'errors-only',
+  },
 };

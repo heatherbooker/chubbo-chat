@@ -6,7 +6,7 @@ import store from '../../store.js'
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
-  props: ['isLoggedIn'],
+  props: ['isLoggedIn', 'surveys'],
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
@@ -17,7 +17,17 @@ export default Vue.extend({
         class="cc-logout-leftPanel"
         v-show="isLoggedIn"
       > logout </p>
-      <hr class="cc-leftPanel-seperatingLine">
+      <hr class="cc-leftPanel-seperatingLine" v-show="!isLoggedIn">
+      <button class="cc-newSurveyBtn" v-show="isLoggedIn">+ Create Survey</button>
+      <div class="cc-leftPanel-surveyList">
+        <div
+          @click="toggleSelectedSurvey(survey)"
+          v-for="survey in surveys"
+          :class="survey.isSelected ? 'cc-leftPanel-survey-selected' : 'cc-leftPanel-survey'"
+        >
+          {{ survey.title }}
+        </div>
+      </div>
     </div>
   `,
   computed: {
@@ -37,6 +47,9 @@ export default Vue.extend({
   methods: {
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
+    },
+    toggleSelectedSurvey: function(survey) {
+      survey.isSelected = true;
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component

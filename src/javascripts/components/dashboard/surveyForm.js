@@ -14,24 +14,10 @@ import '../../../stylesheets/surveyForm.css'
 
 
 export default Vue.extend({
-  route: {
-    data: function(transition) {
-      this.getSurveyData('router')
-          .then((surveyData) => {
-            transition.next({
-              title: surveyData.title,
-              questions: surveyData.questions
-            });
-          });
-    }
-  },
+  props: ['survey'],
   template: `
     <div class="cc-surveyFormPage-container">
-      <span
-        v-if="$loadingRouteData"
-        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
-      </span>
-      <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
+      <div class="cc-surveyFormPage">
         <div class="cc-surveyFormInputs">
           <title-input
             :title.sync="title"
@@ -103,7 +89,7 @@ export default Vue.extend({
   },
   data: function() {
     return {
-      title: this.title,
+      title: this.survey.title,
       questions: [''],
       titleError: false
     };

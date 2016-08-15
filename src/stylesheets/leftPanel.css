@@ -8,17 +8,18 @@
 }
 
 .cc-userIcon-leftPanel {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: block;
-  margin: 0px auto 30px auto;
+  margin: 0px auto 18px auto;
 }
 
 .cc-userEmail-leftPanel {
   color: #545454;
   text-align: center;
   margin: 10px;
+  font-size: 10pt;
 }
 
 .cc-leftPanel-seperatingLine {
@@ -27,18 +28,42 @@
   margin-bottom: 30px;
 }
 
-a.cc-leftPanel-surveyBtn, a.cc-leftPanel-responsesBtn, a.cc-leftPanel-surveyBtn-selected, a.cc-leftPanel-responsesBtn-selected {
+.cc-newSurveyBtn {
+  width: 70%;
+  min-width: 180px;
+  background-color: #EFF6FF;
+  border-radius: 30px;
+  padding: 12px 0px;
+  margin: auto;
+  border: none;
   display: block;
-  text-align: center;
-  font-size: 1.8rem;
-  width: 90%;
-  margin: 19px auto;
-  padding: 9px 0px;
-  border: 1px solid transparent;
+  margin-top: 30px;
+  color: #545454;
+  font-size: 12pt;
 }
 
-a:link.cc-leftPanel-surveyBtn-selected, a:link.cc-leftPanel-responsesBtn-selected {
-  border: 1px solid #F0F0F0;
+.cc-leftPanel-surveyList {
+  width: 100%;
+  margin: 40px 0px;
+  border-top: 3px solid #F0F0F0;
+}
+
+.cc-leftPanel-survey, .cc-leftPanel-survey-selected {
+  width: 100%;
+  border-bottom: 3px solid #F0F0F0;
+  height: 80px;
+  line-height: 75px;
+  padding-left: 85px;
+  font-size: 14pt;
+  color: #545454;
+}
+
+.cc-leftPanel-survey-selected {
+  background-color: #F9F9F9;
+}
+
+.cc-leftPanel-survey:hover, .cc-leftPanel-survey-selected:hover {
+  cursor: pointer;
 }
 
 .cc-logout-leftPanel {
