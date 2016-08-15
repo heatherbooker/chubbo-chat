@@ -44,8 +44,10 @@
 
 .cc-leftPanel-surveyList {
   width: 100%;
-  margin: 40px 0px;
+  height: 245px;
+  margin-top: 40px;
   border-top: 3px solid #F0F0F0;
+  overflow-y: auto;
 }
 
 .cc-leftPanel-survey, .cc-leftPanel-survey-selected {

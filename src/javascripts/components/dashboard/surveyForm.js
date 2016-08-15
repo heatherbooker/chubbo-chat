@@ -14,7 +14,7 @@ import '../../../stylesheets/surveyForm.css'
 
 
 export default Vue.extend({
-  props: ['survey'],
+  props: ['surveys'],
   template: `
     <div class="cc-surveyFormPage-container">
       <div class="cc-surveyFormPage">
@@ -60,37 +60,17 @@ export default Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
-
-    if (window.sessionStorage.getItem('cc-userSurvey')) {
-      // User has already started / created survey which is saved in sessionStorage:
-      // They were redirected to login after clicking either the login or publish button.
-      // Also, unsubscribe to checking for user because we already have the survey.
-      this.unsubscribeAuthListener();
-      var survey = this.getLocalSurvey();
-      var questions = this.tidyQuestions(survey.questions);
-      if (survey.isForPublishing) {
-        this.publishToDatabaseAndStore(survey.title, questions, this);
-      }
-    }
-
+    
     // Listen for user logging in so we can save their half-written survey.
     document.addEventListener('cc-saveSurveyState', () => {
       // Last arg is false to indicate this survey should not be published.
       this.setLocalSurvey(this.title, this.tidyQuestions(this.questions), false);
     });
-    document.addEventListener('cc-refreshDash', () => {
-      this.updateData()
-          .then(() => {
-              // Clean up so that if there was a local survey, it is not
-              // found erroneously next time page is loaded or when user clicks 'Publish'.
-              window.sessionStorage.removeItem('cc-userSurvey');
-          });
-    });
   },
   data: function() {
     return {
-      title: this.survey.title,
-      questions: [''],
+      title: this.surveys[0].title,
+      questions: this.surveys[0].questions,
       titleError: false
     };
   },
@@ -100,40 +80,6 @@ export default Vue.extend({
         this.title = survey.title;
         this.questions = survey.questions;
       })
-    },
-    getSurveyData: function(caller) {
-      var promise = new Promise((resolve, reject) => {
-        if (window.sessionStorage.getItem('cc-userSurvey')) {
-          // User has already created survey which is saved in sessionStorage
-          resolve(this.getLocalSurvey());
-        }
-        this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            return surveyApi.getSurveys()
-                .then(response => response.json())
-                .then((jsonResponse) => {
-                  this.unsubscribeAuthListener();
-                  var survey = this.getLatestSurvey(jsonResponse);
-                  if (caller === 'router') {
-                    this.title = survey.title;
-                    this.questions = survey.questions;
-                  }
-                  resolve(survey);
-                });
-          } else {
-            resolve({title: '', questions: ['']});
-          }
-        });
-      });
-      return promise;
-    },
-    getLocalSurvey: function() {
-      var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
-      var questions = savedSurvey.questions.map((question) => {
-        // remove quotes
-        return question.substring(1, question.length - 1);
-      });
-      return {title: savedSurvey.title, questions};
     },
     getLatestSurvey: function(data) {
       // find latest(most recent) survey from database
@@ -158,7 +104,7 @@ export default Vue.extend({
     handlePublishButton: function() {
       var me = this;
       // Make sure we are not still looking for a user to populate survey fields with past data.
-      this.unsubscribeAuthListener();
+      //this.unsubscribeAuthListener();
       if (this.isValidatedData(this.title, this.questions)) {
         var finalQuestions = this.tidyQuestions(this.questions);
         if (!firebase.auth().currentUser) {

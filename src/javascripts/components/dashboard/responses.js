@@ -9,6 +9,7 @@ import '../../../stylesheets/responses.css'
 
 
 export default Vue.extend({
+  props: ['surveys'],
   route: {
     canActivate: function(transition) {
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
@@ -23,14 +24,13 @@ export default Vue.extend({
     data: function(transition) {
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          surveyApi.getSurveys()
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                transition.next();
-                this.setQuestions(data);
-                this.setResponses(data);
+          this.getQuestions(this.surveys)
+              .then((questions) => {
+                transition.next({
+                  latestSurvey: this.surveys[0],
+                  questions
+                });
+                this.setResponses(this.surveys);
                 unsubscribeAuthListener();
               });
         }
@@ -46,7 +46,7 @@ export default Vue.extend({
               :src="arrowImgSrc"
               :class="question.revealResponses ? arrowClassReveal : arrowClass"
             />
-            <p class="cc-responsesPage-question">{{question.text}}</p>
+            <p class="cc-responsesPage-question">{{ question.text }}</p>
           </div>
           <p
             v-show="question.revealResponses"
@@ -54,7 +54,7 @@ export default Vue.extend({
             track-by="$index"
             class="cc-responsesPage-response"
           >
-            {{response}}
+            {{ response }}
           </p>
         </div>
       </div>
@@ -62,10 +62,6 @@ export default Vue.extend({
   `,
   data: function() {
     return {
-      surveyInfo: {
-        userId: this.$route.params.userId,
-        surveyId: this.$route.params.surveyId
-      },
       latestSurvey: {},
       questions: [],
       arrowImgSrc: require('../../../images/arrow-right.svg'),
@@ -74,7 +70,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    setQuestions: function(data) {
+    getQuestions: function(data) {
       //find latest(most recent) survey from database
       var latestDate = 0;
       var latestSurvey;
@@ -86,15 +82,21 @@ export default Vue.extend({
       }
       //store it for the setResponses method
       this.latestSurvey = latestSurvey;
-      var numOfQuestions = latestSurvey.questions.length;
-      for (var i = 0; i < numOfQuestions; i ++) {
-        var newQuestion = {
-          text: latestSurvey.questions[i],
-          responses: [],
-          revealResponses: false
-        };
-        this.questions.push(newQuestion);
-      }
+
+      var promise = new Promise((resolve, reject) => {
+        var questions = [];
+        var numOfQuestions = latestSurvey.questions.length;
+        for (var i = 0; i < numOfQuestions; i ++) {
+          var newQuestion = {
+            text: latestSurvey.questions[i],
+            responses: [],
+            revealResponses: false
+          };
+          questions.push(newQuestion);
+        }
+        resolve(questions);
+      });
+      return promise;
     },
     setResponses: function(data) {
       if ('responses' in this.latestSurvey) {
