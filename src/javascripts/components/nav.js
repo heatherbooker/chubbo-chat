@@ -67,7 +67,7 @@ export default Vue.extend({
     onDashboard: function() {
       //dashboard: show menu icon or logout btn (based on css media queries)
       //landing: show dashboard shortcut or login btn (based on user login status)
-      return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
+      return (this.$route.path.substring(0, 10) === '/dashboard');
     },
     onSimpleNav: function() {
       // Conversation page: login option is not available, therefore no need to show login button.
@@ -76,20 +76,29 @@ export default Vue.extend({
   },
   methods: {
     handleLogin: function() {
-      // Survey Form component is listening to this event
-      document.dispatchEvent(new Event('cc-saveSurveyState'));
+      if (this.onDashboard) {
+        // Survey Form component is listening to this event
+        document.dispatchEvent(new Event('cc-saveSurveyState'));
+      }
       window.ChubboChat.services.login.signIn();
       var me = this;
       firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
-          me.$router.go('/dashboard');
-          // Dashboard component is listening to this event
-          document.dispatchEvent(new Event('cc-refreshDash'));
+        if (user) {
+          if (!this.onDashboard) {
+            me.$router.go('/dashboard');
+          }
+          // if (window.sessionStorage.getItem('cc-userSurvey')) {
+          //   // Dashboard component is listening to this event
+          //   document.dispatchEvent(new Event('cc-refreshDash'));
+          // }
         }
       })
     },
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
+      // Clean up so that if there was a local survey, it is not
+      // found erroneously next time page is loaded or when user clicks 'Publish'.
+      window.sessionStorage.removeItem('cc-userSurvey');
     },
     handleMenu: function() {
       //show or hide menu on menu icon click

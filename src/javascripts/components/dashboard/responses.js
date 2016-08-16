@@ -22,12 +22,17 @@ export default Vue.extend({
       })
     },
     data: function(transition) {
+      var unpublished = false;
+      if (this.$route.params.title === '$creating_survey') {
+        unpublished = true;
+      }
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.getQuestions(this.survey)
               .then((questions) => {
                 transition.next({
-                  questions
+                  questions,
+                  unpublished
                 });
                 this.setResponses(this.survey);
                 unsubscribeAuthListener();
@@ -39,7 +44,7 @@ export default Vue.extend({
   template: `
     <div class="cc-responsesPage">
       <div class="cc-responsesPage-container">
-        <div v-for="question in questions">
+        <div v-for="question in questions" v-if="!unpublished">
           <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
             <img
               :src="arrowImgSrc"
@@ -56,12 +61,16 @@ export default Vue.extend({
             {{ response }}
           </p>
         </div>
+        <p v-if="unpublished" class="cc-responsesPage-errorNotice">
+          Publish your current survey or <br> select a published survey to see responses!
+        </p>
       </div>
     </div>
   `,
   data: function() {
     return {
       questions: [],
+      unpublished: true,
       arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
       arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated'

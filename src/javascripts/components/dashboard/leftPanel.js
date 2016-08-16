@@ -6,7 +6,7 @@ import store from '../../store.js'
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
-  props: ['isLoggedIn', 'surveysProp'],
+  props: ['isLoggedIn', 'surveys'],
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
@@ -18,13 +18,18 @@ export default Vue.extend({
         v-show="isLoggedIn"
       > logout </p>
       <hr class="cc-leftPanel-seperatingLine" v-show="!isLoggedIn">
-      <button class="cc-newSurveyBtn" v-show="isLoggedIn">+ Create Survey</button>
-      <div class="cc-leftPanel-surveyList" v-if="surveys.length > 0">
+      <button
+        class="cc-newSurveyBtn"
+        v-show="isLoggedIn"
+        v-link="{path: '/dashboard/surveys/$creating_survey'}"
+      >
+        + Create Survey
+      </button>
+      <div class="cc-leftPanel-surveyList" v-if="isLoggedIn">
         <div
           v-for="survey in surveys"
-          @click="toggleSelectedSurvey(survey)"
           v-link="{path: pathRoot + survey.title}"
-          :class="survey.isSelected ? 'cc-leftPanel-survey-selected' : 'cc-leftPanel-survey'"
+          class="cc-leftPanel-survey"
         >
           {{ survey.title }}
         </div>
@@ -32,9 +37,6 @@ export default Vue.extend({
     </div>
   `,
   computed: {
-    surveys: function() {
-      return this.surveysProp.map(survey => survey);
-    },
     pathRoot: function() {
       if (this.$route.path.substring(11, 18) === 'surveys') {
         return '/dashboard/surveys/';
@@ -45,12 +47,9 @@ export default Vue.extend({
   methods: {
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
-    },
-    toggleSelectedSurvey: function(clickedSurvey) {
-      this.surveys.forEach((survey) => {
-        survey.isSelected = false;
-      });
-      clickedSurvey.isSelected = true;
+      // Clean up so that if there was a local survey, it is not
+      // found erroneously next time page is loaded or when user clicks 'Publish'.
+      window.sessionStorage.removeItem('cc-userSurvey');
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component

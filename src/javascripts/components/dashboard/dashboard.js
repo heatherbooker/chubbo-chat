@@ -16,17 +16,45 @@ export default Vue.extend({
     data: function(transition) {
       this.getSurveyData()
           .then((surveyData) => {
-            if (!this.$route.params.title) {
-              var latestSurvey = this.getLatestSurvey(this.surveys);
-              transition.redirect(`/dashboard/surveys/${latestSurvey.title}`);
-            }
-            else {
-              var title = this.$route.params.title;
-              var selectedSurvey = this.getSurveyByTitle(this.surveys, title);
+
+            if (this.$route.params.title === '$creating_survey') {
+              if (surveyData[0].title !== '' && surveyData[0].isLocal) {
+                transition.redirect(`/dashboard/surveys/${surveyData[0].title}`);
+              }
+              var selectedSurvey;
+              if (surveyData[0].isLocal) {
+                selectedSurvey = surveyData[0];
+              } else {
+                selectedSurvey = {title: '', questions: ['']};
+              }
               transition.next({
                 surveys: surveyData,
                 selectedSurvey
               });
+
+            } else if (this.isLoggedIn) {
+
+              if (!this.$route.params.title) {
+                var latestSurvey = this.getLatestSurvey(surveyData);
+                transition.redirect(`/dashboard/surveys/${latestSurvey.title}`);
+
+              } else {
+                var title = this.$route.params.title;
+                var selectedSurvey = this.getSurveyByTitle(surveyData, title);
+                transition.next({
+                  surveys: surveyData,
+                  selectedSurvey
+                });
+              }
+
+            } else if (surveyData[0].isLocal) {
+              transition.next({
+                surveys: surveyData,
+                selectedSurvey: surveyData[0]
+              });
+
+            } else {
+              transition.redirect('/dashboard/surveys/$creating_survey');
             }
           });
       }
@@ -35,7 +63,7 @@ export default Vue.extend({
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-      <left-panel :is-logged-in="isLoggedIn" :surveys-prop="surveys"></left-panel>
+      <left-panel :is-logged-in="isLoggedIn" :surveys="surveys"></left-panel>
       <div class="cc-dashboard-main">
         <tab-bar :is-logged-in="isLoggedIn"></tab-bar>
         <span
@@ -67,30 +95,25 @@ export default Vue.extend({
     });
   },
   ready: function() {
-    // if (window.sessionStorage.getItem('cc-userSurvey')) {
-    //   // User has already started / created survey which is saved in sessionStorage:
-    //   // They were redirected to login after clicking either the login or publish button.
-    //   // Also, unsubscribe to checking for user because we already have the survey.
-    //   this.unsubscribeAuthListener();
-    //   var survey = this.getLocalSurvey();
-    //   // var questions = this.tidyQuestions(survey.questions);
-    //   // if (survey.isForPublishing) {
-    //   //   this.publishToDatabaseAndStore(survey.title, questions, this);
-    //   // }
-    // }
 
-    document.addEventListener('cc-refreshDash', () => {
-      this.getSurveyData()
-          .then((surveyData) => {
-            this.surveys = surveyData;
-            // Clean up so that if there was a local survey, it is not
-            // found erroneously next time page is loaded or when user clicks 'Publish'.
-            window.sessionStorage.removeItem('cc-userSurvey');
-          });
-    });
+    document.addEventListener('cc-refreshDash', (e) => {
+      if (e.detail) {
+        this.$router.go(`/dashboard/surveys/${e.detail}`);
+      } else if (!this.$route.params.title) {
+        this.$router.go('/dashboard/surveys/$creating_survey');
+      } else {
+        this.getSurveyData()
+            .then((surveyData) => {
+              this.surveys = surveyData;
+              // Clean up so that if there was a local survey, it is not
+              // found erroneously next time page is loaded or when user clicks 'Publish'.
+              window.sessionStorage.removeItem('cc-userSurvey');
+            });
+        }
+      });
   },
   methods: {
-    getSurveyData: function(caller) {
+    getSurveyData: function() {
       var promise = new Promise((resolve, reject) => {
         if (window.sessionStorage.getItem('cc-userSurvey')) {
           // User has already created survey which is saved in sessionStorage
@@ -139,7 +162,12 @@ export default Vue.extend({
         // remove quotes
         return question.substring(1, question.length - 1);
       });
-      return [{title: savedSurvey.title, questions}];
+      return {
+        title: savedSurvey.title,
+        questions,
+        isLocal: true,
+        isForPublishing: savedSurvey.isForPublishing
+      };
     },
     getLatestSurvey: function(surveys) {
       // find latest(most recent) survey from database

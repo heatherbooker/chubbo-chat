@@ -17,6 +17,12 @@
   padding-top: 12px;
 }
 
+.cc-responsesPage-errorNotice {
+  padding: 60px 30px;
+  font-size: 16pt;
+  text-align: center;
+}
+
 .cc-responsesPage-questionRow {
   margin: 20px 0px;
 }
