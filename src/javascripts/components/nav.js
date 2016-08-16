@@ -83,7 +83,7 @@ export default Vue.extend({
       firebase.auth().onAuthStateChanged(function(user) {
         if(user) {
           me.$router.go('/dashboard');
-          // Survey Form component is listening to this event
+          // Dashboard component is listening to this event
           document.dispatchEvent(new Event('cc-refreshDash'));
         }
       })

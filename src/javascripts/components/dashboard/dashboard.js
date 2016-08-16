@@ -13,40 +13,49 @@ import '../../../stylesheets/dashboard.css'
 
 export default Vue.extend({
   route: {
-    activate: function(transition) {
-      this.getSurveyData()
-          .then((surveyData) => {
-            transition.next({
-              surveys: surveyData
-            });
-          });
-    },
     data: function(transition) {
-      transition.next();
       this.getSurveyData()
           .then((surveyData) => {
-            this.surveys = surveyData;
-          })
-    }
+            if (!this.$route.params.title) {
+              var latestSurvey = this.getLatestSurvey(this.surveys);
+              transition.redirect(`/dashboard/surveys/${latestSurvey.title}`);
+            }
+            else {
+              var title = this.$route.params.title;
+              var selectedSurvey = this.getSurveyByTitle(this.surveys, title);
+              transition.next({
+                surveys: surveyData,
+                selectedSurvey
+              });
+            }
+          });
+      }
   },
   template: `
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-      <left-panel :is-logged-in="isLoggedIn" :surveys="surveys"></left-panel>
+      <left-panel :is-logged-in="isLoggedIn" :surveys-prop="surveys"></left-panel>
       <div class="cc-dashboard-main">
         <tab-bar :is-logged-in="isLoggedIn"></tab-bar>
         <span
           v-if="$loadingRouteData"
           class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
         </span>
-        <router-view :surveys="surveys" v-if="!$loadingRouteData"></router-view>
+        <router-view :survey="selectedSurvey" v-if="!$loadingRouteData"></router-view>
       </div>
     </div>
   `,
   components: {
     'left-panel': leftPanel,
     'tab-bar': tabBar
+  },
+  data: function() {
+    return {
+      isLoggedIn: false,
+      surveys: [],
+      selectedSurvey: {}
+    };
   },
   created: function() {
     this.hideMenuMobile();
@@ -58,32 +67,27 @@ export default Vue.extend({
     });
   },
   ready: function() {
-    if (window.sessionStorage.getItem('cc-userSurvey')) {
-      // User has already started / created survey which is saved in sessionStorage:
-      // They were redirected to login after clicking either the login or publish button.
-      // Also, unsubscribe to checking for user because we already have the survey.
-      this.unsubscribeAuthListener();
-      var survey = this.getLocalSurvey();
-      var questions = this.tidyQuestions(survey.questions);
-      if (survey.isForPublishing) {
-        this.publishToDatabaseAndStore(survey.title, questions, this);
-      }
-    }
+    // if (window.sessionStorage.getItem('cc-userSurvey')) {
+    //   // User has already started / created survey which is saved in sessionStorage:
+    //   // They were redirected to login after clicking either the login or publish button.
+    //   // Also, unsubscribe to checking for user because we already have the survey.
+    //   this.unsubscribeAuthListener();
+    //   var survey = this.getLocalSurvey();
+    //   // var questions = this.tidyQuestions(survey.questions);
+    //   // if (survey.isForPublishing) {
+    //   //   this.publishToDatabaseAndStore(survey.title, questions, this);
+    //   // }
+    // }
 
     document.addEventListener('cc-refreshDash', () => {
-      this.updateData()
-          .then(() => {
-              // Clean up so that if there was a local survey, it is not
-              // found erroneously next time page is loaded or when user clicks 'Publish'.
-              window.sessionStorage.removeItem('cc-userSurvey');
+      this.getSurveyData()
+          .then((surveyData) => {
+            this.surveys = surveyData;
+            // Clean up so that if there was a local survey, it is not
+            // found erroneously next time page is loaded or when user clicks 'Publish'.
+            window.sessionStorage.removeItem('cc-userSurvey');
           });
     });
-  },
-  data: function() {
-    return {
-      isLoggedIn: false,
-      surveys: []
-    };
   },
   methods: {
     getSurveyData: function(caller) {
@@ -107,6 +111,14 @@ export default Vue.extend({
       });
       return promise;
     },
+    getSurveyByTitle: function(surveys, title) {
+      var theSurvey = surveys.filter((survey) => {
+        if (survey.title === title) {
+          return survey
+        }
+      });
+      return theSurvey[0];
+    },
     simplifySurveyObjects: function(surveysJson) {
       var simpleSurveys = [];
       for (var surveyKey in surveysJson) {
@@ -121,19 +133,6 @@ export default Vue.extend({
       this.surveys = simpleSurveys;
       return simpleSurveys;
     },
-    getLatestSurvey: function(data) {
-      // find latest(most recent) survey from database
-      var latestDate = 0;
-      var latestSurvey = {title: '', questions: []};
-
-      for (var surveyKey in data) {
-        if (data[surveyKey].timestamp > latestDate) {
-          latestSurvey = data[surveyKey];
-          latestDate = data[surveyKey].timestamp;
-        }
-      }
-      return {title: latestSurvey.surveyTitle, questions: latestSurvey.questions};
-    },
     getLocalSurvey: function() {
       var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
       var questions = savedSurvey.questions.map((question) => {
@@ -141,6 +140,19 @@ export default Vue.extend({
         return question.substring(1, question.length - 1);
       });
       return [{title: savedSurvey.title, questions}];
+    },
+    getLatestSurvey: function(surveys) {
+      // find latest(most recent) survey from database
+      var latestDate = 0;
+      var latestSurvey = {title: '', questions: []};
+
+      surveys.filter((survey) => {
+        if (survey.timestamp > latestDate) {
+          latestSurvey = survey;
+          latestDate = survey.timestamp;
+        }
+      });
+      return {title: latestSurvey.title, questions: latestSurvey.questions};
     },
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component

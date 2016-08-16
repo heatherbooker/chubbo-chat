@@ -9,7 +9,7 @@ import '../../../stylesheets/responses.css'
 
 
 export default Vue.extend({
-  props: ['surveys'],
+  props: ['survey'],
   route: {
     canActivate: function(transition) {
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
@@ -24,13 +24,12 @@ export default Vue.extend({
     data: function(transition) {
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          this.getQuestions(this.surveys)
+          this.getQuestions(this.survey)
               .then((questions) => {
                 transition.next({
-                  latestSurvey: this.surveys[0],
                   questions
                 });
-                this.setResponses(this.surveys);
+                this.setResponses(this.survey);
                 unsubscribeAuthListener();
               });
         }
@@ -62,7 +61,6 @@ export default Vue.extend({
   `,
   data: function() {
     return {
-      latestSurvey: {},
       questions: [],
       arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
@@ -70,25 +68,13 @@ export default Vue.extend({
     }
   },
   methods: {
-    getQuestions: function(data) {
-      //find latest(most recent) survey from database
-      var latestDate = 0;
-      var latestSurvey;
-      for (var surveyKey in data) {
-        if (data[surveyKey].timestamp > latestDate) {
-          latestSurvey = data[surveyKey];
-          latestDate = data[surveyKey].timestamp;
-        }
-      }
-      //store it for the setResponses method
-      this.latestSurvey = latestSurvey;
-
+    getQuestions: function(survey) {
       var promise = new Promise((resolve, reject) => {
         var questions = [];
-        var numOfQuestions = latestSurvey.questions.length;
+        var numOfQuestions = survey.questions.length;
         for (var i = 0; i < numOfQuestions; i ++) {
           var newQuestion = {
-            text: latestSurvey.questions[i],
+            text: survey.questions[i],
             responses: [],
             revealResponses: false
           };
@@ -98,13 +84,13 @@ export default Vue.extend({
       });
       return promise;
     },
-    setResponses: function(data) {
-      if ('responses' in this.latestSurvey) {
+    setResponses: function(survey) {
+      if ('responses' in survey) {
         var numOfQuestions = this.questions.length;
-        for (var responseKey in this.latestSurvey.responses) {
+        for (var responseKey in survey.responses) {
           for (var i = 0; i < numOfQuestions; i ++) {
             //i + 1 because 0 is the users greeting to the bot
-            this.questions[i].responses.push(this.latestSurvey.responses[responseKey][i + 1].text)
+            this.questions[i].responses.push(survey.responses[responseKey][i + 1].text)
           }
         }
       }

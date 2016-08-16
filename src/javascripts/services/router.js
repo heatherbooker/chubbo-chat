@@ -21,11 +21,23 @@ router.map({
     component: dashboard,
 
     subRoutes: {
-      '/survey': {
-        component: surveyForm
+      '/surveys': {
+        component: surveyForm,
+
+        subRoutes: {
+          '/:title': {
+            component: surveyForm
+          }
+        }
       },
       '/responses': {
-        component: responsesPage
+        component: responsesPage,
+
+        subRoutes: {
+          '/:title': {
+            component: surveyForm
+          }
+        }
       }
     }
   },
@@ -41,7 +53,7 @@ router.map({
 });
 
 router.redirect({
-  '/dashboard': '/dashboard/survey'
+  '/dashboard': '/dashboard/surveys'
 });
 
 module.exports = router;

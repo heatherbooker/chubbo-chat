@@ -4,26 +4,32 @@ export default Vue.extend({
   props: ['isLoggedIn'],
   template: `
     <div class="cc-dashboard-tabBar">
-      <div :class="surveysClass" v-link="'/dashboard/survey'">
+      <div :class="surveysClass" v-link="surveysBtnLink">
         <h2 class="cc-dash-tabBar-text">Surveys</h2>
       </div>
-      <div :class="responsesClass" v-link="'/dashboard/responses'" v-show="isLoggedIn">
+      <div :class="responsesClass" v-link="responsesBtnLink" v-show="isLoggedIn">
         <h2 class="cc-dash-tabBar-text">Responses</h2>
       </div>
     </div>
   `,
   computed: {
     surveysClass: function() {
-      if (this.$route.path === '/dashboard/survey') {
+      if (this.$route.path.substring(11, 18) === 'surveys') {
         return 'cc-dash-tabBar-surveys-selected';
       }
       return 'cc-dash-tabBar-surveys';
     },
     responsesClass: function() {
-      if (this.$route.path === '/dashboard/responses') {
+      if (this.$route.path.substring(11, 20) === 'responses') {
         return 'cc-dash-tabBar-responses-selected';
       }
       return 'cc-dash-tabBar-responses';
+    },
+    surveysBtnLink: function() {
+      return "/dashboard/surveys/" + this.$route.params.title;
+    },
+    responsesBtnLink: function() {
+      return "/dashboard/responses/" + this.$route.params.title;
     }
   }
 });
