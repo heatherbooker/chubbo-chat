@@ -34,16 +34,14 @@
   margin-bottom: 30px;
 }
 
-.cc-newSurveyBtn {
+button.cc-newSurveyBtn {
   width: 70%;
   min-width: 180px;
   background-color: #EFF6FF;
   border-radius: 30px;
-  padding: 12px 0px;
-  margin: auto;
+  margin: 30px auto 0px auto;
+  height: 60px;
   border: none;
-  display: block;
-  margin-top: 30px;
   color: #545454;
   font-size: 12pt;
 }
@@ -118,17 +116,16 @@
     padding-top: 18px;
   }
   .cc-userIcon-leftPanel {
-    width: 50px;
     height: 50px;
+    width: auto;
     margin: 0px auto 10px auto;
   }
   .cc-userEmail-leftPanel {
     margin: 8px;
     font-size: 8pt;
   }
-  .cc-newSurveyBtn {
-    margin-top: 15px;
-    padding: 6px 0px;
+  button.cc-newSurveyBtn {
+    margin-top: 10px;
   }
   .cc-leftPanel-surveyList {
     margin-top: 20px;
