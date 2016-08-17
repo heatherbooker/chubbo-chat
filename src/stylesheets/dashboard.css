@@ -10,7 +10,11 @@
 }
 
 .cc-dashboard-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
   -webkit-box-flex: 3;
   -webkit-flex: 3;
@@ -21,6 +25,7 @@
 }
 
 .cc-dashboard-tabBar {
+  display: -webkit-flex;
   display: flex;
   border-bottom: 1px solid #F0f0f0;
 }
@@ -70,7 +75,12 @@
     /*on top of survey form*/
     z-index: 1;
   }
+}
+
+@media (max-width: 768px) {
   .cc-dash-tabBar-surveys, .cc-dash-tabBar-responses, .cc-dash-tabBar-surveys-selected, .cc-dash-tabBar-responses-selected {
-    width: 150px;
-  }
+    width: auto;
+    -webkit-flex: 1;
+    flex: 1;
+  } 
 }

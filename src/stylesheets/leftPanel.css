@@ -105,3 +105,29 @@
     width: 80%;
   }
 }
+
+@media (max-width: 425px) {
+  .cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
+    padding-top: 18px;
+  }
+  .cc-userIcon-leftPanel {
+    width: 50px;
+    height: 50px;
+    margin: 0px auto 10px auto;
+  }
+  .cc-userEmail-leftPanel {
+    margin: 8px;
+    font-size: 8pt;
+  }
+  .cc-newSurveyBtn {
+    margin-top: 15px;
+    padding: 6px 0px;
+  }
+  .cc-leftPanel-surveyList {
+    margin-top: 20px;
+  }
+  .cc-leftPanel-survey {
+    height: 65px;
+    line-height: 65px;
+  }
+}
