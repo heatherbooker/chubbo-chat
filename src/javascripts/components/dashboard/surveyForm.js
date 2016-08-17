@@ -17,6 +17,8 @@ export default Vue.extend({
   props: ['survey'],
   route: {
     data: function(transition) {
+      // $nextTick waits for dashboard data hook to finish so 'survey' prop isn't undefined.
+      this.$nextTick(() => {
       var title = this.survey.title;
       var questions = this.survey.questions;
 
@@ -24,6 +26,9 @@ export default Vue.extend({
         var finalQuestions = this.tidyQuestions(questions);
         this.publishToDatabaseAndStore(title, finalQuestions, this)
             .then(() => {
+              // Dashboard component is listening to this event, to refresh
+              // left panel list of surveys and URL.
+              document.dispatchEvent(new CustomEvent('cc-refreshDash', {'detail': title}));
               transition.next({
                 title,
                 questions
@@ -35,6 +40,8 @@ export default Vue.extend({
           questions
         });
       }
+      });
+      
     }
   },
   template: `
@@ -172,9 +179,8 @@ export default Vue.extend({
     },
     publishToDatabaseAndStore: function(title, finalQuestions, me) {
       var promise = new Promise((resolve, reject) => {
-        var published = false;
         var unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
-          if (user && !published) {
+          if (user && !me.isPublished) {
              me.publishSurveyToDatabase(title, finalQuestions).then(function(isPublished) {
               if (isPublished) {
                 unsubscribeAuthListener();
@@ -182,7 +188,7 @@ export default Vue.extend({
                 // found erroneously next time page is loaded.
                 window.sessionStorage.removeItem('cc-userSurvey');
                 me.publishSurveyToStore(title, finalQuestions);
-                published = true;
+                me.setToPublished();
                 resolve();
               }
             });
@@ -249,14 +255,14 @@ export default Vue.extend({
   // vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      userId: function(state) {
-        return state.userInfo.uid;
-      }
+      userId: function(state) {return state.userInfo.uid;},
+      isPublished: function(state) {return state.isPublished;}
     },
     actions: {
       publishSurveyToStore: function(store, title, finalQuestions) {
         store.dispatch('publishSurvey', title, finalQuestions);
-      }
+      },
+      setToPublished: function() {store.dispatch('setIsPublished', true);}
     }
   }
 });

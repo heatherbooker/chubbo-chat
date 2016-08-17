@@ -13,58 +13,55 @@ import '../../../stylesheets/dashboard.css'
 
 export default Vue.extend({
   route: {
+    activate: function(transition) {
+
+      this.getSurveysFromDatabase()
+          .then((surveys) => {
+            this.surveys = surveys;
+            transition.next();
+          }, () => {
+
+            if (window.sessionStorage.getItem('cc-userSurvey')) {
+              this.surveys = [this.getLocalSurvey()];
+            } else {
+              this.surveys = [{title: '', questions: ['']}];
+            }
+            transition.next();
+          });
+    },
     data: function(transition) {
-      this.getSurveyData()
-          .then((surveyData) => {
 
             if (this.$route.params.title === '$creating_survey') {
 
-              if (surveyData[0].title !== '' && surveyData[0].isLocal) {
-                transition.redirect(`/dashboard/surveys/${surveyData[0].title}`);
-
-              } else {
-                var selectedSurvey;
-                if (surveyData[0].isLocal) {
-                  selectedSurvey = surveyData[0];
-                } else {
-                  selectedSurvey = {title: '', questions: ['']};
-                }
-                // Clean up so that the local survey is not found
+              if (window.sessionStorage.getItem('cc-userSurvey')) {
+                var localSurvey = this.getLocalSurvey();
+                // Clean up so that if there was a local survey, it is not found
                 // erroneously next time page is loaded or when user clicks 'Publish'.
                 window.sessionStorage.removeItem('cc-userSurvey');
-                transition.next({
-                  surveys: surveyData,
-                  selectedSurvey
-                });
+                transition.next({selectedSurvey: localSurvey});
+              } else {
+                transition.next({selectedSurvey: {title: '', questions: ['']}});
               }
 
-            } else if (this.isLoggedIn) {
+            } else if (this.$route.params.title) {
 
-              if (!this.$route.params.title) {
-                var latestSurvey = this.getLatestSurvey(surveyData);
-                transition.redirect(`/dashboard/surveys/${latestSurvey.title}`);
-
-              } else {
-                var title = this.$route.params.title;
-                this.getSurveyByTitle(surveyData, title)
+              var title = this.$route.params.title;
+              this.getSurveyByTitle(this.surveys, title)
                     .then((selectedSurvey) => {
                       transition.next({
-                        surveys: surveyData,
                         selectedSurvey
                       });
                     });
-              }
-
-            } else if (surveyData[0].isLocal) {
-              transition.next({
-                surveys: surveyData,
-                selectedSurvey: surveyData[0]
-              });
-
             } else {
-              transition.redirect('/dashboard/surveys/$creating_survey');
+
+              var latestSurvey = this.getLatestSurvey(this.surveys);
+
+              if (latestSurvey.title !== '') {
+                transition.redirect(`/dashboard/surveys/${latestSurvey.title}`);
+              } else {
+                transition.next({selectedSurvey: {title: '', questions: ['']}});
+              }
             }
-          });
       }
   },
   template: `
@@ -104,16 +101,15 @@ export default Vue.extend({
   },
   ready: function() {
     document.addEventListener('cc-refreshDash', (e) => {
-      this.$router.go(`/dashboard/surveys/${e.detail}`);
+      this.getSurveysFromDatabase().then((surveys) => {
+        this.surveys = surveys;
+        this.$router.go(`/dashboard/surveys/${e.detail}`);
+      });
     });
   },
   methods: {
-    getSurveyData: function() {
+    getSurveysFromDatabase: function() {
       var promise = new Promise((resolve, reject) => {
-        if (window.sessionStorage.getItem('cc-userSurvey')) {
-          // User has already created survey which is saved in sessionStorage
-          resolve([this.getLocalSurvey()]);
-        }
         this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             return surveyApi.getSurveys()
@@ -123,11 +119,24 @@ export default Vue.extend({
                   resolve(this.simplifySurveyObjects(surveys));
                 });
           } else {
-            resolve([{title: '', questions: ['']}]);
+            reject();
           }
         });
       });
       return promise;
+    },
+    getLocalSurvey: function() {
+      var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
+      var questions = savedSurvey.questions.map((question) => {
+        // remove quotes
+        return question.substring(1, question.length - 1);
+      });
+      return {
+        title: savedSurvey.title,
+        questions,
+        isLocal: true,
+        isForPublishing: savedSurvey.isForPublishing
+      };
     },
     getSurveyByTitle: function(surveys, title) {
       var promise = new Promise((resolve, reject) => {
@@ -154,19 +163,6 @@ export default Vue.extend({
       this.surveys = simpleSurveys;
       return simpleSurveys;
     },
-    getLocalSurvey: function() {
-      var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
-      var questions = savedSurvey.questions.map((question) => {
-        // remove quotes
-        return question.substring(1, question.length - 1);
-      });
-      return {
-        title: savedSurvey.title,
-        questions,
-        isLocal: true,
-        isForPublishing: savedSurvey.isForPublishing
-      };
-    },
     getLatestSurvey: function(surveys) {
       // find latest(most recent) survey from database
       var latestDate = 0;
@@ -178,6 +174,7 @@ export default Vue.extend({
           latestDate = survey.timestamp;
         }
       });
+      console.log('surveys', surveys);
       return {title: latestSurvey.title, questions: latestSurvey.questions};
     },
   },

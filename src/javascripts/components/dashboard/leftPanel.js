@@ -22,7 +22,7 @@ export default Vue.extend({
         class="cc-newSurveyBtn"
         v-show="isLoggedIn"
         v-link="{path: '/dashboard/surveys/$creating_survey'}"
-        @click="hideMenu"
+        @click="handleCreateSurveyBtn"
       >
         + Create Survey
       </button>
@@ -52,12 +52,17 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
+    },
+    handleCreateSurveyBtn: function() {
+      this.hideMenu();
+      this.setToUnpublished();
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
     actions: {
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);},
+      setToUnpublished: function() {store.dispatch('setIsPublished', false);}
     },
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},

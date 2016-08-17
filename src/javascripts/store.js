@@ -20,7 +20,8 @@ export default new Vuex.Store(function() {
       isLeftPanelVisible: true,
       userInfo: userInfoDefault,
       surveys: [],
-      drafts: []
+      drafts: [],
+      isPublished: false
       
     },
 
@@ -67,6 +68,10 @@ export default new Vuex.Store(function() {
           questions
         });
         state.drafts.splice(0, 1);
+      },
+
+      setIsPublished: function(state, newState) {
+        state.isPublished = newState;
       }
 
     }
