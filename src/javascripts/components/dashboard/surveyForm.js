@@ -39,10 +39,11 @@ export default Vue.extend({
   },
   template: `
     <div class="cc-surveyFormPage-container">
-        <span
-          v-if="$loadingRouteData"
-          class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
-        </span>
+      <span
+        v-if="$loadingRouteData"
+        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon"
+      >
+      </span>
       <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
         <div class="cc-surveyFormInputs">
           <title-input
