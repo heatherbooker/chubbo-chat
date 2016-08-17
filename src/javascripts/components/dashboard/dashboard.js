@@ -73,7 +73,7 @@ export default Vue.extend({
       </div>
       <left-panel :is-logged-in="isLoggedIn" :surveys="surveys"></left-panel>
       <div class="cc-dashboard-main">
-        <tab-bar :is-logged-in="isLoggedIn"></tab-bar>
+        <tab-bar v-if="isLoggedIn"></tab-bar>
         <span
           v-if="$loadingRouteData"
           class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
@@ -102,26 +102,10 @@ export default Vue.extend({
       }
     });
   },
-  beforeCompile: function() {
-  },
-  compiled: function() {
-  },
   ready: function() {
     document.addEventListener('cc-refreshDash', (e) => {
-      if (e.detail) {
-        this.$router.go(`/dashboard/surveys/${e.detail}`);
-      } else if (!this.$route.params.title) {
-        this.$router.go('/dashboard/surveys/$creating_survey');
-      } else {
-        this.getSurveyData()
-            .then((surveyData) => {
-              this.surveys = surveyData;
-              // Clean up so that if there was a local survey, it is not
-              // found erroneously next time page is loaded or when user clicks 'Publish'.
-              window.sessionStorage.removeItem('cc-userSurvey');
-            });
-        }
-      });
+      this.$router.go(`/dashboard/surveys/${e.detail}`);
+    });
   },
   methods: {
     getSurveyData: function() {
@@ -188,7 +172,7 @@ export default Vue.extend({
       var latestDate = 0;
       var latestSurvey = {title: '', questions: []};
 
-      surveys.filter((survey) => {
+      surveys.forEach((survey) => {
         if (survey.timestamp > latestDate) {
           latestSurvey = survey;
           latestDate = survey.timestamp;

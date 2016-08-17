@@ -19,19 +19,31 @@ export default Vue.extend({
     data: function(transition) {
       var title = this.survey.title;
       var questions = this.survey.questions;
-      transition.next({
-        title,
-        questions
-      });
+
       if (this.survey.isForPublishing) {
         var finalQuestions = this.tidyQuestions(questions);
-        this.publishToDatabaseAndStore(title, finalQuestions, this);
+        this.publishToDatabaseAndStore(title, finalQuestions, this)
+            .then(() => {
+              transition.next({
+                title,
+                questions
+              });
+            });
+      } else {
+        transition.next({
+          title,
+          questions
+        });
       }
     }
   },
   template: `
     <div class="cc-surveyFormPage-container">
-      <div class="cc-surveyFormPage">
+        <span
+          v-if="$loadingRouteData"
+          class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
+        </span>
+      <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
         <div class="cc-surveyFormInputs">
           <title-input
             :title.sync="title"
@@ -155,7 +167,7 @@ export default Vue.extend({
         this.titleError = false;
         return true;
       }
-      // We don't have any validity checks for the questions.
+      // We don't have any validity checks for the questions
     },
     publishToDatabaseAndStore: function(title, finalQuestions, me) {
       var promise = new Promise((resolve, reject) => {

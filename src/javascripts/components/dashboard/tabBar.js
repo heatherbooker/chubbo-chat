@@ -1,9 +1,8 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  props: ['isLoggedIn'],
   template: `
-    <div class="cc-dashboard-tabBar" v-show="isLoggedIn">
+    <div class="cc-dashboard-tabBar">
       <div :class="surveysClass" v-link="surveysBtnLink">
         <h2 class="cc-dash-tabBar-text">Surveys</h2>
       </div>
