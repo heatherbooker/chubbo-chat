@@ -6,7 +6,7 @@
   position: absolute;
   width: 100%;
   /*navbar is 90px*/
-  min-height: calc(100% - 90px);
+  height: calc(100% - 90px);
 }
 
 .cc-dashboard-main {
@@ -30,7 +30,7 @@
   border-bottom: 1px solid #F0f0f0;
 }
 
-.cc-dash-tabBar-surveys, .cc-dash-tabBar-responses, .cc-dash-tabBar-surveys-selected, .cc-dash-tabBar-responses-selected {
+.cc-dashboard-tab {
   border-right: 1px solid #F0f0f0;
   border-top: 5px solid transparent;
   border-left: 1px solid transparent;
@@ -39,11 +39,11 @@
   text-align: center;
 }
 
-.cc-dash-tabBar-surveys:hover, .cc-dash-tabBar-responses:hover, .cc-dash-tabBar-surveys-selected:hover, .cc-dash-tabBar-responses-selected:hover {
+.cc-dashboard-tab:hover {
   cursor: pointer;
 }
 
-.cc-dash-tabBar-surveys-selected, .cc-dash-tabBar-responses-selected {
+.cc-dashboard-tab.v-link-active {
   border: 1px solid #CECECE;
   position: relative;
   top: 1px;
@@ -51,7 +51,7 @@
   border-bottom: 2px solid #fff;
 }
 
-.cc-dash-tabBar-text {
+.cc-dashboard-tabText {
   padding: 9px;
   font-size: 16px;
   font-weight: 400;
@@ -59,7 +59,7 @@
 
 @media (max-width: 992px) {
   .cc-dashboardPage {
-    min-height: calc(100% - 77px);
+    height: calc(100% - 77px);
   }
   .cc-greyedSurveyForm {
     display: -webkit-box;
@@ -78,7 +78,7 @@
 }
 
 @media (max-width: 768px) {
-  .cc-dash-tabBar-surveys, .cc-dash-tabBar-responses, .cc-dash-tabBar-surveys-selected, .cc-dash-tabBar-responses-selected {
+  .cc-dashboard-tab {
     width: auto;
     -webkit-flex: 1;
     flex: 1;

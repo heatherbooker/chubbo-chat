@@ -3,27 +3,15 @@ import Vue from 'vue';
 export default Vue.extend({
   template: `
     <div class="cc-dashboard-tabBar">
-      <div :class="surveysClass" v-link="surveysBtnLink">
-        <h2 class="cc-dash-tabBar-text">Surveys</h2>
+      <div class="cc-dashboard-tab" v-link="surveysBtnLink">
+        <h2 class="cc-dashboard-tabText">Surveys</h2>
       </div>
-      <div :class="responsesClass" v-link="responsesBtnLink">
-        <h2 class="cc-dash-tabBar-text">Responses</h2>
+      <div class="cc-dashboard-tab" v-link="responsesBtnLink">
+        <h2 class="cc-dashboard-tabText">Responses</h2>
       </div>
     </div>
   `,
   computed: {
-    surveysClass: function() {
-      if (this.$route.path.substring(11, 18) === 'surveys') {
-        return 'cc-dash-tabBar-surveys-selected';
-      }
-      return 'cc-dash-tabBar-surveys';
-    },
-    responsesClass: function() {
-      if (this.$route.path.substring(11, 20) === 'responses') {
-        return 'cc-dash-tabBar-responses-selected';
-      }
-      return 'cc-dash-tabBar-responses';
-    },
     surveysBtnLink: function() {
       return "/dashboard/surveys/" + this.$route.params.title;
     },
