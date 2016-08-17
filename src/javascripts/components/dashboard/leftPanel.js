@@ -22,6 +22,7 @@ export default Vue.extend({
         class="cc-newSurveyBtn"
         v-show="isLoggedIn"
         v-link="{path: '/dashboard/surveys/$creating_survey'}"
+        @click="hideMenu"
       >
         + Create Survey
       </button>
@@ -30,6 +31,7 @@ export default Vue.extend({
           v-for="survey in surveys"
           v-link="{path: pathRoot + survey.title}"
           class="cc-leftPanel-survey"
+          @click="hideMenu"
         >
           {{ survey.title }}
         </div>

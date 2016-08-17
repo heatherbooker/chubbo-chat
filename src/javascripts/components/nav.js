@@ -81,18 +81,6 @@ export default Vue.extend({
         document.dispatchEvent(new Event('cc-saveSurveyState'));
       }
       window.ChubboChat.services.login.signIn();
-      var me = this;
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          if (!this.onDashboard) {
-            me.$router.go('/dashboard');
-          }
-          // if (window.sessionStorage.getItem('cc-userSurvey')) {
-          //   // Dashboard component is listening to this event
-          //   document.dispatchEvent(new Event('cc-refreshDash'));
-          // }
-        }
-      })
     },
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();

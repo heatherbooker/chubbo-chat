@@ -74,11 +74,11 @@ export default Vue.extend({
   },
   data: function() {
     return {
-        title: '',
-        questions: [''],
-        titleError: false
-      };
-    },
+      title: '',
+      questions: [''],
+      titleError: false
+    };
+  },
   ready: function() {
     $('.cc-titleInput').focus();
     // Listen for user logging in so we can save their half-written survey before redirect.
@@ -105,16 +105,9 @@ export default Vue.extend({
             title: 'Please log in to save your survey!',
             showCancelButton: true
           }).then(function() {
-            // Mobile users are redirected to login, so we need to save their survey first.
+            // Users are redirected to login, so we need to save their survey first.
             me.setLocalSurvey(me.title, finalQuestions, true);
             window.ChubboChat.services.login.signIn()
-                .then(function() {
-                  return me.publishToDatabaseAndStore(me.title, finalQuestions, me);
-                }).then(() => {
-                  // Dashboard component is listening to this event, to refresh
-                  // left panel list of surveys and URL.
-                  me.$router.go(`/dashboard/surveys/${me.title}`);
-                });
           });
         } else {
           me.publishToDatabaseAndStore(me.title, finalQuestions, me).then(() => {
@@ -133,7 +126,6 @@ export default Vue.extend({
         questions,
         isForPublishing
       };
-      // on mobile: the login service refreshes the page, so we need to save survey data
       window.sessionStorage.setItem('cc-userSurvey', JSON.stringify(surveyObject));
     },
     tidyQuestions: function(questions) {

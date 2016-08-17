@@ -3,11 +3,11 @@ import Vue from 'vue';
 export default Vue.extend({
   props: ['isLoggedIn'],
   template: `
-    <div class="cc-dashboard-tabBar">
+    <div class="cc-dashboard-tabBar" v-show="isLoggedIn">
       <div :class="surveysClass" v-link="surveysBtnLink">
         <h2 class="cc-dash-tabBar-text">Surveys</h2>
       </div>
-      <div :class="responsesClass" v-link="responsesBtnLink" v-show="isLoggedIn">
+      <div :class="responsesClass" v-link="responsesBtnLink">
         <h2 class="cc-dash-tabBar-text">Responses</h2>
       </div>
     </div>

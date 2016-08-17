@@ -18,19 +18,25 @@ export default Vue.extend({
           .then((surveyData) => {
 
             if (this.$route.params.title === '$creating_survey') {
+
               if (surveyData[0].title !== '' && surveyData[0].isLocal) {
                 transition.redirect(`/dashboard/surveys/${surveyData[0].title}`);
-              }
-              var selectedSurvey;
-              if (surveyData[0].isLocal) {
-                selectedSurvey = surveyData[0];
+
               } else {
-                selectedSurvey = {title: '', questions: ['']};
+                var selectedSurvey;
+                if (surveyData[0].isLocal) {
+                  selectedSurvey = surveyData[0];
+                } else {
+                  selectedSurvey = {title: '', questions: ['']};
+                }
+                // Clean up so that the local survey is not found
+                // erroneously next time page is loaded or when user clicks 'Publish'.
+                window.sessionStorage.removeItem('cc-userSurvey');
+                transition.next({
+                  surveys: surveyData,
+                  selectedSurvey
+                });
               }
-              transition.next({
-                surveys: surveyData,
-                selectedSurvey
-              });
 
             } else if (this.isLoggedIn) {
 
@@ -40,11 +46,13 @@ export default Vue.extend({
 
               } else {
                 var title = this.$route.params.title;
-                var selectedSurvey = this.getSurveyByTitle(surveyData, title);
-                transition.next({
-                  surveys: surveyData,
-                  selectedSurvey
-                });
+                this.getSurveyByTitle(surveyData, title)
+                    .then((selectedSurvey) => {
+                      transition.next({
+                        surveys: surveyData,
+                        selectedSurvey
+                      });
+                    });
               }
 
             } else if (surveyData[0].isLocal) {
@@ -94,8 +102,11 @@ export default Vue.extend({
       }
     });
   },
+  beforeCompile: function() {
+  },
+  compiled: function() {
+  },
   ready: function() {
-
     document.addEventListener('cc-refreshDash', (e) => {
       if (e.detail) {
         this.$router.go(`/dashboard/surveys/${e.detail}`);
@@ -135,12 +146,15 @@ export default Vue.extend({
       return promise;
     },
     getSurveyByTitle: function(surveys, title) {
-      var theSurvey = surveys.filter((survey) => {
-        if (survey.title === title) {
-          return survey
-        }
+      var promise = new Promise((resolve, reject) => {
+        var theSurvey = surveys.filter((survey) => {
+          if (survey.title === title) {
+            return survey
+          }
+        });
+        resolve(theSurvey[0]);
       });
-      return theSurvey[0];
+      return promise;
     },
     simplifySurveyObjects: function(surveysJson) {
       var simpleSurveys = [];

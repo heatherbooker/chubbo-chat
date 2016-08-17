@@ -36,6 +36,7 @@ a:link, a:visited {
 
 .cc-loadingIcon {
   margin: auto;
+  display: block;
 }
 
 .cc-menuIcon-mobile {
