@@ -9,7 +9,6 @@ import '../../../stylesheets/responses.css'
 
 
 export default Vue.extend({
-  props: ['survey'],
   route: {
     canActivate: function(transition) {
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
@@ -22,18 +21,12 @@ export default Vue.extend({
       })
     },
     data: function(transition) {
-      var unpublished = false;
-      if (this.$route.params.title === '$creating_survey') {
-        unpublished = true;
-      }
       var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.getQuestions(this.survey)
               .then((questions) => {
-                transition.next({
-                  questions,
-                  unpublished
-                });
+                this.questions = questions;
+                transition.next();
                 this.setResponses(this.survey);
                 unsubscribeAuthListener();
               });
@@ -44,7 +37,7 @@ export default Vue.extend({
   template: `
     <div class="cc-responsesPage">
       <div class="cc-responsesPage-container">
-        <div v-for="question in questions" v-if="!unpublished">
+        <div v-for="question in questions" v-if="survey.isPublished">
           <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
             <img
               :src="arrowImgSrc"
@@ -61,7 +54,7 @@ export default Vue.extend({
             {{ response }}
           </p>
         </div>
-        <p v-if="unpublished" class="cc-responsesPage-errorNotice">
+        <p v-if="!survey.isPublished" class="cc-responsesPage-errorNotice">
           Publish your current survey or <br> select a published survey to see responses!
         </p>
       </div>
@@ -70,7 +63,6 @@ export default Vue.extend({
   data: function() {
     return {
       questions: [],
-      unpublished: true,
       arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
       arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated'
@@ -113,6 +105,12 @@ export default Vue.extend({
       } else {
         question.revealResponses = true;
       }
+    }
+  },
+  // vuex(state store) getters / action dispatcher(s) needed by this component
+  vuex: {
+    getters: {
+      survey: function(state) {return state.selectedSurvey;}
     }
   }
 });

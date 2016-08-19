@@ -8,9 +8,17 @@ Vue.use(Vuex);
 //vuex state store to share state between all components
 export default new Vuex.Store(function() {
 
-  var userInfoDefault = {
-    email: 'not signed in',
-    imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
+  var defaults = {
+    userInfo: {
+      email: 'not signed in',
+      imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
+    },
+    survey: {
+      id: '$creating_survey',
+      title: '',
+      questions: [''],
+      isPublished: false
+    }
   };
 
   return {
@@ -18,12 +26,23 @@ export default new Vuex.Store(function() {
     state: {
 
       isLeftPanelVisible: true,
-      userInfo: userInfoDefault,
+      userInfo: defaults.userInfo,
       surveys: [],
-      drafts: [],
-      isPublished: false
+      selectedSurvey: defaults.survey,
       
     },
+
+    // The form of a survey should be as follows:
+    // {
+    //   id: '',
+    //   title: '',
+    //   questions: [''],
+    //   responses: {}, // added when there is a response
+    //   isForPublishing: true, // added if survey is saved locally before user is redirected to login
+    //   isPublished: false,
+    //   timestamp: 1 // added when survey is published
+    // }
+
 
     mutations: {
 
@@ -40,38 +59,54 @@ export default new Vuex.Store(function() {
           }
           state.userInfo = user;
         } else {
-          state.userInfo = userInfoDefault;
+          state.userInfo = defaults.userInfo;
         }
       },
 
-      startDraft: function(state) {
-        state.drafts.push({questions: []});
+      DELETE_ALL_SURVEYS: function(state) {
+        state.surveys = [];
+        state.selectedSurvey = defaults.survey;
+      },
+
+      ADD_SURVEY: function(state, newSurvey = defaults.survey) {
+        var isInStore = state.surveys.find((survey) => {
+          return survey.id === newSurvey.id;
+        });
+        if (!isInStore) {
+          state.surveys.push(newSurvey);
+        }
       },
 
       editQuestion: function(state, index, question) {
-        if (state.drafts.length === 0) {
-          state.drafts.push({questions: []})
-        }
-        state.drafts[0].questions[index] = question;
+        state.surveys.forEach((survey) => {
+          if (survey.id === state.selectedSurvey.id) {
+            survey.questions[index] = question;
+          }
+        });
+        state.selectedSurvey.questions[index] = question;
       },
 
       editTitle:  function(state, title) {
-        if (state.drafts.length === 0) {
-          state.drafts.push({questions: []})
-        }
-        state.drafts[0].title = title;
-      },
-
-      publishSurvey: function(state, title, questions) {
-        state.surveys.push({
-          title,
-          questions
+        state.surveys.forEach((survey) => {
+          if (survey.id === state.selectedSurvey.id) {
+            survey.title = title;
+          }
         });
-        state.drafts.splice(0, 1);
+        state.selectedSurvey.title = title;
       },
 
-      setIsPublished: function(state, newState) {
-        state.isPublished = newState;
+      PUBLISH_SURVEY: function(state, surveyId, timestamp) {
+        state.surveys.forEach((survey) => {
+          if (survey.id === defaults.survey.id) {
+            survey.isPublished = true;
+            survey.id = surveyId;
+            survey.timestamp = timestamp;
+          }
+        });
+      },
+
+      setSelectedSurvey: function(state, survey = defaults.survey) {
+        state.selectedSurvey = survey;
       }
 
     }

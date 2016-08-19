@@ -13,10 +13,10 @@ export default Vue.extend({
   `,
   computed: {
     surveysBtnLink: function() {
-      return "/dashboard/surveys/" + this.$route.params.title;
+      return "/dashboard/surveys/" + this.$route.params.surveyId;
     },
     responsesBtnLink: function() {
-      return "/dashboard/responses/" + this.$route.params.title;
+      return "/dashboard/responses/" + this.$route.params.surveyId;
     }
   }
 });

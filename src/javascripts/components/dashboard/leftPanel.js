@@ -22,18 +22,20 @@ export default Vue.extend({
         class="cc-newSurveyBtn"
         v-show="isLoggedIn"
         v-link="{path: '/dashboard/surveys/$creating_survey'}"
-        @click="handleCreateSurveyBtn"
+        @click="hideMenu"
       >
         + Create Survey
       </button>
       <div class="cc-leftPanel-surveyList" v-if="isLoggedIn">
         <div
           v-for="survey in surveys"
-          v-link="{path: pathRoot + survey.title}"
+          track-by="id"
+          v-if="survey.id !== '$creating_survey'"
+          v-link="{path: pathRoot + survey.id}"
           class="cc-leftPanel-survey"
           @click="hideMenu"
         >
-          {{ survey.title }}
+          {{ survey.title || survey.surveyTitle }}
         </div>
       </div>
     </div>
@@ -52,17 +54,12 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
-    },
-    handleCreateSurveyBtn: function() {
-      this.hideMenu();
-      this.setToUnpublished();
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
     actions: {
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);},
-      setToUnpublished: function() {store.dispatch('setIsPublished', false);}
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     },
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},

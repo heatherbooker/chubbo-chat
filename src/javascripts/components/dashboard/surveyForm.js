@@ -14,34 +14,24 @@ import '../../../stylesheets/surveyForm.css'
 
 
 export default Vue.extend({
-  props: ['survey'],
   route: {
     data: function(transition) {
-      // $nextTick waits for dashboard data hook to finish so 'survey' prop isn't undefined.
-      this.$nextTick(() => {
-      var title = this.survey.title;
+      // Handles legacy naming style.
+      var title = this.survey.surveyTitle || this.survey.title;
       var questions = this.survey.questions;
 
       if (this.survey.isForPublishing) {
-        var finalQuestions = this.tidyQuestions(questions);
-        this.publishToDatabaseAndStore(title, finalQuestions, this)
-            .then(() => {
-              // Dashboard component is listening to this event, to refresh
-              // left panel list of surveys and URL.
-              document.dispatchEvent(new CustomEvent('cc-refreshDash', {'detail': title}));
-              transition.next({
-                title,
-                questions
-              });
+        this.publishToDatabaseAndStore(title, questions)
+            .then((surveyId) => {
+              transition.redirect(`/dashboard/surveys/${surveyId}`);
             });
+
       } else {
         transition.next({
           title,
           questions
         });
       }
-      });
-      
     }
   },
   template: `
@@ -104,7 +94,7 @@ export default Vue.extend({
     // Listen for user logging in so we can save their half-written survey before redirect.
     document.addEventListener('cc-saveSurveyState', () => {
       // Last arg is false to indicate this survey should not be published.
-      this.setLocalSurvey(this.title, this.tidyQuestions(this.questions), false);
+      this.setLocalSurvey(this.title, this.removeBlankQuestions(this.questions), false);
     });
   },
   methods: {
@@ -118,7 +108,7 @@ export default Vue.extend({
     handlePublishButton: function() {
       var me = this;
       if (this.isValidatedData(this.title, this.questions)) {
-        var finalQuestions = this.tidyQuestions(this.questions);
+        var nonBlankQuestions = this.removeBlankQuestions(this.questions);
         if (!firebase.auth().currentUser) {
           swal({
             type: 'warning',
@@ -126,14 +116,14 @@ export default Vue.extend({
             showCancelButton: true
           }).then(function() {
             // Users are redirected to login, so we need to save their survey first.
-            me.setLocalSurvey(me.title, finalQuestions, true);
-            window.ChubboChat.services.login.signIn()
+            me.setLocalSurvey(me.title, nonBlankQuestions, true);
+            window.ChubboChat.services.login.signIn();
           });
         } else {
-          me.publishToDatabaseAndStore(me.title, finalQuestions, me).then(() => {
+          me.publishToDatabaseAndStore(me.title, nonBlankQuestions).then((surveyId) => {
             // Dashboard component is listening to this event, to refresh
             // left panel list of surveys and URL.
-            document.dispatchEvent(new CustomEvent('cc-refreshDash', {'detail': me.title}));
+            this.$router.go(`/dashboard/surveys/${surveyId}`);
           });
         }
       }
@@ -148,7 +138,7 @@ export default Vue.extend({
       };
       window.sessionStorage.setItem('cc-userSurvey', JSON.stringify(surveyObject));
     },
-    tidyQuestions: function(questions) {
+    removeBlankQuestions: function(questions) {
       var filteredQuestions = questions;
       // unless there's only one question,
       if (questions.length > 1) {
@@ -157,12 +147,13 @@ export default Vue.extend({
           return question !== '';
         });
       }
+      return filteredQuestions;
+    },
+    addQuotes: function(questions) {
       // Adding quotes to make it valid json for sending to database
-      var finalQuestions = filteredQuestions.map(function(question) {
+      return questions.map(function(question) {
         return `"${question}"`;
       });
-
-      return finalQuestions;
     },
     isValidatedData: function(title, questions) {
       if (!title) {
@@ -177,38 +168,38 @@ export default Vue.extend({
       }
       // We don't have any validity checks for the questions
     },
-    publishToDatabaseAndStore: function(title, finalQuestions, me) {
+    // TODO review this
+    publishToDatabaseAndStore: function(title, questions) {
       var promise = new Promise((resolve, reject) => {
-        var unsubscribeAuthListener = firebase.auth().onAuthStateChanged(function(user) {
-          if (user && !me.isPublished) {
-             me.publishSurveyToDatabase(title, finalQuestions).then(function(isPublished) {
-              if (isPublished) {
-                unsubscribeAuthListener();
-                // Clean up so that if there was a local survey, it is not
-                // found erroneously next time page is loaded.
-                window.sessionStorage.removeItem('cc-userSurvey');
-                me.publishSurveyToStore(title, finalQuestions);
-                me.setToPublished();
-                resolve();
-              }
-            });
+        var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
+          if (user && !this.isPublished) {
+            var timestamp = Date.now();
+            var finalQuestions = this.addQuotes(questions);
+             this.publishSurveyToDatabase(title, finalQuestions, timestamp)
+                .then((surveyId) => {
+                  if (surveyId) {
+                    unsubscribeAuthListener();
+                    this.setSurveyToPublished(surveyId, timestamp);
+                    resolve(surveyId);
+                  }
+              });
           }
         });
       });
       return promise;
     },
-    publishSurveyToDatabase: function(title, finalQuestions) {
+    publishSurveyToDatabase: function(title, finalQuestions, timestamp) {
       var me = this;
       return surveyApi.publishSurvey(`{
-        "surveyTitle": "${title}",
+        "title": "${title}",
         "questions": [${finalQuestions}],
-        "timestamp": "${Date.now()}"
+        "timestamp": "${timestamp}"
       }`)
           .then(function(response) {
             if (response.ok) {
               return response.json()
                 .then(function(responseData) {
-                  // 'responseData.name' is the ID generated by the POST request through surveyApi.
+                  // 'responseData.name' is the ID generated by surveyApi.
                   return responseData.name;
                 })
                 .then(function(surveyId) {
@@ -234,7 +225,7 @@ export default Vue.extend({
                     $('.swal2-input').select();
                     document.execCommand('copy');
                   });
-                  return true;
+                  return surveyId;
                 });
             } else {
               console.log('error: ', response.statusText);
@@ -256,13 +247,12 @@ export default Vue.extend({
   vuex: {
     getters: {
       userId: function(state) {return state.userInfo.uid;},
-      isPublished: function(state) {return state.isPublished;}
+      survey: function(state) {return state.selectedSurvey;}
     },
     actions: {
-      publishSurveyToStore: function(store, title, finalQuestions) {
-        store.dispatch('publishSurvey', title, finalQuestions);
-      },
-      setToPublished: function() {store.dispatch('setIsPublished', true);}
+      setSurveyToPublished: function(store, surveyId, timestamp) {
+        store.dispatch('PUBLISH_SURVEY', surveyId, timestamp);
+      }
     }
   }
 });

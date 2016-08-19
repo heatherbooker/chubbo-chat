@@ -42,6 +42,7 @@ button.cc-newSurveyBtn {
   margin: 30px auto 0px auto;
   height: 60px;
   border: none;
+  outline: none;
   color: #545454;
   font-size: 12pt;
 }

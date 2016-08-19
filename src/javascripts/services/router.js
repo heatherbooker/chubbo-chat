@@ -25,7 +25,7 @@ router.map({
         component: surveyForm,
 
         subRoutes: {
-          '/:title': {
+          '/:surveyId': {
             component: surveyForm
           }
         }
@@ -34,7 +34,7 @@ router.map({
         component: responsesPage,
 
         subRoutes: {
-          '/:title': {
+          '/:surveyId': {
             component: surveyForm
           }
         }
