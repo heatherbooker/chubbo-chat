@@ -20,9 +20,13 @@ var mainComponent = Vue.extend({
     //pass callback to login constructor to update store when authorization state changes
     window.ChubboChat = {services: {}};
     window.ChubboChat.services.login = new Login((user) => {
-      this.updateUser(user);
-      if(!user) {
+      console.log('user being set by authstatechange callback: ', user);
+      this.setUser(user);
+      if (user) {
+        document.dispatchEvent(new Event('cc-newUser'));
+      } else {
         this.deleteAllSurveys();
+        console.log('no user');
       }
     });
   },
@@ -40,7 +44,7 @@ var mainComponent = Vue.extend({
   //vuex action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateUser: function(state, user) {store.dispatch('setUser', user);},
+      setUser: function(state, user) {store.dispatch('setUser', user);},
       deleteAllSurveys: function(state) {store.dispatch('DELETE_ALL_SURVEYS');}
     }
   }

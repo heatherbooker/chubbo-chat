@@ -9,10 +9,6 @@ Vue.use(Vuex);
 export default new Vuex.Store(function() {
 
   var defaults = {
-    userInfo: {
-      email: 'not signed in',
-      imgSrc: 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png'
-    },
     survey: {
       id: '$creating_survey',
       title: '',
@@ -26,9 +22,9 @@ export default new Vuex.Store(function() {
     state: {
 
       isLeftPanelVisible: true,
-      userInfo: defaults.userInfo,
+      user: undefined,
       surveys: [],
-      selectedSurvey: defaults.survey,
+      selectedSurvey: $.extend(true, {}, defaults.survey),
       
     },
 
@@ -51,16 +47,7 @@ export default new Vuex.Store(function() {
       },
 
       setUser: function(state, user) {
-        if (user) {
-          if (!user.photoURL) {
-            user.imgSrc = 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
-          } else {
-            user.imgSrc = user.photoURL;
-          }
-          state.userInfo = user;
-        } else {
-          state.userInfo = defaults.userInfo;
-        }
+        state.user = user;
       },
 
       DELETE_ALL_SURVEYS: function(state) {
@@ -68,7 +55,7 @@ export default new Vuex.Store(function() {
         state.selectedSurvey = defaults.survey;
       },
 
-      ADD_SURVEY: function(state, newSurvey = defaults.survey) {
+      ADD_SURVEY: function(state, newSurvey = $.extend(true, {}, defaults.survey)) {
         var isInStore = state.surveys.find((survey) => {
           return survey.id === newSurvey.id;
         });
@@ -101,11 +88,12 @@ export default new Vuex.Store(function() {
             survey.isPublished = true;
             survey.id = surveyId;
             survey.timestamp = timestamp;
+            delete survey.isForPublishing;
           }
         });
       },
 
-      setSelectedSurvey: function(state, survey = defaults.survey) {
+      setSelectedSurvey: function(state, survey = $.extend(true, {}, defaults.survey)) {
         state.selectedSurvey = survey;
       }
 

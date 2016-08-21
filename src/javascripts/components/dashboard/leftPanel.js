@@ -6,31 +6,30 @@ import store from '../../store.js'
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
-  props: ['isLoggedIn', 'surveys'],
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
-      <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
-      <p class="cc-userEmail-leftPanel"> {{ emailField }} </p>
+      <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
+      <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
       <p
         v-link="{path: '/'}"
         v-on:click="handleLogout"
         class="cc-logout-leftPanel"
-        v-show="isLoggedIn"
+        v-show="user"
       > logout </p>
-      <hr class="cc-leftPanel-seperatingLine" v-show="!isLoggedIn">
+      <hr class="cc-leftPanel-seperatingLine" v-show="!user">
       <button
         class="cc-newSurveyBtn"
-        v-show="isLoggedIn"
+        v-show="user"
         v-link="{path: '/dashboard/surveys/$creating_survey'}"
         @click="hideMenu"
       >
         + Create Survey
       </button>
-      <div class="cc-leftPanel-surveyList" v-if="isLoggedIn">
+      <div class="cc-leftPanel-surveyList" v-if="user">
         <div
-          v-for="survey in surveys"
+          v-for="survey in surveys | orderBy 'timestamp'"
           track-by="id"
-          v-if="survey.id !== '$creating_survey'"
+          v-if="survey.isPublished"
           v-link="{path: pathRoot + survey.id}"
           class="cc-leftPanel-survey"
           @click="hideMenu"
@@ -46,6 +45,20 @@ export default Vue.extend({
         return '/dashboard/surveys/';
       }
       return '/dashboard/responses/';
+    },
+    userEmail: function() {
+      if (this.user) {
+        return this.user.email;
+      }
+      return 'not signed in';
+    },
+    userImgSrc: function() {
+      if (this.user) {
+        if (this.user.photoURL) {
+          return this.user.photoURL;
+        }
+      }
+      return 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
     }
   },
   methods: {
@@ -58,13 +71,13 @@ export default Vue.extend({
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
-    actions: {
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
-    },
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
-      emailField: function(state) {return state.userInfo.email;},
-      userPic: function(state) {return state.userInfo.imgSrc}
+      user: function(state) {return state.user},
+      surveys: function(state) {return state.surveys;}
+    },
+    actions: {
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     }
   }
 });

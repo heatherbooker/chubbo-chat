@@ -13,24 +13,28 @@ import '../../../stylesheets/dashboard.css'
 
 export default Vue.extend({
   route: {
-    activate: function(transition) {
-      this.getPublishedSurveys()
-          .then((surveys) => {
-            for (var surveyKey in surveys) {
-              var survey = surveys[surveyKey];
-              survey.id = surveyKey;
-              survey.isPublished = true;
-              this.addSurveyToStore(survey);
+    activate(transition) {
+      window.ChubboChat.services.login.getUserAfterRedirect()
+          .then((user) => {
+            if (user) {
+              this.setUser(user);
             }
-            transition.next();
-          }, () => {
-            transition.next();
+          })
+          .then(() => {
+            this.getPublishedSurveys()
+              .then((surveys) => {
+                this.addSurveysToStore(surveys);
+                transition.next();
+              }, () => {
+                transition.next();
+              });
           });
     },
     data: function(transition) {
       var currentSurveyId = this.$route.params.surveyId;
 
       if (!currentSurveyId) {
+        console.log('questcequece passe?', this.$route.path);
         var latestSurveyId = this.getLatestSurveyId(this.surveys);
         transition.redirect(`/dashboard/surveys/${latestSurveyId}`);
 
@@ -43,7 +47,8 @@ export default Vue.extend({
         // Clean up so that if there was a local survey, it is not
         // found erroneously next time page is loaded or when user clicks 'Publish'.
         window.sessionStorage.removeItem('cc-userSurvey');
-        this.setSelectedSurvey(localSurvey, '$creating_survey');
+        this.addSurveyToStore(localSurvey);
+        this.setSelectedSurvey(localSurvey);
         transition.next();
 
       } else {
@@ -58,11 +63,11 @@ export default Vue.extend({
     <div class="cc-dashboardPage">
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-      <left-panel :is-logged-in="isLoggedIn" :surveys="surveys"></left-panel>
+      <left-panel></left-panel>
       <div class="cc-dashboard-main">
-        <tab-bar v-if="isLoggedIn"></tab-bar>
+        <tab-bar v-if="user"></tab-bar>
         <span
-          v-if="$loadingRouteData"
+          v-if="false"
           class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
         </span>
         <router-view v-if="!$loadingRouteData"></router-view>
@@ -73,34 +78,26 @@ export default Vue.extend({
     'left-panel': leftPanel,
     'tab-bar': tabBar
   },
-  data: function() {
-    return {
-      isLoggedIn: false
-    };
-  },
-  created: function() {
-    this.hideMobileMenu();
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-      }
+  ready: function() {
+    document.addEventListener('cc-newUser', () => {
+      this.getPublishedSurveys()
+          .then((surveys) => {
+            this.addSurveysToStore(surveys);
+          });
     });
   },
   methods: {
     getPublishedSurveys: function() {
       var promise = new Promise((resolve, reject) => {
-        this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            return surveyApi.getSurveys()
-                .then(response => response.json())
-                .then((surveys) => {
-                  this.unsubscribeAuthListener();
-                  resolve(surveys);
-                });
-          } else {
-            reject();
-          }
-        });
+        if (this.user) {
+          return surveyApi.getSurveys()
+              .then(response => response.json())
+              .then((surveys) => {
+                resolve(surveys);
+              });
+        } else {
+          reject();
+        }
       });
       return promise;
     },
@@ -125,12 +122,21 @@ export default Vue.extend({
       });
       return latestSurveyId;
     },
+    addSurveysToStore(surveys) {
+      for (var surveyKey in surveys) {
+        var survey = surveys[surveyKey];
+        survey.id = surveyKey;
+        survey.isPublished = true;
+        this.addSurveyToStore(survey);
+      }
+    }
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
-      surveys: function(state) {return state.surveys;}
+      surveys: function(state) {return state.surveys;},
+      user: function(state) {return state.user;}
     },
     actions: {
       hideMobileMenu: function() {store.dispatch('toggleLeftPanel', false);},
@@ -139,6 +145,9 @@ export default Vue.extend({
       },
       setSelectedSurvey: function(store, survey) {
         store.dispatch('setSelectedSurvey', survey);
+      },
+      setUser(store, user) {
+        store.dispatch('setUser', user);
       }
     }
   }

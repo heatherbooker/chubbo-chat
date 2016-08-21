@@ -16,4 +16,10 @@ Login.prototype.signOut = function() {
   this.auth.signOut();
 }
 
+Login.prototype.getUserAfterRedirect = function() {
+  return this.auth.getRedirectResult().then((result) => {
+    return result.user;
+  });
+};
+
 module.exports = Login;

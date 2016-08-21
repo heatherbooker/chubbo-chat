@@ -11,33 +11,33 @@ import '../../../stylesheets/responses.css'
 export default Vue.extend({
   route: {
     canActivate: function(transition) {
-      var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          transition.next();
-          unsubscribeAuthListener();
-        } else {
-          transition.abort();
-        }
-      })
+      // We need to access the store directly; 'this.user' won't work
+      // because the component hasn't been created yet!
+      if (store.state.user) {
+        transition.next();
+      } else {
+        transition.abort();
+      }
     },
     data: function(transition) {
-      var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.getQuestions(this.survey)
-              .then((questions) => {
-                this.questions = questions;
-                transition.next();
-                this.setResponses(this.survey);
-                unsubscribeAuthListener();
-              });
-        }
-      });
+      if (this.user) {
+        this.getQuestions(this.survey)
+            .then((questions) => {
+              this.questions = questions;
+              transition.next();
+              this.setResponses(this.survey);
+            });
+      }
     }
   },
   template: `
     <div class="cc-responsesPage">
       <div class="cc-responsesPage-container">
-        <div v-for="question in questions" v-if="survey.isPublished">
+        <div
+          v-for="question in questions"
+          track-by="$index"
+          v-if="survey.isPublished"
+        >
           <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
             <img
               :src="arrowImgSrc"
@@ -46,9 +46,9 @@ export default Vue.extend({
             <p class="cc-responsesPage-question">{{ question.text }}</p>
           </div>
           <p
-            v-show="question.revealResponses"
             v-for="response in question.responses"
             track-by="$index"
+            v-show="question.revealResponses"
             class="cc-responsesPage-response"
           >
             {{ response }}
@@ -71,17 +71,13 @@ export default Vue.extend({
   methods: {
     getQuestions: function(survey) {
       var promise = new Promise((resolve, reject) => {
-        var questions = [];
-        var numOfQuestions = survey.questions.length;
-        for (var i = 0; i < numOfQuestions; i ++) {
-          var newQuestion = {
-            text: survey.questions[i],
+        resolve(survey.questions.map((question) => {
+          return {
+            text: question,
             responses: [],
             revealResponses: false
           };
-          questions.push(newQuestion);
-        }
-        resolve(questions);
+        }));
       });
       return promise;
     },
@@ -110,7 +106,8 @@ export default Vue.extend({
   // vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      survey: function(state) {return state.selectedSurvey;}
+      survey: function(state) {return state.selectedSurvey;},
+      user: function(state) {return state.user}
     }
   }
 });
