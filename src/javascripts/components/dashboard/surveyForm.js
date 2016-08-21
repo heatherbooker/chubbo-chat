@@ -84,7 +84,7 @@ export default Vue.extend({
   },
   data: function() {
     return {
-      title: this.title,
+      title: '',
       questions: [''],
       titleError: false
     };
@@ -109,7 +109,7 @@ export default Vue.extend({
       var me = this;
       if (this.isValidatedData(this.title, this.questions)) {
         var nonBlankQuestions = this.removeBlankQuestions(this.questions);
-        if (!me.user) {
+        if (!firebase.auth().currentUser) {
           swal({
             type: 'warning',
             title: 'Please log in to save your survey!',
@@ -132,8 +132,6 @@ export default Vue.extend({
       // isForPublishing will be true if user clicked 'Publish' button;
       // else, they just logged in while in the middle of creating a survey.
       var surveyObject = {
-        id: '$creating_survey',
-        isPublished: false,
         title,
         questions,
         isForPublishing
@@ -173,17 +171,20 @@ export default Vue.extend({
     // TODO review this
     publishToDatabaseAndStore: function(title, questions) {
       var promise = new Promise((resolve, reject) => {
-        if (this.user) {
-          var timestamp = Date.now();
-          var finalQuestions = this.addQuotes(questions);
-          this.publishSurveyToDatabase(title, finalQuestions, timestamp)
-              .then((surveyId) => {
-                if (surveyId) {
-                  this.setSurveyToPublished(surveyId, timestamp);
-                  resolve(surveyId);
-                }
+        var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
+          if (user && !this.isPublished) {
+            var timestamp = Date.now();
+            var finalQuestions = this.addQuotes(questions);
+             this.publishSurveyToDatabase(title, finalQuestions, timestamp)
+                .then((surveyId) => {
+                  if (surveyId) {
+                    unsubscribeAuthListener();
+                    this.setSurveyToPublished(surveyId, timestamp);
+                    resolve(surveyId);
+                  }
               });
-        }
+          }
+        });
       });
       return promise;
     },
@@ -245,15 +246,13 @@ export default Vue.extend({
   // vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      user: function(state) {return state.user;},
-      userId: function(state) {return state.user.uid;},
+      userId: function(state) {return state.userInfo.uid;},
       survey: function(state) {return state.selectedSurvey;}
     },
     actions: {
       setSurveyToPublished: function(store, surveyId, timestamp) {
         store.dispatch('PUBLISH_SURVEY', surveyId, timestamp);
-      },
-      setUser: function(state, user) {store.dispatch('setUser', user);},
+      }
     }
   }
 });

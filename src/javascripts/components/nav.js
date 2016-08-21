@@ -21,7 +21,8 @@ export default Vue.extend({
               :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
             />
             <p
-              v-show="!user"
+              //only real users have uid
+              v-show="!user.uid"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -38,7 +39,8 @@ export default Vue.extend({
           </div>
           <div v-else>
             <p
-              v-show="!user"
+              //only real users have uid
+              v-show="!user.uid"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -85,7 +87,6 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
-      this.setSelectedSurvey();
     },
     handleMenu: function() {
       //show or hide menu on menu icon click
@@ -100,14 +101,11 @@ export default Vue.extend({
   vuex: {
     getters: {
       isMenuVisible: function(state) {return state.isLeftPanelVisible;},
-      user: function(state) {return state.user;}
+      user: function(state) {return state.userInfo;}
     },
     actions: {
       showMenu: function() {store.dispatch('toggleLeftPanel', true);},
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);},
-      setSelectedSurvey: function(store, survey) {
-        store.dispatch('setSelectedSurvey', survey);
-      }
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     }
   }
 });
