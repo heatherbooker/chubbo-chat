@@ -34,7 +34,6 @@ export default Vue.extend({
       var currentSurveyId = this.$route.params.surveyId;
 
       if (!currentSurveyId) {
-        console.log('questcequece passe?', this.$route.path);
         var latestSurveyId = this.getLatestSurveyId(this.surveys);
         transition.redirect(`/dashboard/surveys/${latestSurveyId}`);
 
