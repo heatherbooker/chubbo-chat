@@ -6,6 +6,7 @@ import store from '../../store.js'
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
+  props: ['isLoggedIn', 'surveys'],
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
       <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
@@ -16,49 +17,43 @@ export default Vue.extend({
         class="cc-logout-leftPanel"
         v-show="isLoggedIn"
       > logout </p>
-      <hr class="cc-leftPanel-seperatingLine">
-      <a @click="hideMenu" v-link="'/dashboard/survey'" :class="surveyBtnClass">
-        survey
-      </a>
-      <a
-        @click="hideMenu"
-        v-link="'/dashboard/responses'"
-        :class="responsesBtnClass"
+      <hr class="cc-leftPanel-seperatingLine" v-show="!isLoggedIn">
+      <button
+        class="cc-newSurveyBtn"
         v-show="isLoggedIn"
+        v-link="{path: '/dashboard/surveys/$creating_survey'}"
+        @click="hideMenu"
       >
-        responses
-      </a>
+        + Create Survey
+      </button>
+      <div class="cc-leftPanel-surveyList" v-if="isLoggedIn">
+        <div
+          v-for="survey in surveys"
+          track-by="id"
+          v-if="survey.id !== '$creating_survey'"
+          v-link="{path: pathRoot + survey.id}"
+          class="cc-leftPanel-survey"
+          @click="hideMenu"
+        >
+          {{ survey.title || survey.surveyTitle }}
+        </div>
+      </div>
     </div>
   `,
-  created: function() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-      }
-    });
-  },
-  data: function() {
-    return {
-      isLoggedIn: false
-    };
-  },
   computed: {
-    surveyBtnClass: function() {
-      if (this.$route.path === '/dashboard/survey') {
-        return 'cc-leftPanel-surveyBtn-selected';
+    pathRoot: function() {
+      if (this.$route.path.substring(11, 18) === 'surveys') {
+        return '/dashboard/surveys/';
       }
-      return 'cc-leftPanel-surveyBtn';
-    },
-    responsesBtnClass: function() {
-      if (this.$route.path === '/dashboard/responses') {
-        return 'cc-leftPanel-responsesBtn-selected';
-      }
-      return 'cc-leftPanel-responsesBtn';
+      return '/dashboard/responses/';
     }
   },
   methods: {
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
+      // Clean up so that if there was a local survey, it is not
+      // found erroneously next time page is loaded or when user clicks 'Publish'.
+      window.sessionStorage.removeItem('cc-userSurvey');
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
