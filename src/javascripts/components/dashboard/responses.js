@@ -11,62 +11,57 @@ import '../../../stylesheets/responses.css'
 export default Vue.extend({
   route: {
     canActivate: function(transition) {
-      var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          transition.next();
-          unsubscribeAuthListener();
-        } else {
-          transition.abort();
-        }
-      })
+      // We need to access the store directly; 'this.user' won't work
+      // because the component hasn't been created yet!
+      if (store.state.user) {
+        transition.next();
+      } else {
+        transition.abort();
+      }
+    },
+    data: function(transition) {
+      if (this.user) {
+        this.getQuestions(this.survey)
+            .then((questions) => {
+              this.questions = questions;
+              transition.next();
+              this.setResponses(this.survey);
+            });
+      }
     }
   },
   template: `
     <div class="cc-responsesPage">
       <div class="cc-responsesPage-container">
-        <h2 class="cc-responsesPage-title">responses</h2>
-          <div v-for="question in questions">
-            <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
-              <img
-                :src="arrowImgSrc"
-                :class="question.revealResponses ? arrowClassReveal : arrowClass"
-              />
-              <h4 class="cc-responsesPage-question">{{question.text}}</h4>
-            </div>
-            <p
-              v-show="question.revealResponses"
-              v-for="response in question.responses"
-              track-by="$index"
-              class="cc-responsesPage-response"
-            >
-              {{response}}
-            </p>
+        <div
+          v-for="question in questions"
+          track-by="$index"
+          v-if="survey.isPublished"
+        >
+          <div class="cc-responsesPage-questionRow" @click="toggleViewReponses(question)">
+            <img
+              :src="arrowImgSrc"
+              :class="question.revealResponses ? arrowClassReveal : arrowClass"
+            />
+            <p class="cc-responsesPage-question">{{ question.text }}</p>
           </div>
+          <p
+            v-for="response in question.responses"
+            track-by="$index"
+            v-show="question.revealResponses"
+            class="cc-responsesPage-response"
+          >
+            {{ response }}
+          </p>
+        </div>
+        <p v-if="!survey.isPublished" class="cc-responsesPage-errorNotice">
+          Publish your current survey or <br> select a published survey to see responses!
+        </p>
       </div>
     </div>
   `,
-  ready: function() {
-    var unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        surveyApi.getSurveys()
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              this.setQuestions(data);
-              this.setResponses(data);
-              unsubscribeAuthListener();
-            });
-      }
-    });
-  },
   data: function() {
     return {
-      surveyInfo: {
-        userId: this.$route.params.userId,
-        surveyId: this.$route.params.surveyId
-      },
-      latestSurvey: {},
       questions: [],
       arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
@@ -74,35 +69,25 @@ export default Vue.extend({
     }
   },
   methods: {
-    setQuestions: function(data) {
-      //find latest(most recent) survey from database
-      var latestDate = 0;
-      var latestSurvey;
-      for (var surveyKey in data) {
-        if (data[surveyKey].timestamp > latestDate) {
-          latestSurvey = data[surveyKey];
-          latestDate = data[surveyKey].timestamp;
-        }
-      }
-      //store it for the setResponses method
-      this.latestSurvey = latestSurvey;
-      var numOfQuestions = latestSurvey.questions.length;
-      for (var i = 0; i < numOfQuestions; i ++) {
-        var newQuestion = {
-          text: latestSurvey.questions[i],
-          responses: [],
-          revealResponses: false
-        };
-        this.questions.push(newQuestion);
-      }
+    getQuestions: function(survey) {
+      var promise = new Promise((resolve, reject) => {
+        resolve(survey.questions.map((question) => {
+          return {
+            text: question,
+            responses: [],
+            revealResponses: false
+          };
+        }));
+      });
+      return promise;
     },
-    setResponses: function(data) {
-      if ('responses' in this.latestSurvey) {
+    setResponses: function(survey) {
+      if ('responses' in survey) {
         var numOfQuestions = this.questions.length;
-        for (var responseKey in this.latestSurvey.responses) {
+        for (var responseKey in survey.responses) {
           for (var i = 0; i < numOfQuestions; i ++) {
             //i + 1 because 0 is the users greeting to the bot
-            this.questions[i].responses.push(this.latestSurvey.responses[responseKey][i + 1].text)
+            this.questions[i].responses.push(survey.responses[responseKey][i + 1].text)
           }
         }
       }
@@ -116,6 +101,13 @@ export default Vue.extend({
       } else {
         question.revealResponses = true;
       }
+    }
+  },
+  // vuex(state store) getters / action dispatcher(s) needed by this component
+  vuex: {
+    getters: {
+      survey: function(state) {return state.selectedSurvey;},
+      user: function(state) {return state.user}
     }
   }
 });

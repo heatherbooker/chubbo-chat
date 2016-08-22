@@ -21,8 +21,7 @@ export default Vue.extend({
               :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
             />
             <p
-              //only real users have uid
-              v-show="!user.uid"
+              v-show="!user"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -39,8 +38,7 @@ export default Vue.extend({
           </div>
           <div v-else>
             <p
-              //only real users have uid
-              v-show="!user.uid"
+              v-show="!user"
               v-on:click='handleLogin'
               class="cc-loginBtn"
             >
@@ -67,7 +65,7 @@ export default Vue.extend({
     onDashboard: function() {
       //dashboard: show menu icon or logout btn (based on css media queries)
       //landing: show dashboard shortcut or login btn (based on user login status)
-      return (this.$route.path === '/dashboard/survey' || this.$route.path === '/dashboard/responses');
+      return (this.$route.path.substring(0, 10) === '/dashboard');
     },
     onSimpleNav: function() {
       // Conversation page: login option is not available, therefore no need to show login button.
@@ -76,20 +74,17 @@ export default Vue.extend({
   },
   methods: {
     handleLogin: function() {
-      // Survey Form component is listening to this event
-      document.dispatchEvent(new Event('cc-saveSurveyState'));
+      if (this.onDashboard) {
+        // Survey Form component is listening to this event
+        document.dispatchEvent(new Event('CC.SAVE_SURVEY_STATE'));
+      }
       window.ChubboChat.services.login.signIn();
-      var me = this;
-      firebase.auth().onAuthStateChanged(function(user) {
-        if(user) {
-          me.$router.go('/dashboard');
-          // Survey Form component is listening to this event
-          document.dispatchEvent(new Event('cc-refreshDash'));
-        }
-      })
     },
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
+      // Clean up so that if there was a local survey, it is not
+      // found erroneously next time page is loaded or when user clicks 'Publish'.
+      window.sessionStorage.removeItem('cc-userSurvey');
     },
     handleMenu: function() {
       //show or hide menu on menu icon click
@@ -104,11 +99,14 @@ export default Vue.extend({
   vuex: {
     getters: {
       isMenuVisible: function(state) {return state.isLeftPanelVisible;},
-      user: function(state) {return state.userInfo;}
+      user: function(state) {return state.user;}
     },
     actions: {
       showMenu: function() {store.dispatch('toggleLeftPanel', true);},
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);},
+      setSelectedSurvey: function(store, survey) {
+        store.dispatch('setSelectedSurvey', survey);
+      }
     }
   }
 });

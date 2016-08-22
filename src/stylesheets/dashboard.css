@@ -6,12 +6,60 @@
   position: absolute;
   width: 100%;
   /*navbar is 90px*/
-  min-height: calc(100% - 90px);
+  height: calc(100% - 90px);
+}
+
+.cc-dashboard-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 3;
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  position: relative;
+  top: -1px;
+}
+
+.cc-dashboard-tabBar {
+  display: -webkit-flex;
+  display: flex;
+  border-bottom: 1px solid #F0f0f0;
+}
+
+.cc-dashboard-tab {
+  border-right: 1px solid #F0f0f0;
+  border-top: 5px solid transparent;
+  border-left: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  width: 200px;
+  text-align: center;
+}
+
+.cc-dashboard-tab:hover {
+  cursor: pointer;
+}
+
+.cc-dashboard-tab.v-link-active {
+  border: 1px solid #CECECE;
+  position: relative;
+  top: 1px;
+  border-top: 5px solid #93B3F8;
+  border-bottom: 2px solid #fff;
+}
+
+.cc-dashboard-tabText {
+  padding: 9px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 @media (max-width: 992px) {
   .cc-dashboardPage {
-    min-height: calc(100% - 77px);
+    height: calc(100% - 77px);
   }
   .cc-greyedSurveyForm {
     display: -webkit-box;
@@ -27,4 +75,12 @@
     /*on top of survey form*/
     z-index: 1;
   }
+}
+
+@media (max-width: 768px) {
+  .cc-dashboard-tab {
+    width: auto;
+    -webkit-flex: 1;
+    flex: 1;
+  } 
 }

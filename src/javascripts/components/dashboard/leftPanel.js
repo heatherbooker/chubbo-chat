@@ -8,68 +8,76 @@ import '../../../stylesheets/leftPanel.css'
 export default Vue.extend({
   template: `
     <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
-      <img v-bind:src=userPic class="cc-userIcon-leftPanel"/>
-      <p class="cc-userEmail-leftPanel"> {{ emailField }} </p>
+      <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
+      <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
       <p
         v-link="{path: '/'}"
         v-on:click="handleLogout"
         class="cc-logout-leftPanel"
-        v-show="isLoggedIn"
+        v-show="user"
       > logout </p>
-      <hr class="cc-leftPanel-seperatingLine">
-      <a @click="hideMenu" v-link="'/dashboard/survey'" :class="surveyBtnClass">
-        survey
-      </a>
-      <a
+      <hr class="cc-leftPanel-seperatingLine" v-show="!user">
+      <button
+        class="cc-newSurveyBtn"
+        v-show="user"
+        v-link="{path: '/dashboard/surveys/$creating_survey'}"
         @click="hideMenu"
-        v-link="'/dashboard/responses'"
-        :class="responsesBtnClass"
-        v-show="isLoggedIn"
       >
-        responses
-      </a>
+        + Create Survey
+      </button>
+      <div class="cc-leftPanel-surveyList" v-if="user">
+        <div
+          v-for="survey in surveys | orderBy 'timestamp'"
+          track-by="id"
+          v-if="survey.isPublished"
+          v-link="{path: pathRoot + survey.id}"
+          class="cc-leftPanel-survey"
+          @click="hideMenu"
+        >
+          {{ survey.title || survey.surveyTitle }}
+        </div>
+      </div>
     </div>
   `,
-  created: function() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-      }
-    });
-  },
-  data: function() {
-    return {
-      isLoggedIn: false
-    };
-  },
   computed: {
-    surveyBtnClass: function() {
-      if (this.$route.path === '/dashboard/survey') {
-        return 'cc-leftPanel-surveyBtn-selected';
+    pathRoot: function() {
+      if (this.$route.path.substring(11, 18) === 'surveys') {
+        return '/dashboard/surveys/';
       }
-      return 'cc-leftPanel-surveyBtn';
+      return '/dashboard/responses/';
     },
-    responsesBtnClass: function() {
-      if (this.$route.path === '/dashboard/responses') {
-        return 'cc-leftPanel-responsesBtn-selected';
+    userEmail: function() {
+      if (this.user) {
+        return this.user.email;
       }
-      return 'cc-leftPanel-responsesBtn';
+      return 'not signed in';
+    },
+    userImgSrc: function() {
+      if (this.user) {
+        if (this.user.photoURL) {
+          return this.user.photoURL;
+        }
+      }
+      return 'https://s.ytimg.com/yts/img/avatar_720-vflYJnzBZ.png';
     }
   },
   methods: {
     handleLogout: function() {
       window.ChubboChat.services.login.signOut();
+      // Clean up so that if there was a local survey, it is not
+      // found erroneously next time page is loaded or when user clicks 'Publish'.
+      window.sessionStorage.removeItem('cc-userSurvey');
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
-    actions: {
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
-    },
     getters: {
       isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
-      emailField: function(state) {return state.userInfo.email;},
-      userPic: function(state) {return state.userInfo.imgSrc}
+      user: function(state) {return state.user},
+      surveys: function(state) {return state.surveys;}
+    },
+    actions: {
+      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
     }
   }
 });

@@ -9,16 +9,17 @@ var Login = function (onAuthStateChangeCallback) {
 
 Login.prototype.signIn = function() {
   var provider = new firebase.auth.GoogleAuthProvider();
-  if (window.matchMedia("(max-width: 992px)").matches) {
-    //on mobile
-    return this.auth.signInWithRedirect(provider);
-  } else {
-    return this.auth.signInWithPopup(provider);    
-  }
+  return this.auth.signInWithRedirect(provider);
 }
 
 Login.prototype.signOut = function() {
   this.auth.signOut();
 }
+
+Login.prototype.getUserAfterRedirect = function() {
+  return this.auth.getRedirectResult().then((result) => {
+    return result.user;
+  });
+};
 
 module.exports = Login;

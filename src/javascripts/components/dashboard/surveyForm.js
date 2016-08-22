@@ -16,20 +16,31 @@ import '../../../stylesheets/surveyForm.css'
 export default Vue.extend({
   route: {
     data: function(transition) {
-      this.getSurveyData('router')
-          .then((surveyData) => {
-            transition.next({
-              title: surveyData.title,
-              questions: surveyData.questions
+      // Handles legacy naming style.
+      var title = this.survey.surveyTitle || this.survey.title;
+      var questions = this.survey.questions;
+
+      // Survey was saved locally before user was redirected to login for publishing.
+      if (this.survey.isForPublishing) {
+        this.publish(title, questions)
+            .then((surveyId) => {
+              transition.redirect(`/dashboard/surveys/${surveyId}`);
             });
-          });
+
+      } else {
+        transition.next({
+          title,
+          questions
+        });
+      }
     }
   },
   template: `
     <div class="cc-surveyFormPage-container">
       <span
         v-if="$loadingRouteData"
-        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
+        class="fa fa-spinner fa-spin fa-5x cc-loadingIcon"
+      >
       </span>
       <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
         <div class="cc-surveyFormInputs">
@@ -72,35 +83,6 @@ export default Vue.extend({
     'title-input': titleInput,
     'question-input': questionInput
   },
-  ready: function() {
-    $('.cc-titleInput').focus();
-
-    if (window.sessionStorage.getItem('cc-userSurvey')) {
-      // User has already started / created survey which is saved in sessionStorage:
-      // They were redirected to login after clicking either the login or publish button.
-      // Also, unsubscribe to checking for user because we already have the survey.
-      this.unsubscribeAuthListener();
-      var survey = this.getLocalSurvey();
-      var questions = this.tidyQuestions(survey.questions);
-      if (survey.isForPublishing) {
-        this.publishToDatabaseAndStore(survey.title, questions, this);
-      }
-    }
-
-    // Listen for user logging in so we can save their half-written survey.
-    document.addEventListener('cc-saveSurveyState', () => {
-      // Last arg is false to indicate this survey should not be published.
-      this.setLocalSurvey(this.title, this.tidyQuestions(this.questions), false);
-    });
-    document.addEventListener('cc-refreshDash', () => {
-      this.updateData()
-          .then(() => {
-              // Clean up so that if there was a local survey, it is not
-              // found erroneously next time page is loaded or when user clicks 'Publish'.
-              window.sessionStorage.removeItem('cc-userSurvey');
-          });
-    });
-  },
   data: function() {
     return {
       title: this.title,
@@ -108,60 +90,15 @@ export default Vue.extend({
       titleError: false
     };
   },
+  ready: function() {
+    $('.cc-titleInput').focus();
+    // Listen for user logging in so we can save their half-written survey before redirect.
+    document.addEventListener('CC.SAVE_SURVEY_STATE', () => {
+      // Last arg is false to indicate this survey should not be published.
+      this.setLocalSurvey(this.title, this.removeBlankQuestions(this.questions), false);
+    });
+  },
   methods: {
-    updateData: function() {
-      return this.getSurveyData().then((survey) => {
-        this.title = survey.title;
-        this.questions = survey.questions;
-      })
-    },
-    getSurveyData: function(caller) {
-      var promise = new Promise((resolve, reject) => {
-        if (window.sessionStorage.getItem('cc-userSurvey')) {
-          // User has already created survey which is saved in sessionStorage
-          resolve(this.getLocalSurvey());
-        }
-        this.unsubscribeAuthListener = firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            return surveyApi.getSurveys()
-                .then(response => response.json())
-                .then((jsonResponse) => {
-                  this.unsubscribeAuthListener();
-                  var survey = this.getLatestSurvey(jsonResponse);
-                  if (caller === 'router') {
-                    this.title = survey.title;
-                    this.questions = survey.questions;
-                  }
-                  resolve(survey);
-                });
-          } else {
-            resolve({title: '', questions: ['']});
-          }
-        });
-      });
-      return promise;
-    },
-    getLocalSurvey: function() {
-      var savedSurvey = JSON.parse(window.sessionStorage.getItem('cc-userSurvey'));
-      var questions = savedSurvey.questions.map((question) => {
-        // remove quotes
-        return question.substring(1, question.length - 1);
-      });
-      return {title: savedSurvey.title, questions};
-    },
-    getLatestSurvey: function(data) {
-      // find latest(most recent) survey from database
-      var latestDate = 0;
-      var latestSurvey = {title: '', questions: []};
-
-      for (var surveyKey in data) {
-        if (data[surveyKey].timestamp > latestDate) {
-          latestSurvey = data[surveyKey];
-          latestDate = data[surveyKey].timestamp;
-        }
-      }
-      return {title: latestSurvey.surveyTitle, questions: latestSurvey.questions};
-    },
     addQuestionInput: function() {
       this.questions.push('');
       // wait for new input to be inserted before moving focus to it
@@ -171,24 +108,24 @@ export default Vue.extend({
     },
     handlePublishButton: function() {
       var me = this;
-      // Make sure we are not still looking for a user to populate survey fields with past data.
-      this.unsubscribeAuthListener();
       if (this.isValidatedData(this.title, this.questions)) {
-        var finalQuestions = this.tidyQuestions(this.questions);
-        if (!firebase.auth().currentUser) {
+        var nonBlankQuestions = this.removeBlankQuestions(this.questions);
+        if (!me.user) {
           swal({
             type: 'warning',
             title: 'Please log in to save your survey!',
             showCancelButton: true
           }).then(function() {
-            // Mobile users are redirected to login, so we need to save their survey first.
-            this.setLocalSurvey(this.title, finalQuestions, true);
-            window.ChubboChat.services.login.signIn().then(function() {
-              me.publishToDatabaseAndStore(this.title, finalQuestions, me);
-            });
+            // Users are redirected to login, so we need to save their survey first.
+            me.setLocalSurvey(me.title, nonBlankQuestions, true);
+            window.ChubboChat.services.login.signIn();
           });
         } else {
-          me.publishToDatabaseAndStore(this.title, finalQuestions, me);
+          me.publish(me.title, nonBlankQuestions).then((surveyId) => {
+            // Dashboard component is listening to this event, to refresh
+            // left panel list of surveys and URL.
+            this.$router.go(`/dashboard/surveys/${surveyId}`);
+          });
         }
       }
     },
@@ -196,14 +133,15 @@ export default Vue.extend({
       // isForPublishing will be true if user clicked 'Publish' button;
       // else, they just logged in while in the middle of creating a survey.
       var surveyObject = {
+        id: '$creating_survey',
+        isPublished: false,
         title,
         questions,
         isForPublishing
       };
-      // on mobile: the login service refreshes the page, so we need to save survey data
       window.sessionStorage.setItem('cc-userSurvey', JSON.stringify(surveyObject));
     },
-    tidyQuestions: function(questions) {
+    removeBlankQuestions: function(questions) {
       var filteredQuestions = questions;
       // unless there's only one question,
       if (questions.length > 1) {
@@ -212,12 +150,13 @@ export default Vue.extend({
           return question !== '';
         });
       }
+      return filteredQuestions;
+    },
+    addQuotes: function(questions) {
       // Adding quotes to make it valid json for sending to database
-      var finalQuestions = filteredQuestions.map(function(question) {
+      return questions.map(function(question) {
         return `"${question}"`;
       });
-
-      return finalQuestions;
     },
     isValidatedData: function(title, questions) {
       if (!title) {
@@ -232,60 +171,60 @@ export default Vue.extend({
       }
       // We don't have any validity checks for the questions
     },
-    publishToDatabaseAndStore: function(title, finalQuestions, me) {
-      var published = false;
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user && !published) {
-          me.publishSurveyToDatabase(title, finalQuestions).then(function(isPublished) {
-            if (isPublished) {
-              me.publishSurveyToStore(title, finalQuestions);
-              published = true;
-              // Clean up so that if there was a local survey, it is not
-              // found erroneously next time page is loaded.
-              window.sessionStorage.removeItem('cc-userSurvey');
-            }
-          });
+    // TODO review this
+    publish: function(title, questions) {
+      var promise = new Promise((resolve, reject) => {
+        if (this.user) {
+          var timestamp = Date.now();
+          var finalQuestions = this.addQuotes(questions);
+          this.addSurveyToDatabase(title, finalQuestions, timestamp)
+              .then((surveyId) => {
+                if (surveyId) {
+                  this.alertUserSurveyPublished(surveyId);
+                  this.setSurveyToPublished(surveyId, timestamp);
+                  resolve(surveyId);
+                }
+              });
         }
       });
+      return promise;
     },
-    publishSurveyToDatabase: function(title, finalQuestions) {
-      var me = this;
+    alertUserSurveyPublished: function(surveyId) {
+      swal({
+        type: 'success',
+        title: 'Survey successfully published',
+        html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+        input: 'text',
+        inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${this.userId}/${surveyId}`
+      });
+      var isTextSelected = false;
+      // select and unselect all input text on click
+      $('.swal2-input').click(function() {
+        if (isTextSelected) {
+          isTextSelected = false;
+        } else {
+          $(this).select();
+          isTextSelected = true;
+        }
+      });
+      // copy input text to users clipboard
+      $('.cc-copyBtn').click(function() {
+        $('.swal2-input').select();
+        document.execCommand('copy');
+      });
+    },
+    addSurveyToDatabase: function(title, finalQuestions, timestamp) {
       return surveyApi.publishSurvey(`{
-        "surveyTitle": "${title}",
+        "title": "${title}",
         "questions": [${finalQuestions}],
-        "timestamp": "${Date.now()}"
+        "timestamp": ${timestamp}
       }`)
-          .then(function(response) {
+          .then((response) => {
             if (response.ok) {
               return response.json()
-                .then(function(responseData) {
-                  // 'responseData.name' is the ID generated by the POST request through surveyApi.
+                .then((responseData) => {
+                  // 'responseData.name' is the ID generated by surveyApi.
                   return responseData.name;
-                })
-                .then(function(surveyId) {
-                  swal({
-                    type: 'success',
-                    title: 'Survey successfully published',
-                    html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
-                    input: 'text',
-                    inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${me.userId}/${surveyId}`
-                  });
-                  var isTextSelected = false;
-                  // select and unselect all input text on click
-                  $('.swal2-input').click(function() {
-                    if (isTextSelected) {
-                      isTextSelected = false;
-                    } else {
-                      $(this).select();
-                      isTextSelected = true;
-                    }
-                  });
-                  // copy input text to users clipboard
-                  $('.cc-copyBtn').click(function() {
-                    $('.swal2-input').select();
-                    document.execCommand('copy');
-                  });
-                  return true;
                 })
             } else {
               console.log('error: ', response.statusText);
@@ -306,14 +245,15 @@ export default Vue.extend({
   // vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      userId: function(state) {
-        return state.userInfo.uid;
-      }
+      user: function(state) {return state.user;},
+      userId: function(state) {return state.user.uid;},
+      survey: function(state) {return state.selectedSurvey;}
     },
     actions: {
-      publishSurveyToStore: function(store, title, finalQuestions) {
-        store.dispatch('publishSurvey', title, finalQuestions);
-      }
+      setSurveyToPublished: function(store, surveyId, timestamp) {
+        store.dispatch('publishSurvey', surveyId, timestamp);
+      },
+      setUser: function(state, user) {store.dispatch('setUser', user);},
     }
   }
 });

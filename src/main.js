@@ -16,11 +16,17 @@ import './stylesheets/base.css'
 
 var mainComponent = Vue.extend({
   created: function() {
-    var me = this;
     //start instance of app to connect to firebase
     //pass callback to login constructor to update store when authorization state changes
     window.ChubboChat = {services: {}};
-    window.ChubboChat.services.login = new Login(function(user) {me.updateUser(user);});
+    window.ChubboChat.services.login = new Login((user) => {
+      this.setUser(user);
+      if (user) {
+        document.dispatchEvent(new Event('CC.NEW_USER'));
+      } else {
+        this.deleteAllSurveys();
+      }
+    });
   },
   template: `
     <div>
@@ -36,7 +42,8 @@ var mainComponent = Vue.extend({
   //vuex action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateUser: function(state, user) {store.dispatch('setUser', user);}
+      setUser: function(state, user) {store.dispatch('setUser', user);},
+      deleteAllSurveys: function(state) {store.dispatch('deleteAllSurveys');}
     }
   }
 });
