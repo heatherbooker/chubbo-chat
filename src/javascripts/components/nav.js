@@ -76,7 +76,7 @@ export default Vue.extend({
     handleLogin: function() {
       if (this.onDashboard) {
         // Survey Form component is listening to this event
-        document.dispatchEvent(new Event('cc-saveSurveyState'));
+        document.dispatchEvent(new Event('CC.SAVE_SURVEY_STATE'));
       }
       window.ChubboChat.services.login.signIn();
     },
@@ -85,7 +85,6 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
-      this.setSelectedSurvey();
     },
     handleMenu: function() {
       //show or hide menu on menu icon click

@@ -65,10 +65,6 @@ export default Vue.extend({
       <left-panel></left-panel>
       <div class="cc-dashboard-main">
         <tab-bar v-if="user"></tab-bar>
-        <span
-          v-if="false"
-          class="fa fa-spinner fa-spin fa-5x cc-loadingIcon">
-        </span>
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
     </div>
@@ -78,7 +74,7 @@ export default Vue.extend({
     'tab-bar': tabBar
   },
   ready: function() {
-    document.addEventListener('cc-newUser', () => {
+    document.addEventListener('CC.NEW_USER', () => {
       this.getPublishedSurveys()
           .then((surveys) => {
             this.addSurveysToStore(surveys);
@@ -140,7 +136,7 @@ export default Vue.extend({
     actions: {
       hideMobileMenu: function() {store.dispatch('toggleLeftPanel', false);},
       addSurveyToStore: function(store, survey) {
-        store.dispatch('ADD_SURVEY', survey);
+        store.dispatch('addSurvey', survey);
       },
       setSelectedSurvey: function(store, survey) {
         store.dispatch('setSelectedSurvey', survey);

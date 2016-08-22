@@ -50,12 +50,12 @@ export default new Vuex.Store(function() {
         state.user = user;
       },
 
-      DELETE_ALL_SURVEYS: function(state) {
+      deleteAllSurveys: function(state) {
         state.surveys = [];
         state.selectedSurvey = defaults.survey;
       },
 
-      ADD_SURVEY: function(state, newSurvey = $.extend(true, {}, defaults.survey)) {
+      addSurvey: function(state, newSurvey = $.extend(true, {}, defaults.survey)) {
         var isInStore = state.surveys.find((survey) => {
           return survey.id === newSurvey.id;
         });
@@ -82,7 +82,7 @@ export default new Vuex.Store(function() {
         state.selectedSurvey.title = title;
       },
 
-      PUBLISH_SURVEY: function(state, surveyId, timestamp) {
+      publishSurvey: function(state, surveyId, timestamp) {
         state.surveys.forEach((survey) => {
           if (survey.id === defaults.survey.id) {
             survey.isPublished = true;

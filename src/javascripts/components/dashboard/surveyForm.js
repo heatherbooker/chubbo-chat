@@ -20,6 +20,7 @@ export default Vue.extend({
       var title = this.survey.surveyTitle || this.survey.title;
       var questions = this.survey.questions;
 
+      // Survey was saved locally before user was redirected to login for publishing.
       if (this.survey.isForPublishing) {
         this.publish(title, questions)
             .then((surveyId) => {
@@ -92,7 +93,7 @@ export default Vue.extend({
   ready: function() {
     $('.cc-titleInput').focus();
     // Listen for user logging in so we can save their half-written survey before redirect.
-    document.addEventListener('cc-saveSurveyState', () => {
+    document.addEventListener('CC.SAVE_SURVEY_STATE', () => {
       // Last arg is false to indicate this survey should not be published.
       this.setLocalSurvey(this.title, this.removeBlankQuestions(this.questions), false);
     });
@@ -216,7 +217,7 @@ export default Vue.extend({
       return surveyApi.publishSurvey(`{
         "title": "${title}",
         "questions": [${finalQuestions}],
-        "timestamp": "${timestamp}"
+        "timestamp": ${timestamp}
       }`)
           .then((response) => {
             if (response.ok) {
@@ -250,7 +251,7 @@ export default Vue.extend({
     },
     actions: {
       setSurveyToPublished: function(store, surveyId, timestamp) {
-        store.dispatch('PUBLISH_SURVEY', surveyId, timestamp);
+        store.dispatch('publishSurvey', surveyId, timestamp);
       },
       setUser: function(state, user) {store.dispatch('setUser', user);},
     }
