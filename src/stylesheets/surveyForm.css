@@ -109,6 +109,10 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   margin: 5px auto 22px auto;
 }
 
+.cc-addQuestionInputBtn {
+  background-color: #93DFFF;
+}
+
 .cc-surveyForm-getLinkBtn {
   background-color: #4EC1FF;
 }
@@ -176,12 +180,12 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
 }
 
 button.swal2-confirm.styled {
-  border-color: #3FD6EE;
-  background-color: #3FD6EE !important;
+  border-color: #3FC3EE;
+  background-color: #3FC3EE !important;
 }
 
 .swal2-modal .cc-copyBtn {
-  color: rgb(121, 205, 205);
+  color: #3FC3EE;
   position: relative;
   left: 43%;
   top: 50px;
