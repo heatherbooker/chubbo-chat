@@ -98,7 +98,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   font-weight: bold;
 }
 
-.cc-submitSurveyFormBtn, .cc-addQuestionInputBtn {
+.cc-submitSurveyFormBtn, .cc-addQuestionInputBtn, .cc-surveyForm-getLinkBtn {
   border-radius: 20px;
   color: #fff;
   background-color: #9DE934;
@@ -109,12 +109,16 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   margin: 5px auto 22px auto;
 }
 
+.cc-surveyForm-getLinkBtn {
+  background-color: #4EC1FF;
+}
+
 .cc-addQuestionInputBtn {
   display: none;
   margin: 35px 7% 5px 16%;
 }
 
-.cc-submitSurveyFormBtn:hover, .cc-addQuestionInputBtn {
+.cc-submitSurveyFormBtn:hover, .cc-addQuestionInputBtn:hover, .cc-surveyForm-getLinkBtn:hover {
   cursor: pointer;
 }
 
@@ -145,7 +149,7 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   .cc-submitBtnContainer {
     width: 100%;
   }
-  .cc-submitSurveyFormBtn {
+  .cc-submitSurveyFormBtn, .cc-surveyForm-getLinkBtn {
     margin: 5px auto;
     padding: 6px 35px;
     border-radius: 26px;
@@ -172,8 +176,8 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
 }
 
 button.swal2-confirm.styled {
-  border-color: rgb(121, 205, 205);
-  background-color: rgb(121, 205, 205) !important;
+  border-color: #3FD6EE;
+  background-color: #3FD6EE !important;
 }
 
 .swal2-modal .cc-copyBtn {

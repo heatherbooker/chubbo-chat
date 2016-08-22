@@ -16,6 +16,7 @@ import '../../../stylesheets/surveyForm.css'
 export default Vue.extend({
   route: {
     data: function(transition) {
+      var surveyId = this.survey.id;
       // Handles legacy naming style.
       var title = this.survey.surveyTitle || this.survey.title;
       var questions = this.survey.questions;
@@ -29,6 +30,7 @@ export default Vue.extend({
 
       } else {
         transition.next({
+          surveyId,
           title,
           questions
         });
@@ -70,10 +72,18 @@ export default Vue.extend({
             +
           </span>
           <span
+            v-if="!survey.isPublished"
             class="cc-submitSurveyFormBtn"
             v-on:click="handlePublishButton"
           >
             Publish
+          </span>
+          <span
+            v-else
+            class="cc-surveyForm-getLinkBtn"
+            @click="handleGetLinkButton"
+          >
+            Get Link
           </span>
         </div>
       </div>
@@ -85,10 +95,17 @@ export default Vue.extend({
   },
   data: function() {
     return {
+      surveyId: '',
       title: this.title,
       questions: [''],
       titleError: false
     };
+  },
+  computed: {
+    surveyUrl: function() {
+      var surveyUrlRoot = 'https://chubbo-chat.herokuapp.com/#!/surveys/';
+      return surveyUrlRoot + this.userId + '/' + this.surveyId;
+    }
   },
   ready: function() {
     $('.cc-titleInput').focus();
@@ -128,6 +145,15 @@ export default Vue.extend({
           });
         }
       }
+    },
+    handleGetLinkButton: function() {
+      swal({
+        type: 'info',
+        html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+        input: 'text',
+        inputValue: this.surveyUrl
+      });
+      this.makeInputTextCopyable();
     },
     setLocalSurvey: function(title, questions, isForPublishing) {
       // isForPublishing will be true if user clicked 'Publish' button;
@@ -195,8 +221,11 @@ export default Vue.extend({
         title: 'Survey successfully published',
         html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
         input: 'text',
-        inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${this.userId}/${surveyId}`
+        inputValue: this.surveyUrl
       });
+      this.makeInputTextCopyable();
+    },
+    makeInputTextCopyable: function() {
       var isTextSelected = false;
       // select and unselect all input text on click
       $('.swal2-input').click(function() {
