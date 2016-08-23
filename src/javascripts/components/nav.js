@@ -15,6 +15,7 @@ export default Vue.extend({
         <div class="col-xs-4" v-if="!onSimpleNav">
           <div v-show="onDashboard">
             <img
+              v-show="user"
               v-on:click='handleMenu'
               :src="menuIconSource"
               class="cc-menuIcon-mobile"
@@ -29,7 +30,6 @@ export default Vue.extend({
             </p>
             <p
               v-else
-              v-link="{path: '/'}"
               v-on:click='handleLogout'
               class="cc-logoutBtn"
             >
@@ -81,7 +81,8 @@ export default Vue.extend({
       window.ChubboChat.services.login.signIn();
     },
     handleLogout: function() {
-      window.ChubboChat.services.login.signOut();
+      window.ChubboChat.services.login.signOut()
+          .then(() => {window.location.href = '/'});
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');

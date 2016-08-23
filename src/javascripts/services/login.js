@@ -13,7 +13,7 @@ Login.prototype.signIn = function() {
 }
 
 Login.prototype.signOut = function() {
-  this.auth.signOut();
+  return this.auth.signOut();
 }
 
 Login.prototype.getUserAfterRedirect = function() {
