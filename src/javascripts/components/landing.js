@@ -8,6 +8,19 @@ import '../../stylesheets/landing.css'
 
 
 module.exports = Vue.extend({
+  route: {
+    activate(transition) {
+      window.ChubboChat.services.login.getUserAfterRedirect()
+          .then((user) => {
+            if (user) {
+              transition.redirect('/dashboard/surveys');
+            }
+            else {
+              transition.next();
+            }
+          });
+    }
+  },
   ready: function() {
     //animate background canvas
     makeDots();
