@@ -82,9 +82,7 @@ export default Vue.extend({
     },
     handleLogout: function() {
       window.ChubboChat.services.login.signOut()
-          .then(result => {
-            window.location.href = '/';
-          });
+          .then(() => {window.location.href = '/'});
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');

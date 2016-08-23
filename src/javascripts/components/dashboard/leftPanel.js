@@ -11,7 +11,6 @@ export default Vue.extend({
       <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
       <p
-        v-link="{path: '/'}"
         v-on:click="handleLogout"
         class="cc-logout-leftPanel"
         v-show="user"
@@ -63,7 +62,8 @@ export default Vue.extend({
   },
   methods: {
     handleLogout: function() {
-      window.ChubboChat.services.login.signOut();
+      window.ChubboChat.services.login.signOut()
+          .then(() => {window.location.href = '/'});
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
