@@ -42,8 +42,8 @@ var mainComponent = Vue.extend({
   //vuex action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      setUser: function(state, user) {store.dispatch('setUser', user);},
-      deleteAllSurveys: function(state) {store.dispatch('deleteAllSurveys');}
+      setUser: function(state, user) {store.dispatch('SET_USER', user);},
+      deleteAllSurveys: function(state) {store.dispatch('DELETE_ALL_SURVEYS');}
     }
   }
 });

@@ -73,7 +73,7 @@ export default Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateQuestionInStore: function() {store.dispatch('editQuestion', this.index, this.question);}
+      updateQuestionInStore: function() {store.dispatch('EDIT_QUESTION', this.index, this.question);}
     }
   }
 });

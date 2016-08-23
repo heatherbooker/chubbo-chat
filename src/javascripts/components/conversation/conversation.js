@@ -1,7 +1,5 @@
 //libraries
 import Vue from 'vue'
-//vuex shared state store
-import store from '../../store.js'
 //services
 import surveyApi from '../../services/surveyApi.js'
 import '../../services/stickyScroll.js'

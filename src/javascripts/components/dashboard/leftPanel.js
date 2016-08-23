@@ -77,7 +77,7 @@ export default Vue.extend({
       surveys: function(state) {return state.surveys;}
     },
     actions: {
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);}
+      hideMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);}
     }
   }
 });

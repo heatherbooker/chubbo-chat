@@ -197,7 +197,6 @@ export default Vue.extend({
       }
       // We don't have any validity checks for the questions
     },
-    // TODO review this
     publish: function(title, questions) {
       var promise = new Promise((resolve, reject) => {
         if (this.user) {
@@ -280,9 +279,9 @@ export default Vue.extend({
     },
     actions: {
       setSurveyToPublished: function(store, surveyId, timestamp) {
-        store.dispatch('publishSurvey', surveyId, timestamp);
+        store.dispatch('PUBLISH_SURVEY', surveyId, timestamp);
       },
-      setUser: function(state, user) {store.dispatch('setUser', user);},
+      setUser: function(state, user) {store.dispatch('SET_USER', user);},
     }
   }
 });

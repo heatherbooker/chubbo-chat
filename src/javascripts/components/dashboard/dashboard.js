@@ -135,15 +135,15 @@ export default Vue.extend({
       user: function(state) {return state.user;}
     },
     actions: {
-      hideMobileMenu: function() {store.dispatch('toggleLeftPanel', false);},
+      hideMobileMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);},
       addSurveyToStore: function(store, survey) {
-        store.dispatch('addSurvey', survey);
+        store.dispatch('ADD_SURVEY', survey);
       },
       setSelectedSurvey: function(store, survey) {
-        store.dispatch('setSelectedSurvey', survey);
+        store.dispatch('SET_SELECTED_SURVEY', survey);
       },
       setUser(store, user) {
-        store.dispatch('setUser', user);
+        store.dispatch('SET_USER', user);
       }
     }
   }

@@ -47,7 +47,7 @@ export default Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     actions: {
-      updateTitleInStore: function() {store.dispatch('editTitle', this.title);}
+      updateTitleInStore: function() {store.dispatch('EDIT_TITLE', this.title);}
     }
   }
 });

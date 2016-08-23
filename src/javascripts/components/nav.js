@@ -103,10 +103,10 @@ export default Vue.extend({
       user: function(state) {return state.user;}
     },
     actions: {
-      showMenu: function() {store.dispatch('toggleLeftPanel', true);},
-      hideMenu: function() {store.dispatch('toggleLeftPanel', false);},
+      showMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', true);},
+      hideMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);},
       setSelectedSurvey: function(store, survey) {
-        store.dispatch('setSelectedSurvey', survey);
+        store.dispatch('SET_SELECTED_SURVEY', survey);
       }
     }
   }

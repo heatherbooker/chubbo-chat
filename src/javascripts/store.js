@@ -42,20 +42,20 @@ export default new Vuex.Store(function() {
 
     mutations: {
 
-      toggleLeftPanel: function(state, newState) {
+      SET_LEFT_PANEL_VISIBILITY: function(state, newState) {
         state.isLeftPanelVisible = newState;
       },
 
-      setUser: function(state, user) {
+      SET_USER: function(state, user) {
         state.user = user;
       },
 
-      deleteAllSurveys: function(state) {
+      DELETE_ALL_SURVEYS: function(state) {
         state.surveys = [];
         state.selectedSurvey = defaults.survey;
       },
 
-      addSurvey: function(state, newSurvey = $.extend(true, {}, defaults.survey)) {
+      ADD_SURVEY: function(state, newSurvey = $.extend(true, {}, defaults.survey)) {
         var isInStore = state.surveys.find((survey) => {
           return survey.id === newSurvey.id;
         });
@@ -64,7 +64,7 @@ export default new Vuex.Store(function() {
         }
       },
 
-      editQuestion: function(state, index, question) {
+      EDIT_QUESTION: function(state, index, question) {
         state.surveys.forEach((survey) => {
           if (survey.id === state.selectedSurvey.id) {
             survey.questions[index] = question;
@@ -73,7 +73,7 @@ export default new Vuex.Store(function() {
         state.selectedSurvey.questions[index] = question;
       },
 
-      editTitle:  function(state, title) {
+      EDIT_TITLE:  function(state, title) {
         state.surveys.forEach((survey) => {
           if (survey.id === state.selectedSurvey.id) {
             survey.title = title;
@@ -82,7 +82,7 @@ export default new Vuex.Store(function() {
         state.selectedSurvey.title = title;
       },
 
-      publishSurvey: function(state, surveyId, timestamp) {
+      PUBLISH_SURVEY: function(state, surveyId, timestamp) {
         state.surveys.forEach((survey) => {
           if (survey.id === defaults.survey.id) {
             survey.isPublished = true;
@@ -93,7 +93,7 @@ export default new Vuex.Store(function() {
         });
       },
 
-      setSelectedSurvey: function(state, survey = $.extend(true, {}, defaults.survey)) {
+      SET_SELECTED_SURVEY: function(state, survey = $.extend(true, {}, defaults.survey)) {
         state.selectedSurvey = survey;
       }
 
