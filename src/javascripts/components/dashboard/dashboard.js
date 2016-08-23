@@ -80,6 +80,7 @@ export default Vue.extend({
             this.addSurveysToStore(surveys);
           });
     });
+    this.hideMobileMenu();
   },
   methods: {
     getPublishedSurveys: function() {
