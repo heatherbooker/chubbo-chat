@@ -17,7 +17,6 @@ export default Vue.extend({
       window.ChubboChat.services.login.getUserAfterRedirect()
           .then((user) => {
             if (user) {
-              console.log('wtf!');
               this.setUser(user);
             }
           })
