@@ -47,6 +47,7 @@ export default new Vuex.Store(function() {
       },
 
       setUser: function(state, user) {
+        console.log('setting user from: ', state.user, 'to: ', user);
         state.user = user;
       },
 

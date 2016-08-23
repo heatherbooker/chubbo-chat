@@ -15,6 +15,7 @@ export default Vue.extend({
         <div class="col-xs-4" v-if="!onSimpleNav">
           <div v-show="onDashboard">
             <img
+              v-show="user"
               v-on:click='handleMenu'
               :src="menuIconSource"
               class="cc-menuIcon-mobile"
