@@ -2,7 +2,7 @@
 import Vue from 'vue'
 //services
 import surveyApi from '../../services/surveyApi.js'
-import '../../services/stickyScroll.js'
+import 'vue-sticky-scroll'
 //components
 import messageBubble from './messageBubble.js'
 //styles
