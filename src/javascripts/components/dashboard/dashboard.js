@@ -7,6 +7,7 @@ import surveyApi from '../../services/surveyApi.js'
 //components
 import leftPanel from './leftPanel.js'
 import tabBar from './tabBar.js'
+import rightPanel from './rightPanel.js'
 //styles
 import '../../../stylesheets/dashboard.css'
 
@@ -67,11 +68,13 @@ export default Vue.extend({
         <tab-bar v-if="user"></tab-bar>
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
+      <right-panel></right-panel>
     </div>
   `,
   components: {
     'left-panel': leftPanel,
-    'tab-bar': tabBar
+    'tab-bar': tabBar,
+    'right-panel': rightPanel
   },
   ready: function() {
     document.addEventListener('CC.NEW_USER', () => {
