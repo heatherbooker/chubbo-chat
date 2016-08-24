@@ -23,6 +23,7 @@
   border-top: 5px solid transparent;
   background-color: #F3F8FA;
   text-align: center;
+  height: 70px;
 }
 
 .cc-rightPanel-tab:hover, .cc-rightPanel-tab-selected:hover {
@@ -42,14 +43,30 @@
 }
 
 .cc-rightPanel-btnsDiv {
+  margin-top: 15px;
   display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
+}
+
+.cc-rightPanel-btnsLeftCol, .cc-rightPanel-btnsRightCol {
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
   padding: 10px;
 }
 
-.cc-rightPanel-btn, .cc-rightPanel-btn-placeholder {
+.cc-rightPanel-btnsLeftCol {
+  padding-right: 0px;
+}
+
+.cc-rightPanel-btns-RightCol {
+  padding-left: 0px;
+}
+
+.cc-rightPanel-btn {
   border: 2px solid #F0f0f0;
   border-radius: 10px;
   background-color: transparent;
@@ -58,8 +75,12 @@
   margin: 10px auto;
 }
 
-.cc-rightPanel-btn-placeholder {
-  border: none;
+.cc-rightPanel-btnsLeftCol button {
+  margin-right: 6%;
+}
+
+.cc-rightPanel-btnsRightCol button {
+  margin-left: 6%;
 }
 
 .cc-rightPanel-btn h4 {

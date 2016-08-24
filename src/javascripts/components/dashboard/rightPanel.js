@@ -17,28 +17,30 @@ export default Vue.extend({
         </div>
       </div>
       <div class="cc-rightPanel-btnsDiv">
-        <button class="cc-rightPanel-btn">
-          <span class="fa fa-3x fa-pencil cc-rightPanel-btnIcon"></span>
-          <h4>Text</h4>
-        </button>
-        <button class="cc-rightPanel-btn">
-          <span class="fa fa-3x fa-envelope-o cc-rightPanel-btnIcon"></span>
-          <h4>Email</h4>
-        </button>
-        <button class="cc-rightPanel-btn">
-          <span class="fa fa-3x fa-check-square-o cc-rightPanel-btnIcon"></span>
-          <h4>Options</h4>
-        </button>
-        <button class="cc-rightPanel-btn">
-          <span class="fa fa-3x fa-sliders cc-rightPanel-btnIcon"></span>
-          <h4>Sliders</h4>
-        </button>
-        <button class="cc-rightPanel-btn">
-          <span class="fa fa-3x fa-picture-o cc-rightPanel-btnIcon"></span>
-          <h4>Image</h4>
-        </button>
-        <button class="cc-rightPanel-btn-placeholder">
-        </button>
+        <div class="cc-rightPanel-btnsLeftCol">
+          <button class="cc-rightPanel-btn">
+            <span class="fa fa-3x fa-pencil cc-rightPanel-btnIcon"></span>
+            <h4>Text</h4>
+          </button>
+          <button class="cc-rightPanel-btn">
+            <span class="fa fa-3x fa-check-square-o cc-rightPanel-btnIcon"></span>
+            <h4>Options</h4>
+          </button>
+          <button class="cc-rightPanel-btn">
+            <span class="fa fa-3x fa-picture-o cc-rightPanel-btnIcon"></span>
+            <h4>Image</h4>
+          </button>
+        </div>
+        <div class="cc-rightPanel-btnsRightCol">
+          <button class="cc-rightPanel-btn">
+            <span class="fa fa-3x fa-envelope-o cc-rightPanel-btnIcon"></span>
+            <h4>Email</h4>
+          </button>
+          <button class="cc-rightPanel-btn">
+            <span class="fa fa-3x fa-sliders cc-rightPanel-btnIcon"></span>
+            <h4>Sliders</h4>
+          </button>
+        </div>
       </div>
     </div>
   `
