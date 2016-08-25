@@ -6,7 +6,7 @@ import store from '../../store.js'
 import surveyApi from '../../services/surveyApi.js'
 //components
 import leftPanel from './leftPanel.js'
-import tabBar from './tabBar.js'
+import subNav from './subNav.js'
 import rightPanel from './rightPanel.js'
 //styles
 import '../../../stylesheets/dashboard.css'
@@ -60,6 +60,7 @@ export default Vue.extend({
     }
   },
   template: `
+    <sub-nav></sub-nav>
     <div class="cc-dashboardPage">
       <div class="cc-dashboard-mobileUnavailable">
         <h1>
@@ -71,7 +72,6 @@ export default Vue.extend({
       </div>
       <left-panel></left-panel>
       <div class="cc-dashboard-main">
-        <tab-bar v-if="user"></tab-bar>
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
       <right-panel></right-panel>
@@ -79,7 +79,7 @@ export default Vue.extend({
   `,
   components: {
     'left-panel': leftPanel,
-    'tab-bar': tabBar,
+    'sub-nav': subNav,
     'right-panel': rightPanel
   },
   ready: function() {

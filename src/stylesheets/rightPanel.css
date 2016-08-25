@@ -23,7 +23,7 @@
   border-top: 5px solid transparent;
   background-color: #F3F8FA;
   text-align: center;
-  height: 70px;
+  height: 55px;
 }
 
 .cc-rightPanel-tab:hover, .cc-rightPanel-tab-selected:hover {
@@ -37,13 +37,12 @@
 }
 
 .cc-rightPanel-tabText {
-  padding: 6px;
   font-size: 16px;
   font-weight: 400;
 }
 
 .cc-rightPanel-btnsDiv {
-  margin-top: 15px;
+  margin-top: 8px;
   display: -webkit-flex;
   display: flex;
 }
@@ -71,7 +70,7 @@
   border-radius: 10px;
   outline: none;
   background-color: transparent;
-  height: 110px;
+  height: 103px;
   width: 120px;
   margin: 10px auto;
 }
