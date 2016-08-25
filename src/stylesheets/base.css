@@ -19,6 +19,15 @@ a:link, a:visited {
   border-style: none;
 }
 
+button.cc-buttonReset {
+  background: none;
+  border: none;
+}
+
+button.cc-buttonReset:focus {
+  outline: none;
+}
+
 .cc-navbar {
   border-bottom: 2px solid #F0F0F0;
 }

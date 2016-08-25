@@ -8,10 +8,14 @@ export default Vue.extend({
         <h2 v-link="responsesBtnLink" class="cc-dashboard-subNav-viewText">Responses</h2>
       </div>
       <div>
-        <img :src="testIconSrc" class="cc-dashboard-subNav-icon">
-        <h2 class="cc-dashboard-subNav-actionText">Test</h2>
-        <img :src="publishIconSrc" class="cc-dashboard-subNav-icon">
-        <h2 class="cc-dashboard-subNav-actionText">Publish</h2>
+        <button class="cc-buttonReset">
+          <img :src="testIconSrc" class="cc-dashboard-subNav-icon">
+          <h2 class="cc-dashboard-subNav-actionText">Test</h2>
+        </button>
+        <button class="cc-buttonReset">
+          <img :src="publishIconSrc" class="cc-dashboard-subNav-icon">
+          <h2 class="cc-dashboard-subNav-actionText">Publish</h2>
+        </button>
       </div>
     </div>
   `,
