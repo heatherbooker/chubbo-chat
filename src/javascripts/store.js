@@ -1,6 +1,8 @@
 //libraries
 import Vue from 'vue'
 import Vuex from 'vuex'
+// Services
+import surveyService from './services/surveyService.js';
 
 Vue.use(Vuex);
 
@@ -85,6 +87,7 @@ export default new Vuex.Store(function() {
             survey.id = surveyId;
             survey.timestamp = timestamp;
             survey.titleError = false;
+            survey.questions = surveyService.removeBlankQuestions(survey.questions);
             delete survey.isForPublishing;
           }
         });

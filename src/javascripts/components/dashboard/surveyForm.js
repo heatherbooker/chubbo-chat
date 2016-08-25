@@ -23,11 +23,11 @@ export default Vue.extend({
 
       // Survey was saved locally before user was redirected to login for publishing.
       if (this.survey.isForPublishing) {
-        surveyService.handlePublishing(this.user, title, questions)
+        this.handleLocalSurvey(title, questions)
             .then((surveyInfo) => {
-              transition.redirect(`/dashboard/surveys/${surveyInfo.id}`);
               this.alertUserSurveyPublished(surveyInfo.url);
               this.setSurveyToPublished(surveyInfo.id, surveyInfo.timestamp);
+              transition.redirect(`/dashboard/surveys/${surveyInfo.id}`);
             });
 
       } else {
@@ -104,6 +104,23 @@ export default Vue.extend({
     });
   },
   methods: {
+    handleLocalSurvey(title, questions) {
+      var promise = new Promise((resolve, reject) => {
+        if (surveyService.isValidData(title, questions)) {
+          surveyService.handlePublishing(this.user, title, questions)
+              .then((surveyInfo) => {
+                resolve(surveyInfo);
+              });
+        } else {
+          $('.cc-titleInput').focus();
+          // scroll up to title input and make it stand out
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+          this.setTitleError(true);
+          resolve();
+        }
+      });
+      return promise;
+    },
     addQuestionInput: function() {
       this.questions.push('');
       // wait for new input to be inserted before moving focus to it

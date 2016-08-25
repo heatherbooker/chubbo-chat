@@ -8,16 +8,12 @@ export default {
   handlePublishing: function(user, title, questions) {
     var promise = new Promise((resolve, reject) => {
       if (this.isValidData(title, questions)) {
-        if (!user) {
-          resolve(false);
-        } else {
-          var timestamp = Date.now();
-          this.publish(user, title, questions, timestamp)
-              .then((surveyId) => {
-                var surveyUrl = this.SURVEY_URL_ROOT + user.uid + '/' + surveyId;
-                resolve({id: surveyId, timestamp, url: surveyUrl});
-              });
-        }
+        var timestamp = Date.now();
+        this.publish(user, title, questions, timestamp)
+            .then((surveyId) => {
+              var surveyUrl = this.SURVEY_URL_ROOT + user.uid + '/' + surveyId;
+              resolve({id: surveyId, timestamp, url: surveyUrl});
+            });
       }
     });
     return promise;
