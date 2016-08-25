@@ -61,20 +61,20 @@ export default Vue.extend({
   },
   template: `
     <div class="cc-dashboardPage">
-      <div class="cc-dashboard-mobileUnavailable" v-if="onMobile">
+      <div class="cc-dashboard-mobileUnavailable">
         <h1>
           Unfortunately, mobile survey editing is not available at this time.
           Please let us know if you are interested in seeing this feature!
         </h1>
       </div>
-      <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' " v-if="!onMobile">
+      <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
-      <left-panel v-if="!onMobile"></left-panel>
-      <div class="cc-dashboard-main" v-if="!onMobile">
+      <left-panel></left-panel>
+      <div class="cc-dashboard-main">
         <tab-bar v-if="user"></tab-bar>
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
-      <right-panel v-if="!onMobile"></right-panel>
+      <right-panel></right-panel>
     </div>
   `,
   components: {
@@ -90,15 +90,6 @@ export default Vue.extend({
           });
     });
     this.hideMobileMenu();
-  },
-  data: function() {
-    var onMobile = false;
-    if (window.matchMedia("(max-width: 768px)").matches) {
-      onMobile = true;
-    }
-    return {
-      onMobile
-    };
   },
   methods: {
     getPublishedSurveys: function() {
