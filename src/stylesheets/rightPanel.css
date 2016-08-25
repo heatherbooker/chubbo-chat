@@ -21,6 +21,7 @@
   flex: 1;
   border: 1px solid #F0f0f0;
   border-top: 5px solid transparent;
+  border-left: none;
   background-color: #F3F8FA;
   text-align: center;
   height: 55px;
