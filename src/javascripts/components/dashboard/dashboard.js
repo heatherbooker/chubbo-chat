@@ -7,6 +7,7 @@ import surveyApi from '../../services/surveyApi.js'
 //components
 import leftPanel from './leftPanel.js'
 import tabBar from './tabBar.js'
+import rightPanel from './rightPanel.js'
 //styles
 import '../../../stylesheets/dashboard.css'
 
@@ -60,6 +61,12 @@ export default Vue.extend({
   },
   template: `
     <div class="cc-dashboardPage">
+      <div class="cc-dashboard-mobileUnavailable">
+        <h1>
+          Unfortunately, mobile survey editing is not available at this time.
+          Please let us know if you are interested in seeing this feature!
+        </h1>
+      </div>
       <div v-bind:class="isLeftPanelVisible ? 'cc-greyedSurveyForm' : '' ">
       </div>
       <left-panel></left-panel>
@@ -67,11 +74,13 @@ export default Vue.extend({
         <tab-bar v-if="user"></tab-bar>
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
+      <right-panel></right-panel>
     </div>
   `,
   components: {
     'left-panel': leftPanel,
-    'tab-bar': tabBar
+    'tab-bar': tabBar,
+    'right-panel': rightPanel
   },
   ready: function() {
     document.addEventListener('CC.NEW_USER', () => {

@@ -1,0 +1,95 @@
+.cc-rightPanel {
+  border-left: 1px solid #F0F0F0;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.cc-rightPanel-tabBar {
+  display: -webkit-flex;
+  display: flex;
+}
+
+.cc-rightPanel-tab, .cc-rightPanel-tab-selected {
+  -webkit-flex: 1;
+  flex: 1;
+  border: 1px solid #F0f0f0;
+  border-top: 5px solid transparent;
+  background-color: #F3F8FA;
+  text-align: center;
+  height: 70px;
+}
+
+.cc-rightPanel-tab:hover, .cc-rightPanel-tab-selected:hover {
+  cursor: pointer;
+}
+
+.cc-rightPanel-tab-selected {
+  border-top: 5px solid #4EC1FF;
+  border-bottom: none;
+  background-color: inherit;
+}
+
+.cc-rightPanel-tabText {
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.cc-rightPanel-btnsDiv {
+  margin-top: 15px;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.cc-rightPanel-btnsLeftCol, .cc-rightPanel-btnsRightCol {
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.cc-rightPanel-btnsLeftCol {
+  padding-right: 0px;
+}
+
+.cc-rightPanel-btns-RightCol {
+  padding-left: 0px;
+}
+
+.cc-rightPanel-btn {
+  border: 2px solid #F0f0f0;
+  border-radius: 10px;
+  outline: none;
+  background-color: transparent;
+  height: 110px;
+  width: 120px;
+  margin: 10px auto;
+}
+
+.cc-rightPanel-btnsLeftCol button {
+  margin-right: 6%;
+}
+
+.cc-rightPanel-btnsRightCol button {
+  margin-left: 6%;
+}
+
+.cc-rightPanel-btn h4 {
+  font-weight: 400;
+  margin: auto;
+}
+
+.cc-rightPanel-btnIcon {
+  color: #4EC1FF;
+  padding-bottom: 6px;
+}
