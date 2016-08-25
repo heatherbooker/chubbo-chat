@@ -9,6 +9,12 @@
   height: calc(100% - 90px);
 }
 
+.cc-dashboard-mobileUnavailable {
+  padding: 20px;
+  font-size: 7pt;
+  text-align: center;
+}
+
 .cc-dashboard-main {
   display: -webkit-box;
   display: -ms-flexbox;
