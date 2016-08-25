@@ -1,6 +1,8 @@
 //libraries
 import Vue from 'vue'
 import Vuex from 'vuex'
+// Services
+import surveyService from './services/surveyService.js';
 
 Vue.use(Vuex);
 
@@ -21,6 +23,7 @@ export default new Vuex.Store(function() {
 
     state: {
 
+      titleError: false,
       user: undefined,
       surveys: [],
       selectedSurvey: $.extend(true, {}, defaults.survey),
@@ -83,13 +86,19 @@ export default new Vuex.Store(function() {
             survey.isPublished = true;
             survey.id = surveyId;
             survey.timestamp = timestamp;
+            survey.questions = surveyService.removeBlankQuestions(survey.questions);
             delete survey.isForPublishing;
           }
         });
+        state.titleError = false;
       },
 
       SET_SELECTED_SURVEY: function(state, survey = $.extend(true, {}, defaults.survey)) {
         state.selectedSurvey = survey;
+      },
+
+      SET_TITLE_ERROR: function(state, hasError) {
+        state.titleError = hasError;
       }
 
     }

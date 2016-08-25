@@ -3,6 +3,8 @@ import Vue from 'vue';
 import '../../libs/bootstrap/css/bootstrap.css'
 //vuex shared state store
 import store from '../store.js'
+// Services
+import surveyService from '../services/surveyService.js';
 
 
 export default Vue.extend({
@@ -63,8 +65,9 @@ export default Vue.extend({
   methods: {
     handleLogin: function() {
       if (this.onDashboard) {
-        // Survey Form component is listening to this event
-        document.dispatchEvent(new Event('CC.SAVE_SURVEY_STATE'));
+        // Save user's half-written survey before they are redirected to sign in.
+        // Last arg is false to indicate this survey should not be published.
+        surveyService.setLocalSurvey(this.survey.title, this.survey.questions, false);
       }
       window.ChubboChat.services.login.signIn();
     },
@@ -79,12 +82,8 @@ export default Vue.extend({
   //vuex(state store) getter(s) and action dispatchers needed by this component
   vuex: {
     getters: {
-      user: function(state) {return state.user;}
-    },
-    actions: {
-      setSelectedSurvey: function(store, survey) {
-        store.dispatch('SET_SELECTED_SURVEY', survey);
-      }
+      user: function(state) {return state.user;},
+      survey: function(state) {return state.selectedSurvey;}
     }
   }
 });
