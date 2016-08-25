@@ -97,11 +97,6 @@ export default Vue.extend({
   },
   ready: function() {
     $('.cc-titleInput').focus();
-    // Listen for user logging in so we can save their half-written survey before redirect.
-    document.addEventListener('CC.SAVE_SURVEY_STATE', () => {
-      // Last arg is false to indicate this survey should not be published.
-      surveyService.setLocalSurvey(this.title, this.questions, false);
-    });
   },
   methods: {
     handleLocalSurvey(title, questions) {
