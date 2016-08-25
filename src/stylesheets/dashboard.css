@@ -84,9 +84,6 @@
     /*on top of survey form*/
     z-index: 1;
   }
-}
-
-@media (max-width: 768px) {
   .cc-dashboard-main, .cc-rightPanel, .cc-dashboard-subNav {
     display: none;
   }

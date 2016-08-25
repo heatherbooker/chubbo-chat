@@ -89,7 +89,6 @@ export default Vue.extend({
             this.addSurveysToStore(surveys);
           });
     });
-    this.hideMobileMenu();
   },
   methods: {
     getPublishedSurveys: function() {
@@ -139,12 +138,10 @@ export default Vue.extend({
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
     getters: {
-      isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
       surveys: function(state) {return state.surveys;},
       user: function(state) {return state.user;}
     },
     actions: {
-      hideMobileMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);},
       addSurveyToStore: function(store, survey) {
         store.dispatch('ADD_SURVEY', survey);
       },
