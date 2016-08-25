@@ -14,13 +14,6 @@ export default Vue.extend({
         </div>
         <div class="col-xs-4" v-if="!onSimpleNav">
           <div v-show="onDashboard">
-            <img
-              v-show="user"
-              v-on:click='handleMenu'
-              :src="menuIconSource"
-              class="cc-menuIcon-mobile"
-              :class="isMenuVisible ? 'cc-menuIcon-clicked' : ''"
-            />
             <p
               v-show="!user"
               v-on:click='handleLogin'
@@ -56,11 +49,6 @@ export default Vue.extend({
       </div>
     </div>
   `,
-  data: function() {
-    return {
-      menuIconSource: require('../../images/hamburger.svg')
-    };
-  },
   computed: {
     onDashboard: function() {
       //dashboard: show menu icon or logout btn (based on css media queries)
@@ -86,25 +74,14 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
-    },
-    handleMenu: function() {
-      //show or hide menu on menu icon click
-      if (this.isMenuVisible === false) {
-        this.showMenu();
-      } else {
-        this.hideMenu();
-      }
     }
   },
   //vuex(state store) getter(s) and action dispatchers needed by this component
   vuex: {
     getters: {
-      isMenuVisible: function(state) {return state.isLeftPanelVisible;},
       user: function(state) {return state.user;}
     },
     actions: {
-      showMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', true);},
-      hideMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);},
       setSelectedSurvey: function(store, survey) {
         store.dispatch('SET_SELECTED_SURVEY', survey);
       }

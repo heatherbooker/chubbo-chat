@@ -19,8 +19,17 @@ a:link, a:visited {
   border-style: none;
 }
 
+button.cc-buttonReset {
+  background: none;
+  border: none;
+}
+
+button.cc-buttonReset:focus {
+  outline: none;
+}
+
 .cc-navbar {
-  border-bottom: 2px solid #F0F0F0;
+  border-bottom: 1px solid #F0F0F0;
 }
 
 .cc-logo {
@@ -37,25 +46,6 @@ a:link, a:visited {
 .cc-loadingIcon {
   margin: auto;
   text-align: center;
-}
-
-.cc-menuIcon-mobile {
-  display: none;
-  height: 30px;
-  width: auto;
-  margin: 20px 3px;
-  padding: 2px;
-  float: right;
-}
-
-.cc-menuIcon-clicked {
-  box-shadow: 1px 1px 1px #89a5ba inset;
-  border: 1px solid #b5c8d7;
-  border-radius: 2px;
-}
-
-.cc-menuIcon-mobile:hover {
-  cursor: pointer;
 }
 
 .cc-loginBtn, .cc-logoutBtn, .cc-dashboardShortcut {
@@ -77,9 +67,6 @@ a:link, a:visited {
     font-size: 1.8rem;
     margin-top: 12px;
     margin-bottom: 12px;
-  }
-  .cc-menuIcon-mobile {
-    display: block;
   }
   .cc-logoutBtn {
     display: none;

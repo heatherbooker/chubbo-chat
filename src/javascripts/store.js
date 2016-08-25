@@ -21,7 +21,6 @@ export default new Vuex.Store(function() {
 
     state: {
 
-      isLeftPanelVisible: true,
       user: undefined,
       surveys: [],
       selectedSurvey: $.extend(true, {}, defaults.survey),
@@ -41,10 +40,6 @@ export default new Vuex.Store(function() {
 
 
     mutations: {
-
-      SET_LEFT_PANEL_VISIBILITY: function(state, newState) {
-        state.isLeftPanelVisible = newState;
-      },
 
       SET_USER: function(state, user) {
         state.user = user;
