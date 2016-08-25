@@ -11,7 +11,9 @@ export default {
       return fetch(`${API_ENDPOINT}/users/${user.uid}/surveys.json?auth=` + authToken, {
         method: 'post',
         body: survey
-      });
+      })
+      .then(response => response.json())
+      .then(data => ({surveyId: data.name, errorMsg: data.statusText}));
     });
   },
 
