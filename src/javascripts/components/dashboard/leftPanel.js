@@ -7,7 +7,7 @@ import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
   template: `
-    <div v-bind:class="isLeftPanelVisible ? 'cc-leftPanel-mobile-show' : 'cc-leftPanel-mobile-hide'">
+    <div class="cc-leftPanel">
       <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
       <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
       <p
@@ -20,7 +20,6 @@ export default Vue.extend({
         class="cc-newSurveyBtn"
         v-show="user"
         v-link="{path: '/dashboard/surveys/$creating_survey'}"
-        @click="hideMenu"
       >
         + Create Survey
       </button>
@@ -31,7 +30,6 @@ export default Vue.extend({
           v-if="survey.isPublished"
           v-link="{path: pathRoot + survey.id}"
           class="cc-leftPanel-survey"
-          @click="hideMenu"
         >
           {{ survey.title || survey.surveyTitle }}
         </div>
@@ -72,12 +70,8 @@ export default Vue.extend({
   //vuex(state store) action dispatchers / getter(s) needed by this component
   vuex: {
     getters: {
-      isLeftPanelVisible: function(state) {return state.isLeftPanelVisible;},
       user: function(state) {return state.user},
       surveys: function(state) {return state.surveys;}
-    },
-    actions: {
-      hideMenu: function() {store.dispatch('SET_LEFT_PANEL_VISIBILITY', false);}
     }
   }
 });

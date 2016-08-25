@@ -1,4 +1,4 @@
-.cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
+.cc-leftPanel {
   border-right: 1px solid #F0F0F0;
   width: 25%;
   padding-top: 30px;
@@ -84,59 +84,4 @@ button.cc-newSurveyBtn {
 
 .cc-logout-leftPanel:hover {
   cursor: pointer;
-}
-
-@media (max-width: 992px) {
-  .cc-logout-leftPanel {
-    display: block;
-  }
-  .cc-leftPanel-mobile-hide {
-    transition: left .3s ease;
-    position: absolute;
-    left: calc(-100% - 15px);
-    z-index: 2;
-    background-color: #fff;
-  }
-  .cc-leftPanel-mobile-show {
-    transition: left .3s ease;
-    position: absolute;
-    width: 50%;
-    min-width: 300px;
-    left: 0px;
-    /*on top of greyed out survey form (z-index=1) */
-    z-index: 2;
-    background-color: #fff;
-  }
-  .cc-leftPanel-seperatingLine {
-    margin-top: 30px;
-    margin-bottom: 25px;
-  }
-}
-
-@media (max-width: 425px) {
-  .cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
-    padding-top: 18px;
-  }
-  .cc-leftPanel-mobile-show {
-    width: 83%;
-  }
-  .cc-userIcon-leftPanel {
-    height: 50px;
-    width: 50px;
-    margin: 0px auto 10px auto;
-  }
-  .cc-userEmail-leftPanel {
-    margin: 8px;
-    font-size: 8pt;
-  }
-  button.cc-newSurveyBtn {
-    margin-top: 10px;
-  }
-  .cc-leftPanel-surveyList {
-    margin-top: 20px;
-  }
-  .cc-leftPanel-survey {
-    height: 65px;
-    line-height: 65px;
-  }
 }
