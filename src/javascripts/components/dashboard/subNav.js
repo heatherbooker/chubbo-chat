@@ -37,7 +37,7 @@ export default Vue.extend({
   },
   methods: {
     handlePublishBtn() {
-      if (surveyService.isValidData(this.survey.title, this.survey.questions)) {
+      if (this.survey.title.length > 0) {
         if (this.user) {
           surveyService.handlePublishing(this.user, this.survey.title, this.survey.questions)
               .then((surveyInfo) => {
