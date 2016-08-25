@@ -100,7 +100,8 @@ button.cc-newSurveyBtn {
   .cc-leftPanel-mobile-show {
     transition: left .3s ease;
     position: absolute;
-    width: 83%;
+    width: 50%;
+    min-width: 300px;
     left: 0px;
     /*on top of greyed out survey form (z-index=1) */
     z-index: 2;
@@ -115,6 +116,9 @@ button.cc-newSurveyBtn {
 @media (max-width: 425px) {
   .cc-leftPanel-mobile-hide, .cc-leftPanel-mobile-show {
     padding-top: 18px;
+  }
+  .cc-leftPanel-mobile-show {
+    width: 83%;
   }
   .cc-userIcon-leftPanel {
     height: 50px;
