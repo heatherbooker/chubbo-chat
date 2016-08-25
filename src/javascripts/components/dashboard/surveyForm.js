@@ -50,7 +50,6 @@ export default Vue.extend({
         <div class="cc-surveyFormInputs">
           <title-input
             :title.sync="title"
-            :error-status="titleError"
           >
           </title-input>
           <div
@@ -101,18 +100,10 @@ export default Vue.extend({
   methods: {
     handleLocalSurvey(title, questions) {
       var promise = new Promise((resolve, reject) => {
-        if (surveyService.isValidData(title, questions)) {
-          surveyService.handlePublishing(this.user, title, questions)
-              .then((surveyInfo) => {
-                resolve(surveyInfo);
-              });
-        } else {
-          $('.cc-titleInput').focus();
-          // scroll up to title input and make it stand out
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-          this.setTitleError(true);
-          resolve();
-        }
+        surveyService.handlePublishing(this.user, title, questions)
+            .then((surveyInfo) => {
+              resolve(surveyInfo);
+            });
       });
       return promise;
     },
@@ -176,8 +167,6 @@ export default Vue.extend({
       user: function(state) {return state.user;},
       userId: function(state) {return state.user.uid;},
       survey: function(state) {return state.selectedSurvey;},
-      // Should surveyForm do this or should titleInput ?
-      titleError: function(state) {return state.selectedSurvey.titleError;}
     },
     actions: {
       setUser: function(state, user) {store.dispatch('SET_USER', user);},

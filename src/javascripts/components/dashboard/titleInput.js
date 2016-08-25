@@ -8,8 +8,7 @@ export default Vue.extend({
   props: {
     title: {
       twoWay: true
-    },
-    errorStatus: Boolean
+    }
   },
   ready: function() {
     var me = this;
@@ -31,7 +30,7 @@ export default Vue.extend({
   `,
   computed: {
     hasErrorClass: function() {
-      if (this.errorStatus) {
+      if (this.titleError) {
         if (this.title === '' || typeof this.title === 'undefined') {
           return true;
         }
@@ -46,6 +45,9 @@ export default Vue.extend({
   },
   //vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
+    getters: {
+      titleError: function(state) {return state.titleError;}
+    },
     actions: {
       updateTitleInStore: function() {store.dispatch('EDIT_TITLE', this.title);}
     }

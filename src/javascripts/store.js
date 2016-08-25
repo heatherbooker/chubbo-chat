@@ -23,6 +23,7 @@ export default new Vuex.Store(function() {
 
     state: {
 
+      titleError: false,
       user: undefined,
       surveys: [],
       selectedSurvey: $.extend(true, {}, defaults.survey),
@@ -33,7 +34,6 @@ export default new Vuex.Store(function() {
     // {
     //   id: '',
     //   title: '',
-    //   titleError: false // true if user tries to submit survey without title
     //   questions: [''],
     //   responses: {}, // added when there is a response
     //   isForPublishing: true, // added if survey is saved locally before user is redirected to login
@@ -86,11 +86,11 @@ export default new Vuex.Store(function() {
             survey.isPublished = true;
             survey.id = surveyId;
             survey.timestamp = timestamp;
-            survey.titleError = false;
             survey.questions = surveyService.removeBlankQuestions(survey.questions);
             delete survey.isForPublishing;
           }
         });
+        state.titleError = false;
       },
 
       SET_SELECTED_SURVEY: function(state, survey = $.extend(true, {}, defaults.survey)) {
@@ -98,7 +98,7 @@ export default new Vuex.Store(function() {
       },
 
       SET_TITLE_ERROR: function(state, hasError) {
-        state.selectedSurvey.titleError = hasError;
+        state.titleError = hasError;
       }
 
     }
