@@ -41,6 +41,11 @@
   justify-content: space-between;
 }
 
+button.cc-dashboard-subNav-btnDisabled {
+  pointer-events: none;
+  background-color: pink;
+}
+
 .cc-dashboard-subNav-viewText, .cc-dashboard-subNav-actionText {
   font-size: 12pt;
   font-weight: 400;
@@ -48,13 +53,17 @@
   padding: 5px 15px;
 }
 
-.cc-dashboard-subNav-viewText:hover, .cc-dashboard-subNav-actionText:hover {
+.cc-dashboard-subNav-viewText:hover {
   cursor: pointer;
 }
 
-.cc-dashboard-subNav-actionText {
+.cc-dashboard-subNav-actionText, .cc-dashboard-subNav-actionText {
   font-size: 11pt;
   padding: 5px 5px;
+}
+
+.cc-dashboard-subNav-btnDisabled .cc-dashboard-subNav-actionText {
+  color: #8B8B8B;
 }
 
  .cc-dashboard-subNav-icon {

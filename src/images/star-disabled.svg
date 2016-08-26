@@ -6,6 +6,6 @@
     <use xlink:href="#a" overflow="visible"/>
   </clipPath>
   <g clip-path="url(#b)">
-    <path fill="#F6D906" d="M-3.64-.233H52.7v54.516H-3.64z"/>
+    <path fill="#D4D4D4" d="M-3.64-.233H52.7v54.516H-3.64z"/>
   </g>
 </svg>
