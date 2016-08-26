@@ -63,7 +63,7 @@ export default Vue.extend({
   data: function() {
     return {
       questions: [],
-      arrowImgSrc: require('file!../../../images/arrow-right.svg'),
+      arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
       arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated'
     }

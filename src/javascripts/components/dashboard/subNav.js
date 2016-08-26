@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import surveyService from '../../services/surveyService';
-// require('svg-sprite!../../../images/star.svg');
+
 
 export default Vue.extend({
   template: `
@@ -11,10 +11,11 @@ export default Vue.extend({
       </div>
       <div>
         <button class="cc-buttonReset">
+          <img :src="testIconSrc" class="cc-dashboard-subNav-icon">
           <h2 class="cc-dashboard-subNav-actionText">Test</h2>
         </button>
         <button class="cc-buttonReset" @click="handlePublishBtn">
-          <object class="icon-1" type="image/svg+xml" data="/src/images/star.svg"></object>
+          <img :src="publishIconSrc" class="cc-dashboard-subNav-icon">
           <h2 class="cc-dashboard-subNav-actionText">Publish</h2>
         </button>
       </div>
@@ -22,8 +23,8 @@ export default Vue.extend({
   `,
   data() {
     return {
-      // star: require('file!../../../images/star.svg')
-      // testIconSrc: require('../../../images/test.svg')
+      testIconSrc: require('../../../images/test.svg'),
+      publishIconSrc: require('../../../images/star.svg')
     }
   },
   computed: {
