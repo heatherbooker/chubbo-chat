@@ -6,7 +6,7 @@ export default Vue.extend({
   props: ['question'],
   template: `
     <div class="cc-questionBlock-container">
-      <img src="/src/images/drag.svg" class="cc-questionBlock-dragIcon">
+      <img :src="srcOfDragIcon" class="cc-questionBlock-dragIcon">
       <div class="cc-questionBlock">
         <div class="cc-questionBlock-top">
           {{ question }}
@@ -16,5 +16,10 @@ export default Vue.extend({
         </div>
       </div>
     </div>
-  `
+  `,
+  data() {
+    return {
+      srcOfDragIcon: require('../../../images/drag.svg')
+    };
+  }
 });
