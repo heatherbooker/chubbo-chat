@@ -17,6 +17,7 @@
 }
 
 .cc-dashboard-main {
+  background-color: #f9fafa;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -27,8 +28,6 @@
   -webkit-flex: 2;
   -ms-flex: 2;
   flex: 2;
-  position: relative;
-  top: -1px;
 }
 
 .cc-dashboard-subNav {

@@ -10,6 +10,7 @@
 }
 
 .cc-surveyFormPage {
+  padding: 10px 30px;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -18,32 +19,15 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.cc-surveyFormInputs {
-  width: 60%;
-  counter-reset: up-by-one;
-}
-
-.cc-submitBtnContainer {
-  width: 20%;
-  -webkit-align-items: flex-end;
-  align-items: flex-end;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  flex-direction: column;
 }
 
 .cc-titleInput {
-  background-color: #fff;
+  background-color: transparent;
   border: none;
   border-bottom: 1px solid #A4A4A4;
   border-radius: 0px;
-  margin: 20px 10px;
+  margin: 20px 10px 20px 20px;
   font-size: 2.5rem;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -52,7 +36,48 @@
   min-width: 0px !important;
 }
 
-.cc-questionInputRow, .cc-titleInputRow {
+.cc-questionBlock-container {
+  display: flex;
+  padding: 14px 0px;
+}
+
+.cc-questionBlock-dragIcon {
+  margin: 13px 4px;
+  height: 17px;
+  width: 10px;
+  display: inline-block;
+}
+
+.cc-questionBlock-dragIcon:hover {
+  cursor: move;
+}
+
+.cc-questionBlock {
+  display: inline-block;
+  margin: 4px 8px;
+}
+
+.cc-questionBlock-top, .cc-questionBlock-bottom {
+  padding: 10px 22px;
+  width: 100%;
+  border: 1px solid #A4A4A4;
+  text-align: left;
+}
+
+.cc-questionBlock-top {
+  background-color: #3c5a71;
+  color: #fff;
+  border-radius: 20px 20px 0px 0px;
+  border-bottom: none;
+}
+
+.cc-questionBlock-bottom {
+  background-color: #fff;
+  border-radius: 0px 0px 20px 20px;
+  border-top: none;
+}
+
+.cc-titleInputRow {
   margin: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -60,7 +85,7 @@
   display: flex;
 }
 
-input.cc-questionInput:focus, input.cc-titleInput:focus {
+input.cc-titleInput:focus {
   outline: none;
   border-color: #3c5a71;
 }
@@ -69,33 +94,6 @@ input.cc-questionInput:focus, input.cc-titleInput:focus {
   border: 1px solid rgb(234, 32, 28);
   border-radius: 20px;
   padding-left: 8px;
-}
-
-.cc-questionInputRow {
-  counter-increment: up-by-one;
-}
-
-.cc-questionInput {
-  background-color: #fff;
-  box-shadow: none;
-  border: 1px solid #A4A4A4;
-  border-radius: 20px;
-  margin: 20px 10px;
-  padding: 3px 7px;
-  font-size: 2.2rem;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  min-width: 0px !important;
-}
-
-.cc-questionInputRow:before {
-  content: counter(up-by-one) ".";
-  font-size: 2.5rem;
-  margin: auto 5px;
-  color: #8E8E8E;
-  font-weight: bold;
 }
 
 .cc-submitSurveyFormBtn, .cc-addQuestionInputBtn, .cc-surveyForm-getLinkBtn {
