@@ -14,7 +14,7 @@ export default Vue.extend({
           <img :src="testIconSrc" class="cc-dashboard-subNav-icon">
           <h2 class="cc-dashboard-subNav-actionText">Test</h2>
         </button>
-        <button class="cc-buttonReset" @click="handlePublishBtn">
+        <button class="cc-buttonReset" :class="publishBtnState" @click="handlePublishBtn">
           <img :src="publishIconSrc" class="cc-dashboard-subNav-icon">
           <h2 class="cc-dashboard-subNav-actionText">Publish</h2>
         </button>
@@ -24,7 +24,8 @@ export default Vue.extend({
   data() {
     return {
       testIconSrc: require('../../../images/test.svg'),
-      publishIconSrc: require('../../../images/star.svg')
+      publishIconNormalSrc: require('../../../images/star.svg'),
+      publishIconDisabledSrc: require('../../../images/star-disabled.svg'),
     }
   },
   computed: {
@@ -33,6 +34,18 @@ export default Vue.extend({
     },
     responsesBtnLink: function() {
       return "/dashboard/responses/" + this.$route.params.surveyId;
+    },
+    publishBtnState() {
+      if (this.survey.isPublished) {
+        return 'cc-dashboard-subNav-btnDisabled';
+      }
+      return '';
+    },
+    publishIconSrc() {
+      if (this.survey.isPublished) {
+        return this.publishIconDisabledSrc;
+      }
+      return this.publishIconNormalSrc;
     }
   },
   methods: {
