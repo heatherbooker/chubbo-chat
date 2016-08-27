@@ -84,7 +84,6 @@ input.cc-titleInput:focus {
 .cc-questionBlock-top, .cc-questionBlock-bottom {
   padding: 10px 22px;
   flex: 1;
-  border: 1px solid #A4A4A4;
   text-align: left;
 }
 
@@ -92,13 +91,14 @@ input.cc-titleInput:focus {
   background-color: #3c5a71;
   color: #fff;
   border-radius: 20px 20px 0px 0px;
-  border-bottom: none;
+  border-bottom: 1px solid #3c5a71;
 }
 
 .cc-questionBlock-bottom {
   background-color: #fff;
   border-radius: 0px 0px 20px 20px;
-  border-top: none;
+  border: 1px solid #A4A4A4;
+  border-top-color: #fff;
 }
 
 .cc-submitSurveyFormBtn, .cc-addQuestionInputBtn, .cc-surveyForm-getLinkBtn {
