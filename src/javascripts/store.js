@@ -14,7 +14,7 @@ export default new Vuex.Store(function() {
     survey: {
       id: '$creating_survey',
       title: '',
-      questions: [''],
+      questions: [],
       isPublished: false
     }
   };
@@ -34,7 +34,7 @@ export default new Vuex.Store(function() {
     // {
     //   id: '',
     //   title: '',
-    //   questions: [''],
+    //   questions: [],
     //   responses: {}, // added when there is a response
     //   isForPublishing: true, // added if survey is saved locally before user is redirected to login
     //   isPublished: false,

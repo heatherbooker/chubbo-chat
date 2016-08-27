@@ -6,7 +6,7 @@ import store from '../../store.js'
 // services
 import surveyService from '../../services/surveyService.js'
 // components
-import questionInput from './questionInput.js'
+import questionBlock from './questionBlock.js'
 import titleInput from './titleInput.js'
 // styles
 import '../../../../node_modules/sweetalert2/dist/sweetalert2.min.css'
@@ -47,45 +47,24 @@ export default Vue.extend({
       >
       </span>
       <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
-        <div class="cc-surveyFormInputs">
-          <title-input
-            :title.sync="title"
-          >
-          </title-input>
-          <div
-            class="cc-questionInputRow"
-            v-for="question in questions"
-            track-by="$index"
-          >
-            <question-input
-              :question.sync="question"
-              :index="$index"
-              :max-index="this.questions.length - 1"
-            >
-            </question-input>
-          </div>
-        </div>
-        <div class="cc-submitBtnContainer">
-          <span
-            class="cc-addQuestionInputBtn"
-            v-on:click="addQuestionInput"
-          >
-            +
-          </span>
-          <span
-            v-else
-            class="cc-surveyForm-getLinkBtn"
-            @click="handleGetLinkButton"
-          >
-            Get Link
-          </span>
-        </div>
+        <title-input
+          :title.sync="title"
+        >
+        </title-input>
+        <question-block
+          v-for="question in questions"
+          track-by="$index"
+          :question.sync="question"
+          :index="$index"
+          :max-index="this.questions.length - 1"
+        >
+        </question-block>
       </div>
     </div>
   `,
   components: {
     'title-input': titleInput,
-    'question-input': questionInput
+    'question-block': questionBlock
   },
   data: function() {
     return {
@@ -151,15 +130,6 @@ export default Vue.extend({
       });
     },
 
-  },
-  // Events sent up from child components (title / question inputs)
-  events: {
-    enterKeyPressed: function() {
-      this.addQuestionInput();
-    },
-    deleteQuestion: function(index) {
-      this.questions.splice(index, 1);
-    }
   },
   // vuex(state store) getters / action dispatcher(s) needed by this component
   vuex: {
