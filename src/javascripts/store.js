@@ -30,17 +30,6 @@ export default new Vuex.Store(function() {
       
     },
 
-    // The form of a survey should be as follows:
-    // {
-    //   id: '',
-    //   title: '',
-    //   questions: [],
-    //   responses: {}, // added when there is a response
-    //   isForPublishing: true, // added if survey is saved locally before user is redirected to login
-    //   isPublished: false,
-    //   timestamp: 1 // added when survey is published
-    // }
-
 
     mutations: {
 
