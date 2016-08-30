@@ -48,7 +48,7 @@ export default Vue.extend({
     }
   },
   ready() {
-    $('select').selectBox();
+    $('#cc-editPanel-selectType').selectBox();
     $('#cc-questionInput').blur(() => {this.updateQuestionInStore(this.index, this.question)});
   },
   // Vuex(state store) getters / action dispatcher(s) needed by this component.
