@@ -1,0 +1,16 @@
+form.cc-rightPanel-edit {
+  text-align: center;
+  margin: 40px 15px 0px 15px;
+}
+
+.cc-questionInput {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #A4A4A4;
+  border-radius: 0px;
+  margin: 40px 10px 20px 20px;
+  padding: 5px;
+  font-size: 1.6rem;
+  width: 60%;
+}

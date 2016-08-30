@@ -43,7 +43,6 @@
 
 button.cc-dashboard-subNav-btnDisabled {
   pointer-events: none;
-  background-color: pink;
 }
 
 .cc-dashboard-subNav-viewText, .cc-dashboard-subNav-actionText {

@@ -16,7 +16,7 @@
   display: flex;
 }
 
-.cc-rightPanel-tab, .cc-rightPanel-tab-selected {
+.cc-rightPanel-tab, .cc-rightPanel-tab-selected, .cc-rightPanel-tab-disabled {
   -webkit-flex: 1;
   flex: 1;
   border: 1px solid #F0f0f0;
@@ -35,6 +35,12 @@
   border-top: 5px solid #4EC1FF;
   border-bottom: none;
   background-color: inherit;
+}
+
+.cc-rightPanel-tab-disabled {
+  background-color: #F0F0F0;
+  color: #a4a4a4;
+  pointer-events: none;
 }
 
 .cc-rightPanel-tabText {
