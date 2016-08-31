@@ -81,7 +81,7 @@ export default Vue.extend({
       .then(function(data) {
         me.surveyQuestions = data.questions.map(function(question) {
           return {
-            text: question,
+            text: question.text,
             sender: 'bot'
           };
         });
