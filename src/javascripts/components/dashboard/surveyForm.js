@@ -16,14 +16,12 @@ import '../../../stylesheets/surveyForm.css'
 export default Vue.extend({
   route: {
     data: function(transition) {
-      var surveyId = this.survey.id;
       // Handles legacy naming style.
       var title = this.survey.surveyTitle || this.survey.title;
-      var questions = this.survey.questions;
 
       // Survey was saved locally before user was redirected to login for publishing.
       if (this.survey.isForPublishing) {
-        this.handleLocalSurvey(title, questions)
+        this.handleLocalSurvey(title, this.survey.questions)
             .then((surveyInfo) => {
               this.alertUserSurveyPublished(surveyInfo.url);
               this.setSurveyToPublished(surveyInfo.id, surveyInfo.timestamp);
@@ -32,7 +30,7 @@ export default Vue.extend({
 
       } else {
         transition.next({
-          surveyId,
+          surveyId: this.survey.id,
           title
         });
       }
@@ -54,8 +52,7 @@ export default Vue.extend({
           v-for="question in questions"
           track-by="$index"
           :question="question"
-          :index="$index"
-          :max-index="this.questions.length - 1"
+          @click="setCurrentQuestion($index)"
         >
         </question-block>
       </div>
@@ -137,9 +134,12 @@ export default Vue.extend({
       questions: function(state) {return state.selectedSurvey.questions;}
     },
     actions: {
-      setUser: function(state, user) {store.dispatch('SET_USER', user);},
-      setSurveyToPublished(state, surveyId, timestamp) {
+      setUser: function(store, user) {store.dispatch('SET_USER', user);},
+      setSurveyToPublished(store, surveyId, timestamp) {
         store.dispatch('PUBLISH_SURVEY', surveyId, timestamp);
+      },
+      setCurrentQuestion(store, index) {
+        store.dispatch('SET_CURRENT_QUESTION_INDEX', index);
       }
     }
   }

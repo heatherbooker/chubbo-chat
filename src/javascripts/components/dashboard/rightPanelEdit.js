@@ -34,7 +34,7 @@ export default Vue.extend({
               class="cc-questionInput"
               id="cc-editPanel-editText"
               placeholder="Type question here..."
-              v-on:keyup="updateQuestionInStore(index, question)"
+              v-on:keyup="updateQuestionInStore('text', question)"
             >
           </div>
         </fieldset>
@@ -42,20 +42,27 @@ export default Vue.extend({
   `,
   data() {
     return {
-      typeSelected: 'text',
-      question: '',
-      index: 0
+      question: this.currentQuestion
     }
   },
   ready() {
+    var me = this;
     $('#cc-editPanel-selectType').selectBox();
-    $('#cc-questionInput').blur(() => {this.updateQuestionInStore(this.index, this.question)});
+    $('#cc-editPanel-selectType').change(function() {
+      me.updateQuestionInStore('type', $(this).val());
+    });
   },
   // Vuex(state store) getters / action dispatcher(s) needed by this component.
   vuex: {
+    getters: {
+      currentQuestion(state) {
+        var survey = state.selectedSurvey;
+        return survey.questions[survey.currentQuestionIndex];
+      }
+    },
     actions: {
-      updateQuestionInStore: function(store, index, question) {
-        store.dispatch('EDIT_QUESTION', index, question);
+      updateQuestionInStore: function(store, property, value) {
+        store.dispatch('EDIT_QUESTION', property, value);
       }
     }
   }
