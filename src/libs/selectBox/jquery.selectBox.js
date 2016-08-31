@@ -16,7 +16,6 @@
      * @param {Object}             options
      * @constructor
      */
-     console.log('nuerins');
     var SelectBox = window.SelectBox = function (select, options) {
         if (select instanceof $) {
             if (select.length > 0) {
