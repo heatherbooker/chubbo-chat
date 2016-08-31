@@ -51,7 +51,7 @@ export default Vue.extend({
           </button>
         </div>
       </div>
-      <edit-panel v-show="selectedTab === 'edit'" :types="questionTypes"></edit-panel>
+      <edit-panel v-if="selectedTab === 'edit'" :types="questionTypes"></edit-panel>
     </div>
   `,
   components: {

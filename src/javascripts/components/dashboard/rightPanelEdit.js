@@ -30,39 +30,37 @@ export default Vue.extend({
             <label style="display: none" for="cc-editPanel-editText">Text</label>
             <input
               type="text"
-              v-model=question
+              :value=questionText
               class="cc-questionInput"
               id="cc-editPanel-editText"
               placeholder="Type question here..."
-              v-on:keyup="updateQuestionInStore('text', question)"
+              @input="editQuestionText"
             >
           </div>
         </fieldset>
       </form>
   `,
-  data() {
-    return {
-      question: this.currentQuestion
-    }
-  },
   ready() {
     var me = this;
     $('#cc-editPanel-selectType').selectBox();
     $('#cc-editPanel-selectType').change(function() {
-      me.updateQuestionInStore('type', $(this).val());
+      me.editQuestionType($(this).val());
     });
   },
   // Vuex(state store) getters / action dispatcher(s) needed by this component.
   vuex: {
     getters: {
-      currentQuestion(state) {
+      questionText(state) {
         var survey = state.selectedSurvey;
-        return survey.questions[survey.currentQuestionIndex];
+        return survey.questions[survey.currentQuestionIndex].text;
       }
     },
     actions: {
-      updateQuestionInStore: function(store, property, value) {
-        store.dispatch('EDIT_QUESTION', property, value);
+      editQuestionText: function(store, event) {
+        store.dispatch('EDIT_QUESTION', 'text', event.target.value);
+      },
+      editQuestionType(store, type) {
+        store.dispatch('EDIT_QUESTION', 'type', type)
       }
     }
   }
