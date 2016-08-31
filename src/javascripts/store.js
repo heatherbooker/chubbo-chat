@@ -15,6 +15,7 @@ export default new Vuex.Store(function() {
       id: '$creating_survey',
       title: '',
       questions: [],
+      currentQuestionIndex: -1,
       isPublished: false
     }
   };
@@ -26,7 +27,7 @@ export default new Vuex.Store(function() {
       titleError: false,
       user: undefined,
       surveys: [],
-      selectedSurvey: $.extend(true, {}, defaults.survey),
+      selectedSurvey: $.extend(true, {}, defaults.survey)
       
     },
 
@@ -53,26 +54,30 @@ export default new Vuex.Store(function() {
 
       ADD_QUESTION: function(state, questionType) {
         var questionToAdd;
+        if (questionType === 'text') {
+          questionToAdd = {text: '', type: questionType};
+        } else {
+          questionToAdd = {type: questionType};
+        }
+        var questionIndex = state.selectedSurvey.questions.length;
         state.surveys.forEach(survey => {
           if (survey.id === state.selectedSurvey.id) {
-            if (questionType === 'text') {
-              questionToAdd = {text: '', type: questionType};
-            } else {
-              questionToAdd = {type: questionType};
-            }
             survey.questions.push(questionToAdd);
+            survey.currentQuestionIndex = questionIndex;
           }
         });
         state.selectedSurvey.questions.push(questionToAdd);
+        state.selectedSurvey.currentQuestionIndex = questionIndex;
       },
 
-      EDIT_QUESTION: function(state, index, value, property = 'text') {
+      EDIT_QUESTION: function(state, property, value) {
+        var currentIndex = state.selectedSurvey.currentQuestionIndex;
         state.surveys.forEach((survey) => {
           if (survey.id === state.selectedSurvey.id) {
-            survey.questions[index][property] = value;
+            survey.questions[currentIndex][property] = value;
           }
         });
-        state.selectedSurvey.questions[index][property] = value;
+        state.selectedSurvey.questions[currentIndex][property] = value;
       },
 
       EDIT_TITLE:  function(state, title) {
@@ -82,6 +87,15 @@ export default new Vuex.Store(function() {
           }
         });
         state.selectedSurvey.title = title;
+      },
+
+      SET_CURRENT_QUESTION_INDEX: function(state, index) {
+        state.surveys.forEach((survey) => {
+          if (survey.id === state.selectedSurvey.id) {
+            survey.currentQuestionIndex = index;
+          }
+        });
+        state.selectedSurvey.currentQuestionIndex = index;
       },
 
       PUBLISH_SURVEY: function(state, surveyId, timestamp) {
@@ -97,8 +111,8 @@ export default new Vuex.Store(function() {
         state.titleError = false;
       },
 
-      SET_SELECTED_SURVEY: function(state, survey = $.extend(true, {}, defaults.survey)) {
-        state.selectedSurvey = survey;
+      SET_SELECTED_SURVEY: function(state, survey = defaults.survey) {
+        state.selectedSurvey = $.extend(true, {}, survey);
       },
 
       SET_TITLE_ERROR: function(state, hasError) {
