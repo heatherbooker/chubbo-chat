@@ -66,6 +66,8 @@ input.cc-titleInput:focus {
 }
 
 .cc-questionBlock-dragIcon {
+  position: relative;
+  top: 3px;
   margin: 13px 4px;
   height: 17px;
   width: 10px;
@@ -81,17 +83,22 @@ input.cc-titleInput:focus {
   margin: 4px 8px;
 }
 
-.cc-questionBlock-top, .cc-questionBlock-bottom {
+.cc-questionBlock-top, .cc-questionBlock-topOnly, .cc-questionBlock-bottom {
   padding: 10px 22px;
   flex: 1;
   text-align: left;
+  min-height: 40px;
 }
 
-.cc-questionBlock-top {
+.cc-questionBlock-top, .cc-questionBlock-topOnly {
   background-color: #3c5a71;
   color: #fff;
   border-radius: 20px 20px 0px 0px;
-  border-bottom: 1px solid #3c5a71;
+  border: 1px solid #3c5a71;
+}
+
+.cc-questionBlock-topOnly {
+  border-radius: 20px;
 }
 
 .cc-questionBlock-bottom {

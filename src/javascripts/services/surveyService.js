@@ -8,7 +8,7 @@ export default (function() {
   function publish(user, title, questions, timestamp) {
     var promise = new Promise((resolve, reject) => {
       if (user) {
-        var finalQuestions = addQuotes(removeBlankQuestions(questions));
+        var finalQuestions = JSON.stringify(removeBlankQuestions(questions));
         addSurveyToDatabase(title, finalQuestions, timestamp)
             .then((surveyId) => {
               if (surveyId) {
@@ -22,7 +22,7 @@ export default (function() {
   function addSurveyToDatabase(title, finalQuestions, timestamp) {
     return surveyApi.publishSurvey(`{
       "title": "${title}",
-      "questions": [${finalQuestions}],
+      "questions": ${finalQuestions},
       "timestamp": ${timestamp}
     }`)
         .then((response) => {
@@ -46,7 +46,7 @@ export default (function() {
     if (questions.length > 1) {
       // remove blank questions
       filteredQuestions = questions.filter(function(question) {
-        return question !== '';
+        return question.text !== '';
       });
     }
     return filteredQuestions;

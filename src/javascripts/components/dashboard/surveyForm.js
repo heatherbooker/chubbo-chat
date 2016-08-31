@@ -33,8 +33,7 @@ export default Vue.extend({
       } else {
         transition.next({
           surveyId,
-          title,
-          questions
+          title
         });
       }
     }
@@ -54,7 +53,7 @@ export default Vue.extend({
         <question-block
           v-for="question in questions"
           track-by="$index"
-          :question.sync="question"
+          :question="question"
           :index="$index"
           :max-index="this.questions.length - 1"
         >
@@ -69,8 +68,7 @@ export default Vue.extend({
   data: function() {
     return {
       surveyId: '',
-      title: this.title,
-      questions: ['']
+      title: this.title
     };
   },
   ready: function() {
@@ -87,7 +85,6 @@ export default Vue.extend({
       return promise;
     },
     addQuestionInput: function() {
-      this.questions.push('');
       // wait for new input to be inserted before moving focus to it
       this.$nextTick(function() {
         $('.cc-input-focus').focus();
@@ -137,6 +134,7 @@ export default Vue.extend({
       user: function(state) {return state.user;},
       userId: function(state) {return state.user.uid;},
       survey: function(state) {return state.selectedSurvey;},
+      questions: function(state) {return state.selectedSurvey.questions;}
     },
     actions: {
       setUser: function(state, user) {store.dispatch('SET_USER', user);},
