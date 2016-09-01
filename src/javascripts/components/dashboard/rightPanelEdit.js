@@ -39,6 +39,7 @@ export default Vue.extend({
               id="cc-editPanel-editText"
               placeholder="Type question here..."
               @input="handleTextInput"
+              @keyup.enter.prevent
               autocomplete="off"
             >
           </div>
