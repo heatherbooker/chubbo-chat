@@ -9,7 +9,7 @@ import '../../../stylesheets/rightPanelEdit.css';
 
 
 export default Vue.extend({
-  props: ['types'],
+  props: ['types', 'survey'],
   template: `
       <form class="cc-rightPanel-edit">
         <fieldset>
@@ -17,7 +17,11 @@ export default Vue.extend({
             <label for="cc-editPanel-selectType">
               Type
             </label>
-            <select class="cc-rightPanel-edit-select" id="cc-editPanel-selectType">
+            <select
+              class="cc-rightPanel-edit-select"
+              id="cc-editPanel-selectType"
+              :value="survey.questions[survey.currentQuestionIndex].type"
+            >
               <option
                 v-for="type in types"
                 :value="type"
@@ -26,15 +30,17 @@ export default Vue.extend({
               </option>
             </select>
           </div>
+          {{survey.questions[survey.currentQuestionIndex].type}}
           <div class="cc-rightPanel-edit-row">
             <label style="display: none" for="cc-editPanel-editText">Text</label>
             <input
               type="text"
-              :value=questionText
+              :value=survey.questions[survey.currentQuestionIndex].text
               class="cc-questionInput"
               id="cc-editPanel-editText"
               placeholder="Type question here..."
-              @input="editQuestionText"
+              @input="handleTextInput"
+              autocomplete="off"
             >
           </div>
         </fieldset>
@@ -44,24 +50,21 @@ export default Vue.extend({
     var me = this;
     $('#cc-editPanel-selectType').selectBox();
     $('#cc-editPanel-selectType').change(function() {
-      me.editQuestionType($(this).val());
+      me.emitEvent('edit-type', $(this).val());
     });
   },
-  // Vuex(state store) getters / action dispatcher(s) needed by this component.
-  vuex: {
-    getters: {
-      questionText(state) {
-        var survey = state.selectedSurvey;
-        return survey.questions[survey.currentQuestionIndex].text;
-      }
+  watch: {
+    'survey.questions[survey.currentQuestionIndex].type': function(val) {
+      $('#cc-editPanel-selectType')
+          .selectBox('value', val);
+    }
+  },
+  methods: {
+    emitEvent(eventName, eventDetail) {
+      this.$dispatch(eventName, eventDetail);
     },
-    actions: {
-      editQuestionText: function(store, event) {
-        store.dispatch('EDIT_QUESTION', 'text', event.target.value);
-      },
-      editQuestionType(store, type) {
-        store.dispatch('EDIT_QUESTION', 'type', type)
-      }
+    handleTextInput(event) {
+      this.emitEvent('edit-text', event.target.value);
     }
   }
 });

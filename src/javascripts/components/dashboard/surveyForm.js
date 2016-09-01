@@ -52,6 +52,7 @@ export default Vue.extend({
           v-for="question in questions"
           track-by="$index"
           :question="question"
+          :selected="survey.currentQuestionIndex === $index"
           @click="setCurrentQuestion($index)"
         >
         </question-block>

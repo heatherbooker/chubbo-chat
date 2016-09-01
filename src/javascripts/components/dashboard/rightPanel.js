@@ -10,17 +10,17 @@ import '../../../stylesheets/rightPanel.css'
 
 export default Vue.extend({
   template: `
-    <div class="cc-rightPanel">
+    <div :class="survey.isPublished ? 'cc-rightPanel-disabled' : 'cc-rightPanel'">
       <div class="cc-rightPanel-tabBar">
         <div
           :class="classForNewTab"
-          @click="setSelectedTab('new')"
+          @click="setClickedTab('new')"
         >
           <h3 class="cc-rightPanel-tabText">New</h3>
         </div>
         <div
           :class="classForEditTab"
-          @click="setSelectedTab('edit')"
+          @click="setClickedTab('edit')"
         >
           <h3 class="cc-rightPanel-tabText">Edit</h3>
         </div>
@@ -51,7 +51,13 @@ export default Vue.extend({
           </button>
         </div>
       </div>
-      <edit-panel v-if="selectedTab === 'edit'" :types="questionTypes"></edit-panel>
+      <edit-panel
+        v-if="selectedTab === 'edit'"
+        :survey="survey"
+        :types="questionTypes"
+        @edit-type="editQuestionType"
+        @edit-text="editQuestionText"
+      ></edit-panel>
     </div>
   `,
   components: {
@@ -63,7 +69,7 @@ export default Vue.extend({
       selectedTabClass: 'cc-rightPanel-tab-selected',
       disabledTabClass: 'cc-rightPanel-tab-disabled',
       tabClass: 'cc-rightPanel-tab',
-      selectedTab: 'new',
+      clickedTab: 'new',
     }
   },
   computed: {
@@ -80,14 +86,20 @@ export default Vue.extend({
         return this.selectedTabClass;
       }
       return this.tabClass;
+    },
+    selectedTab() {
+      if (this.survey.isPublished || this.survey.questions.length < 1) {
+        return 'new';
+      }
+      return this.clickedTab;
     }
   },
   methods: {
     handleNewQuestionBtn(questionReferenceNum) {
       this.addQuestion(this.questionTypes[questionReferenceNum]);
     },
-    setSelectedTab(tab) {
-      this.selectedTab = tab;
+    setClickedTab(tab) {
+      this.clickedTab = tab;
     }
   },
   // Vuex (state store) getters / action dispatchers needed by this component 
@@ -98,6 +110,12 @@ export default Vue.extend({
     actions: {
       addQuestion(store, questionType) {
         store.dispatch('ADD_QUESTION', questionType);
+      },
+      editQuestionText(store, text) {
+        store.dispatch('EDIT_QUESTION', 'text', text);
+      },
+      editQuestionType(store, type) {
+        store.dispatch('EDIT_QUESTION', 'type', type);
       }
     }
   }

@@ -48,6 +48,9 @@ export default new Vuex.Store(function() {
           return survey.id === newSurvey.id;
         });
         if (!isInStore) {
+          if (!newSurvey.currentQuestionIndex) {
+            newSurvey.currentQuestionIndex = 0;
+          }
           state.surveys.push(newSurvey);
         }
       },

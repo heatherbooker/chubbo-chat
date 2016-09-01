@@ -78,9 +78,15 @@ input.cc-titleInput:focus {
   cursor: move;
 }
 
-.cc-questionBlock {
+.cc-questionBlock, .cc-questionBlock-selected {
   display: inline-block;
   margin: 4px 8px;
+  border-radius: 25px;
+  border: 3px solid transparent;
+}
+
+.cc-questionBlock-selected {
+  border: 3px solid #4EC1FF;
 }
 
 .cc-questionBlock-top, .cc-questionBlock-topOnly, .cc-questionBlock-bottom {

@@ -3,11 +3,11 @@ import Vue from 'vue'
 
 
 export default Vue.extend({
-  props: ['question'],
+  props: ['question', 'selected'],
   template: `
     <div class="cc-questionBlock-container">
       <img :src="srcOfDragIcon" class="cc-questionBlock-dragIcon">
-      <div class="cc-questionBlock">
+      <div :class="selected ? 'cc-questionBlock-selected' : 'cc-questionBlock'">
         <div :class="questionBlockClass">
           {{ question.text || defaultText }}
         </div>
