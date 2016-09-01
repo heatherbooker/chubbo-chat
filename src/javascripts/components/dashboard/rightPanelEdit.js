@@ -30,7 +30,6 @@ export default Vue.extend({
               </option>
             </select>
           </div>
-          {{survey.questions[survey.currentQuestionIndex].type}}
           <div class="cc-rightPanel-edit-row">
             <label style="display: none" for="cc-editPanel-editText">Text</label>
             <input
@@ -55,8 +54,7 @@ export default Vue.extend({
   },
   watch: {
     'survey.questions[survey.currentQuestionIndex].type': function(val) {
-      $('#cc-editPanel-selectType')
-          .selectBox('value', val);
+      $('#cc-editPanel-selectType').selectBox('value', val);
     }
   },
   methods: {
