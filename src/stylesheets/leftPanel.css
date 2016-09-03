@@ -45,6 +45,7 @@ button.cc-newSurveyBtn {
   outline: none;
   color: #545454;
   font-size: 12pt;
+  user-select: none;
 }
 
 .cc-leftPanel-surveyList {

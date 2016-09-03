@@ -9,7 +9,7 @@ import '../../../stylesheets/rightPanelEdit.css';
 
 
 export default Vue.extend({
-  props: ['types'],
+  props: ['types', 'survey'],
   template: `
       <form class="cc-rightPanel-edit">
         <fieldset>
@@ -17,7 +17,11 @@ export default Vue.extend({
             <label for="cc-editPanel-selectType">
               Type
             </label>
-            <select class="cc-rightPanel-edit-select" id="cc-editPanel-selectType">
+            <select
+              class="cc-rightPanel-edit-select"
+              id="cc-editPanel-selectType"
+              :value="survey.questions[survey.currentQuestionIndex].type || ''"
+            >
               <option
                 v-for="type in types"
                 :value="type"
@@ -30,33 +34,36 @@ export default Vue.extend({
             <label style="display: none" for="cc-editPanel-editText">Text</label>
             <input
               type="text"
-              v-model=question
+              :value="survey.questions[survey.currentQuestionIndex].text || ''"
               class="cc-questionInput"
               id="cc-editPanel-editText"
               placeholder="Type question here..."
-              v-on:keyup="updateQuestionInStore(index, question)"
+              @input="handleTextInput"
+              @keyup.enter.prevent
+              autocomplete="off"
             >
           </div>
         </fieldset>
       </form>
   `,
-  data() {
-    return {
-      typeSelected: 'text',
-      question: '',
-      index: 0
+  ready() {
+    var me = this;
+    $('#cc-editPanel-selectType').selectBox();
+    $('#cc-editPanel-selectType').change(function() {
+      me.emitEvent('edit-type', $(this).val());
+    });
+  },
+  watch: {
+    'survey.questions[survey.currentQuestionIndex].type': function(val) {
+      $('#cc-editPanel-selectType').selectBox('value', val);
     }
   },
-  ready() {
-    $('#cc-editPanel-selectType').selectBox();
-    $('#cc-questionInput').blur(() => {this.updateQuestionInStore(this.index, this.question)});
-  },
-  // Vuex(state store) getters / action dispatcher(s) needed by this component.
-  vuex: {
-    actions: {
-      updateQuestionInStore: function(store, index, question) {
-        store.dispatch('EDIT_QUESTION', index, question);
-      }
+  methods: {
+    emitEvent(eventName, eventDetail) {
+      this.$dispatch(eventName, eventDetail);
+    },
+    handleTextInput(event) {
+      this.emitEvent('edit-text', event.target.value);
     }
   }
 });

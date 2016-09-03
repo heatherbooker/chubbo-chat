@@ -1,4 +1,4 @@
-.cc-rightPanel {
+.cc-rightPanel, .cc-rightPanel-disabled {
   border-left: 1px solid #F0F0F0;
   -webkit-flex: 1;
   flex: 1;
@@ -9,6 +9,11 @@
   -webkit-justify-content: flex-start;
   justify-content: flex-start;
   height: 100%;
+}
+
+.cc-rightPanel-disabled {
+  pointer-events: none;
+  color: #a4a4a4;
 }
 
 .cc-rightPanel-tabBar {
@@ -37,7 +42,9 @@
   background-color: inherit;
 }
 
-.cc-rightPanel-tab-disabled {
+.cc-rightPanel-tab-disabled, .cc-rightPanel-disabled .cc-rightPanel-tab,
+.cc-rightPanel-disabled .cc-rightPanel-tab-selected {
+  border-top: 5px solid transparent;
   background-color: #F0F0F0;
   color: #a4a4a4;
   pointer-events: none;
@@ -98,4 +105,8 @@
 .cc-rightPanel-btnIcon {
   color: #4EC1FF;
   padding-bottom: 6px;
+}
+
+.cc-rightPanel-disabled .cc-rightPanel-btnIcon {
+  color: #f0f0f0;
 }

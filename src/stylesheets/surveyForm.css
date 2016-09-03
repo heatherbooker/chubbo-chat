@@ -63,6 +63,15 @@ input.cc-titleInput:focus {
   display: flex;
   flex-shrink: 0;
   padding: 14px 0px;
+  max-width: 70%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .cc-questionBlock-dragIcon {
@@ -72,15 +81,22 @@ input.cc-titleInput:focus {
   height: 17px;
   width: 10px;
   display: inline-block;
+  user-select: none;
 }
 
 .cc-questionBlock-dragIcon:hover {
   cursor: move;
 }
 
-.cc-questionBlock {
+.cc-questionBlock, .cc-questionBlock-selected {
   display: inline-block;
   margin: 4px 8px;
+  border-radius: 23px;
+  border: 3px solid transparent;
+}
+
+.cc-questionBlock-selected {
+  border: 3px solid #4EC1FF;
 }
 
 .cc-questionBlock-top, .cc-questionBlock-topOnly, .cc-questionBlock-bottom {
