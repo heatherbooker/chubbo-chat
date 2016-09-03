@@ -20,7 +20,7 @@ export default Vue.extend({
             <select
               class="cc-rightPanel-edit-select"
               id="cc-editPanel-selectType"
-              :value="survey.questions[survey.currentQuestionIndex].type"
+              :value="survey.questions[survey.currentQuestionIndex].type || ''"
             >
               <option
                 v-for="type in types"
@@ -34,7 +34,7 @@ export default Vue.extend({
             <label style="display: none" for="cc-editPanel-editText">Text</label>
             <input
               type="text"
-              :value=survey.questions[survey.currentQuestionIndex].text
+              :value="survey.questions[survey.currentQuestionIndex].text || ''"
               class="cc-questionInput"
               id="cc-editPanel-editText"
               placeholder="Type question here..."

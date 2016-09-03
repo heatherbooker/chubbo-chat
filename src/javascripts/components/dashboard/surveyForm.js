@@ -52,8 +52,8 @@ export default Vue.extend({
           v-for="question in questions"
           track-by="$index"
           :question="question"
-          :selected="survey.currentQuestionIndex === $index"
-          @click="setCurrentQuestion($index)"
+          :selected="!survey.isPublished && survey.currentQuestionIndex === $index"
+          @click="toggleCurrentQuestion($index)"
         >
         </question-block>
       </div>
@@ -82,11 +82,12 @@ export default Vue.extend({
       });
       return promise;
     },
-    addQuestionInput: function() {
-      // wait for new input to be inserted before moving focus to it
-      this.$nextTick(function() {
-        $('.cc-input-focus').focus();
-      });
+    toggleCurrentQuestion: function(index) {
+      if (this.survey.currentQuestionIndex === index) {
+        this.setCurrentQuestion(-1);
+      } else {
+        this.setCurrentQuestion(index);
+      }
     },
     handleGetLinkButton: function() {
       swal({
