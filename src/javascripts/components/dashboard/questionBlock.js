@@ -12,13 +12,22 @@ export default Vue.extend({
           {{ question.text || defaultText }}
         </div>
         <div v-if="false" class="cc-questionBlock-bottom">
-          other stuff will go here
+          options || slider || email input || file upload
+        </div>
+        <div
+          v-if="question.type === 'options'"
+          class="cc-questionBlock-bottom"
+        >
+          <div v-for="option in options">
+            <input type="radio" :value="option">{{ option }}
+          </div>
         </div>
       </div>
     </div>
   `,
   data() {
     return {
+      options: ['one', 'two', 'threeeeeeeee'],
       defaultText: '[Go to the edit panel to modify this question]',
       srcOfDragIcon: require('../../../images/drag.svg')
     };

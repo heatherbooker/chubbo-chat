@@ -3,6 +3,8 @@ import Vue from 'vue';
 import '../../../libs/selectBox/jquery.selectBox.js';
 // Vuex state store
 import store from '../../store.js';
+// Components
+import editOptions from './rightPanel/editOptions.js';
 // Styles 
 import '../../../libs/selectBox/jquery.selectBox.css';
 import '../../../stylesheets/rightPanelEdit.css';
@@ -43,9 +45,13 @@ export default Vue.extend({
               autocomplete="off"
             >
           </div>
+          <edit-options @updateOption="handleTextInput(event)"></edit-options>
         </fieldset>
       </form>
   `,
+  components: {
+    'edit-options': editOptions
+  },
   ready() {
     var me = this;
     $('#cc-editPanel-selectType').selectBox();
