@@ -19,7 +19,10 @@ export default Vue.extend({
           class="cc-questionBlock-bottom"
         >
           <div v-for="option in options">
-            <input type="radio" :value="option">{{ option }}
+            <label class="cc-radioLabel">
+              <input type="radio" :value="option" name="options">
+              <span>{{ option }}</span>
+            </label>
           </div>
         </div>
       </div>
