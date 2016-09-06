@@ -35,6 +35,7 @@ export default Vue.extend({
             <span class="fa fa-3x fa-check-square-o cc-rightPanel-btnIcon"></span>
             <h4>Options</h4>
           </button>
+          // Some buttons are "display: none" because they are not yet implemented.
           <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(2)">
             <span class="fa fa-3x fa-picture-o cc-rightPanel-btnIcon"></span>
             <h4>Image</h4>

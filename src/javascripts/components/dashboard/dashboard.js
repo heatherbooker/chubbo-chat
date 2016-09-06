@@ -106,9 +106,7 @@ export default Vue.extend({
       return promise;
     },
     getSurveyById: function(id, surveys) {
-      return surveys.filter((survey) => {
-        return survey.id === id
-      })[0];
+      return surveys.filter(survey => survey.id === id)[0];
     },
     getLatestSurveyId: function(surveys) {
       var latestDate = 0;

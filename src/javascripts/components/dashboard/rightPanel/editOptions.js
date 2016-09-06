@@ -31,14 +31,8 @@ export default Vue.extend({
     };
   },
   methods: {
-    addOption() {
-
-    },
     editOption(event) {
       this.$dispatch('updateOption', event.target.value);
-    },
-    deleteOption() {
-
     }
   }
 });
