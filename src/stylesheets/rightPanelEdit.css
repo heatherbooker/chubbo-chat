@@ -1,14 +1,15 @@
 form.cc-rightPanel-edit {
   text-align: center;
-  margin: 40px 0px 0px;
+  margin: 20px 0px 0px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   flex: 1;
 }
 
 .cc-rightPanel-edit-row {
   width: 80%;
-  margin: auto;
+  margin: 12px auto;
   display: flex;
   justify-content: center;
 }
@@ -16,11 +17,6 @@ form.cc-rightPanel-edit {
 .cc-rightPanel-edit-row label {
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.cc-rightPanel-editOption {
-  width: 80%;
-  margin: auto;
 }
 
 .cc-questionInput {

@@ -9,6 +9,7 @@ import '../../../stylesheets/rightPanel.css'
 
 
 export default Vue.extend({
+  // Some buttons in template are "display: none" because their types are not yet implemented.
   template: `
     <div :class="survey.isPublished ? 'cc-rightPanel-disabled' : 'cc-rightPanel'">
       <div class="cc-rightPanel-tabBar">
@@ -35,7 +36,6 @@ export default Vue.extend({
             <span class="fa fa-3x fa-check-square-o cc-rightPanel-btnIcon"></span>
             <h4>Options</h4>
           </button>
-          // Some buttons are "display: none" because they are not yet implemented.
           <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(2)">
             <span class="fa fa-3x fa-picture-o cc-rightPanel-btnIcon"></span>
             <h4>Image</h4>
@@ -54,9 +54,8 @@ export default Vue.extend({
       </div>
       <edit-panel
         v-if="selectedTab === 'edit'"
-        :survey="survey"
+        :question="survey.questions[survey.currentQuestionIndex]"
         :types="questionTypes"
-        @edit-type="editQuestionType"
         @edit-text="editQuestionText"
       ></edit-panel>
     </div>
@@ -114,9 +113,6 @@ export default Vue.extend({
       },
       editQuestionText(store, text) {
         store.dispatch('EDIT_QUESTION', 'text', text);
-      },
-      editQuestionType(store, type) {
-        store.dispatch('EDIT_QUESTION', 'type', type);
       }
     }
   }
