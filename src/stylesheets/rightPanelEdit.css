@@ -1,6 +1,26 @@
 form.cc-rightPanel-edit {
   text-align: center;
-  margin: 40px 15px 0px 15px;
+  margin: 40px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cc-rightPanel-edit-row {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.cc-rightPanel-edit-row label {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.cc-rightPanel-editOption {
+  width: 80%;
+  margin: auto;
 }
 
 .cc-questionInput {
@@ -9,8 +29,47 @@ form.cc-rightPanel-edit {
   outline: none;
   border-bottom: 1px solid #A4A4A4;
   border-radius: 0px;
-  margin: 40px 10px 20px 20px;
+  margin: 20px 16px 20px 0px;
   padding: 5px;
   font-size: 1.6rem;
-  width: 210px;
+  width: 85%;
+}
+
+input.cc-questionInput:focus {
+  outline: none;
+  border-color: #3c5a71;
+}
+
+.cc-optionInput {
+  border-radius: 6px;
+  outline: none;
+  border: 1px solid #DCE7F2;
+  margin: 8px;
+  padding: 5px;
+  font-size: 1.6rem;
+  flex: 1;
+}
+
+input.cc-optionInput:focus {
+  border-color: #3FC3EE;
+  outline: none;
+}
+
+.cc-rightPanel-garbageIcon {
+  height: 20px;
+  margin: auto 3px;
+}
+
+.cc-rightPanel-garbageIcon:hover {
+  cursor: pointer;
+}
+
+button.cc-rightPanel-addOptionBtn {
+  background-color: #02DF69!important;
+  color: #fff;
+  margin: 10px;
+  border-radius: 16px;
+  height: 35px;
+  width: 120px;
+  font-weight: bold;
 }

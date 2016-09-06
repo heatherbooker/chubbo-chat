@@ -56,11 +56,9 @@ export default new Vuex.Store(function() {
       },
 
       ADD_QUESTION: function(state, questionType) {
-        var questionToAdd;
-        if (questionType === 'text') {
-          questionToAdd = {text: '', type: questionType};
-        } else {
-          questionToAdd = {type: questionType};
+        var questionToAdd = {type: questionType, text: ''};
+        if (questionType === 'options') {
+          questionToAdd.options = [];
         }
         var questionIndex = state.selectedSurvey.questions.length;
         state.surveys.forEach(survey => {
