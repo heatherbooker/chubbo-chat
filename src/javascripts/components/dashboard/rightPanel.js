@@ -35,17 +35,17 @@ export default Vue.extend({
             <span class="fa fa-3x fa-check-square-o cc-rightPanel-btnIcon"></span>
             <h4>Options</h4>
           </button>
-          <button class="cc-rightPanel-btn" @click="handleNewQuestionBtn(2)">
+          <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(2)">
             <span class="fa fa-3x fa-picture-o cc-rightPanel-btnIcon"></span>
             <h4>Image</h4>
           </button>
         </div>
         <div class="cc-rightPanel-btnsRightCol">
-          <button class="cc-rightPanel-btn" @click="handleNewQuestionBtn(3)">
+          <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(3)">
             <span class="fa fa-3x fa-envelope-o cc-rightPanel-btnIcon"></span>
             <h4>Email</h4>
           </button>
-          <button class="cc-rightPanel-btn" @click="handleNewQuestionBtn(4)">
+          <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(4)">
             <span class="fa fa-3x fa-sliders cc-rightPanel-btnIcon"></span>
             <h4>Sliders</h4>
           </button>

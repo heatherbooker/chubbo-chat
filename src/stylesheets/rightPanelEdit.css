@@ -18,6 +18,11 @@ form.cc-rightPanel-edit {
   margin-bottom: auto;
 }
 
+.cc-rightPanel-editOption {
+  width: 80%;
+  margin: auto;
+}
+
 .cc-questionInput {
   background-color: transparent;
   border: none;
