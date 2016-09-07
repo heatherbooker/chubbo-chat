@@ -3,8 +3,13 @@ import store from '../../../store.js';
 
 
 export default Vue.extend({
+  props: ['options'],
   template: `
-    <div v-for="(index, option) in options" class="cc-rightPanel-edit-row">
+    <div
+      v-for="(index, option) in options"
+      class="cc-rightPanel-edit-row"
+      track-by="$index"
+    >
       <label style="display: none" :for="'cc-optionInput' + index">smthign dynamic</label>
       <input
         type="text"
@@ -20,19 +25,19 @@ export default Vue.extend({
     <div class="cc-rightPanel-edit-row">
       <button
         class="cc-buttonReset cc-rightPanel-addOptionBtn"
-        @click.prevent
+        @click.prevent="addOption"
       >Add Option</button>
     </div>
   `,
   data() {
     return {
-      options: ['a','b','c'],
       srcForDeleteIcon: require('../../../../images/garbage.svg')
     };
   },
   methods: {
+    addOption() {console.log('adding');this.$dispatch('add-option');},
     editOption(event) {
-      this.$dispatch('updateOption', event.target.value);
+      this.$dispatch('update-option', event);
     }
   }
 });

@@ -72,13 +72,24 @@ export default new Vuex.Store(function() {
       },
 
       EDIT_QUESTION: function(state, property, value) {
+        console.log('in store:', property);
         var currentIndex = state.selectedSurvey.currentQuestionIndex;
-        state.surveys.forEach((survey) => {
-          if (survey.id === state.selectedSurvey.id) {
-            survey.questions[currentIndex][property] = value;
-          }
-        });
-        state.selectedSurvey.questions[currentIndex][property] = value;
+        // state.surveys.forEach((survey) => {
+        //   if (survey.id === state.selectedSurvey.id) {
+        //     if (property === 'options' && value === '') {
+        //       survey.questions[currentIndex].options.push('');
+        //     } else {
+        //       survey.questions[currentIndex][property] = value;
+        //     }
+        //   }
+        // });
+        if (property === 'options' && value === '') {
+          console.log('about to push option, survey state:',
+            JSON.stringify(state.selectedSurvey.questions[currentIndex]));
+          state.selectedSurvey.questions[currentIndex].options.push('');
+        } else {
+          state.selectedSurvey.questions[currentIndex][property] = value;
+        }
       },
 
       EDIT_TITLE:  function(state, title) {

@@ -27,7 +27,9 @@ export default Vue.extend({
         </div>
         <edit-options
           v-if="question.type === 'options'"
-          @updateOption="handleTextInput(event)"
+          :options="question.options"
+          @add-option="emitEvent('add-option', '')"
+          @update-option="emitEvent(event)"
         ></edit-options>
       </form>
   `,
@@ -36,9 +38,11 @@ export default Vue.extend({
   },
   methods: {
     emitEvent(eventName, eventDetail) {
+      console.log('emitting:', eventName, typeof eventDetail);
       this.$dispatch(eventName, eventDetail);
     },
     handleTextInput(event) {
+      console.log('handling:', event.target.value);
       this.emitEvent('edit-text', event.target.value);
     }
   }

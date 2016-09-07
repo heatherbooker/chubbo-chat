@@ -57,6 +57,7 @@ export default Vue.extend({
         :question="survey.questions[survey.currentQuestionIndex]"
         :types="questionTypes"
         @edit-text="editQuestionText"
+        @add-option="addOption"
       ></edit-panel>
     </div>
   `,
@@ -112,7 +113,17 @@ export default Vue.extend({
         store.dispatch('ADD_QUESTION', questionType);
       },
       editQuestionText(store, text) {
+        console.log('in vuex dispatcher:', text);
         store.dispatch('EDIT_QUESTION', 'text', text);
+      },
+      addOption() {
+        console.log('in vuex dispatcher');
+        store.dispatch('EDIT_QUESTION', 'options', '');
+      },
+      editOption(store, optionIndex, optionText) {
+        store.dispatch('EDIT_QUESTION', 'options', [
+          ...this.survey.questions[this.survey.currentQuestionIndex], optionText
+        ]);
       }
     }
   }
