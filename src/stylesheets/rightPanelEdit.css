@@ -7,6 +7,12 @@ form.cc-rightPanel-edit {
   flex: 1;
 }
 
+.cc-editPanel-errorMsg {
+  color: #a4a4a4;
+  padding: 15px;
+  font-size: 12pt;
+}
+
 .cc-rightPanel-edit-row {
   width: 80%;
   margin: 12px auto;

@@ -9,6 +9,7 @@ export default (function() {
     var promise = new Promise((resolve, reject) => {
       if (user) {
         var finalQuestions = JSON.stringify(removeBlankQuestions(questions));
+        console.log('finalQuestions', finalQuestions);
         addSurveyToDatabase(title, finalQuestions, timestamp)
             .then((surveyId) => {
               if (surveyId) {
@@ -33,12 +34,6 @@ export default (function() {
             return false;
           }
         });
-  }
-  function addQuotes(questions) {
-    // Adding quotes to make it valid json for sending to database
-    return questions.map(function(question) {
-      return `"${question}"`;
-    });
   }
   function removeBlankQuestions(questions) {
     var filteredQuestions = questions;

@@ -61,62 +61,31 @@ export default new Vuex.Store(function() {
           questionToAdd.options = [];
         }
         var questionIndex = state.selectedSurvey.questions.length;
-        state.surveys.forEach(survey => {
-          if (survey.id === state.selectedSurvey.id) {
-            survey.questions.push(questionToAdd);
-            survey.currentQuestionIndex = questionIndex;
-          }
-        });
         state.selectedSurvey.questions.push(questionToAdd);
         state.selectedSurvey.currentQuestionIndex = questionIndex;
       },
 
       EDIT_QUESTION: function(state, property, value) {
-        console.log('in store:', property);
         var currentIndex = state.selectedSurvey.currentQuestionIndex;
-        // state.surveys.forEach((survey) => {
-        //   if (survey.id === state.selectedSurvey.id) {
-        //     if (property === 'options' && value === '') {
-        //       survey.questions[currentIndex].options.push('');
-        //     } else {
-        //       survey.questions[currentIndex][property] = value;
-        //     }
-        //   }
-        // });
-        if (property === 'options' && value === '') {
-          console.log('about to push option, survey state:',
-            JSON.stringify(state.selectedSurvey.questions[currentIndex]));
-          state.selectedSurvey.questions[currentIndex].options.push('');
-        } else {
-          state.selectedSurvey.questions[currentIndex][property] = value;
-        }
+        state.selectedSurvey.questions[currentIndex][property] = value;
       },
 
       EDIT_TITLE:  function(state, title) {
-        state.surveys.forEach((survey) => {
-          if (survey.id === state.selectedSurvey.id) {
-            survey.title = title;
-          }
-        });
         state.selectedSurvey.title = title;
       },
 
       SET_CURRENT_QUESTION_INDEX: function(state, index) {
-        state.surveys.forEach((survey) => {
-          if (survey.id === state.selectedSurvey.id) {
-            survey.currentQuestionIndex = index;
-          }
-        });
         state.selectedSurvey.currentQuestionIndex = index;
       },
 
       PUBLISH_SURVEY: function(state, surveyId, timestamp) {
         state.surveys.forEach((survey) => {
           if (survey.id === defaults.survey.id) {
+            survey.title = state.selectedSurvey.title;
             survey.isPublished = true;
             survey.id = surveyId;
             survey.timestamp = timestamp;
-            survey.questions = surveyService.removeBlankQuestions(survey.questions);
+            survey.questions = surveyService.removeBlankQuestions(state.selectedSurvey.questions);
             delete survey.isForPublishing;
           }
         });
@@ -124,6 +93,12 @@ export default new Vuex.Store(function() {
       },
 
       SET_SELECTED_SURVEY: function(state, survey = defaults.survey) {
+        // Updates previously selected survey in survey list, before changing it.
+        state.surveys.forEach((survey) => {
+          if (survey.id === state.selectedSurvey.id) {
+            survey = state.selectedSurvey;
+          }
+        });
         state.selectedSurvey = $.extend(true, {}, survey);
       },
 

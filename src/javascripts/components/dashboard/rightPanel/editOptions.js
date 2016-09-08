@@ -15,7 +15,7 @@ export default Vue.extend({
         type="text"
         :id="'cc-optionInput' + index"
         class="cc-optionInput"
-        :value="options[index]"
+        :value="option"
         @input="editOption"
         @keyup.enter.prevent
         autocomplete="off"
@@ -35,9 +35,11 @@ export default Vue.extend({
     };
   },
   methods: {
-    addOption() {console.log('adding');this.$dispatch('add-option');},
+    addOption() {this.$dispatch('add-option');},
     editOption(event) {
-      this.$dispatch('update-option', event);
+      var index = event.target.id[event.target.id.length - 1];
+      var text = event.target.value;
+      this.$dispatch('edit-option', index, text);
     }
   }
 });
