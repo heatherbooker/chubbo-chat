@@ -78,6 +78,10 @@ export default new Vuex.Store(function() {
         state.selectedSurvey.questions[currentIndex][property] = value;
       },
 
+      DELETE_QUESTION: function(state, index) {
+        state.selectedSurvey.questions.splice(index, 1);
+      },
+
       EDIT_TITLE:  function(state, title) {
         state.selectedSurvey.title = title;
       },

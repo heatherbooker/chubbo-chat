@@ -88,6 +88,18 @@ input.cc-titleInput:focus {
   cursor: move;
 }
 
+.cc-questionBlock-garbageIcon {
+  position: relative;
+  top: 3px;
+  height: 20px;
+  margin: 13px 3px;
+  user-select: none;
+}
+
+.cc-questionBlock-garbageIcon:hover {
+  cursor: pointer;
+}
+
 .cc-questionBlock, .cc-questionBlock-selected {
   display: inline-block;
   margin: 4px 8px;
