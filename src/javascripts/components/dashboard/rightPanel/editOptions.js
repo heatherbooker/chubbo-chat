@@ -41,6 +41,7 @@ export default Vue.extend({
   methods: {
     addOption() {
       this.$dispatch('add-option');
+      // Waits for option to be added to DOM before moving focus to it.
       this.$nextTick(function() {
         $('#cc-optionInput' + [this.options.length - 1]).focus();
       });
