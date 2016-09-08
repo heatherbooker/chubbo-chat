@@ -55,6 +55,14 @@ export default new Vuex.Store(function() {
         }
       },
 
+      DELETE_SURVEY: function(state, surveyId) {
+        state.surveys.forEach((survey, index) => {
+          if (survey.id === surveyId) {
+            state.surveys.splice(index, 1);
+          }
+        });
+      },
+
       ADD_QUESTION: function(state, questionType) {
         var questionToAdd = {type: questionType, text: ''};
         if (questionType === 'options') {
