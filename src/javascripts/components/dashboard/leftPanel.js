@@ -3,6 +3,7 @@ import Vue from 'vue'
 //vuex shared state store
 import store from '../../store.js'
 // Services
+import 'vue-sticky-scroll';
 import surveyApi from '../../services/surveyApi.js';
 //styles
 import '../../../stylesheets/leftPanel.css'
@@ -25,7 +26,7 @@ export default Vue.extend({
       >
         + Create Survey
       </button>
-      <div class="cc-leftPanel-surveyList" v-if="user">
+      <div class="cc-leftPanel-surveyList" v-if="user" v-sticky-scroll>
         <div
           v-for="survey in surveys | orderBy 'timestamp'"
           track-by="id"
