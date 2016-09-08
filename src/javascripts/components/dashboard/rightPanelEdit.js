@@ -32,8 +32,9 @@ export default Vue.extend({
         <edit-options
           v-if="question && question.type === 'options'"
           :options="question.options"
-          @add-option="emitEvent('add-option', '')"
+          @add-option="addOption"
           @edit-option="editOption"
+          @delete-option="deleteOption"
         ></edit-options>
       </form>
   `,
@@ -41,14 +42,17 @@ export default Vue.extend({
     'edit-options': editOptions
   },
   methods: {
-    emitEvent(eventName, eventDetails) {
-      this.$dispatch(eventName, eventDetails);
+    addOption() {
+      this.$dispatch('add-option');
     },
     handleTextInput(event) {
-      this.emitEvent('edit-text', event.target.value);
+      this.$dispatch('edit-text', event.target.value);
     },
     editOption(index, text) {
       this.$dispatch('edit-option', index, text);
+    },
+    deleteOption(index) {
+      this.$dispatch('delete-option', index);
     }
   }
 });

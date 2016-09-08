@@ -20,7 +20,11 @@ export default Vue.extend({
         @keyup.enter.prevent
         autocomplete="off"
       >
-      <img :src="srcForDeleteIcon" class="cc-rightPanel-garbageIcon">
+      <img
+        :src="srcForDeleteIcon"
+        class="cc-rightPanel-garbageIcon"
+        @click="deleteOption(index)"
+      >
     </div>
     <div class="cc-rightPanel-edit-row">
       <button
@@ -40,6 +44,9 @@ export default Vue.extend({
       var index = event.target.id[event.target.id.length - 1];
       var text = event.target.value;
       this.$dispatch('edit-option', index, text);
+    },
+    deleteOption(index) {
+      this.$dispatch('delete-option', index);
     }
   }
 });

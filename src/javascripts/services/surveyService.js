@@ -9,7 +9,6 @@ export default (function() {
     var promise = new Promise((resolve, reject) => {
       if (user) {
         var finalQuestions = JSON.stringify(removeBlankQuestions(questions));
-        console.log('finalQuestions', finalQuestions);
         addSurveyToDatabase(title, finalQuestions, timestamp)
             .then((surveyId) => {
               if (surveyId) {

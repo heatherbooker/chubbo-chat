@@ -59,6 +59,7 @@ export default Vue.extend({
         @edit-text="editQuestionText"
         @add-option="addOption"
         @edit-option="editOption"
+        @delete-option="deleteOption"
       ></edit-panel>
     </div>
   `,
@@ -107,7 +108,11 @@ export default Vue.extend({
   // Vuex (state store) getters / action dispatchers needed by this component 
   vuex: {
     getters: {
-      survey(state) {return state.selectedSurvey;}
+      survey(state) {return state.selectedSurvey;},
+      currentQuestion(state) {
+        var survey = state.selectedSurvey;
+        return survey.questions[survey.currentQuestionIndex];
+      }
     },
     actions: {
       addQuestion(store, questionType) {
@@ -117,13 +122,18 @@ export default Vue.extend({
         store.dispatch('EDIT_QUESTION', 'text', text);
       },
       addOption() {
-        var optionsArray = [...this.survey.questions[this.survey.currentQuestionIndex].options]
+        var optionsArray = [...this.currentQuestion.options];
         optionsArray.push('');
         store.dispatch('EDIT_QUESTION', 'options', optionsArray);
       },
-      editOption(store, optionIndex, optionText) {
-        var optionsArray = [...this.survey.questions[this.survey.currentQuestionIndex].options];
-        optionsArray[optionIndex] = optionText;
+      editOption(store, index, optionText) {
+        var optionsArray = [...this.currentQuestion.options];
+        optionsArray[index] = optionText;
+        store.dispatch('EDIT_QUESTION', 'options', optionsArray);
+      },
+      deleteOption(store, index) {
+        var optionsArray = [...this.currentQuestion.options];
+        optionsArray.splice(index, 1);
         store.dispatch('EDIT_QUESTION', 'options', optionsArray);
       }
     }
