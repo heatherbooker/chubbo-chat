@@ -124,6 +124,10 @@ input.cc-titleInput:focus {
   border-top-color: #fff;
 }
 
+.cc-questionBlock-bottom label.cc-radioLabel {
+  font-size: 10pt;
+}
+
 .cc-submitSurveyFormBtn, .cc-addQuestionInputBtn, .cc-surveyForm-getLinkBtn {
   border-radius: 20px;
   color: #fff;

@@ -3,36 +3,55 @@ import store from '../../../store.js';
 
 
 export default Vue.extend({
+  props: ['options'],
   template: `
-    <div v-for="(index, option) in options" class="cc-rightPanel-edit-row">
+    <div
+      v-for="(index, option) in options"
+      class="cc-rightPanel-edit-row"
+      track-by="$index"
+    >
       <label style="display: none" :for="'cc-optionInput' + index">smthign dynamic</label>
       <input
         type="text"
         :id="'cc-optionInput' + index"
         class="cc-optionInput"
-        :value="options[index]"
+        :value="option"
         @input="editOption"
-        @keyup.enter.prevent
+        @keydown.enter.prevent="addOption"
         autocomplete="off"
       >
-      <img :src="srcForDeleteIcon" class="cc-rightPanel-garbageIcon">
+      <img
+        :src="srcForDeleteIcon"
+        class="cc-rightPanel-garbageIcon"
+        @click="deleteOption(index)"
+      >
     </div>
     <div class="cc-rightPanel-edit-row">
       <button
         class="cc-buttonReset cc-rightPanel-addOptionBtn"
-        @click.prevent
+        @click.prevent="addOption"
       >Add Option</button>
     </div>
   `,
   data() {
     return {
-      options: ['a','b','c'],
       srcForDeleteIcon: require('../../../../images/garbage.svg')
     };
   },
   methods: {
+    addOption() {
+      this.$dispatch('add-option');
+      this.$nextTick(function() {
+        $('#cc-optionInput' + [this.options.length - 1]).focus();
+      });
+    },
     editOption(event) {
-      this.$dispatch('updateOption', event.target.value);
+      var index = event.target.id[event.target.id.length - 1];
+      var text = event.target.value;
+      this.$dispatch('edit-option', index, text);
+    },
+    deleteOption(index) {
+      this.$dispatch('delete-option', index);
     }
   }
 });

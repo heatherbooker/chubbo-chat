@@ -34,12 +34,6 @@ export default (function() {
           }
         });
   }
-  function addQuotes(questions) {
-    // Adding quotes to make it valid json for sending to database
-    return questions.map(function(question) {
-      return `"${question}"`;
-    });
-  }
   function removeBlankQuestions(questions) {
     var filteredQuestions = questions;
     // unless there's only one question,

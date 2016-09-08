@@ -12,9 +12,13 @@ export default Vue.extend({
   props: ['question'],
   template: `
       <form class="cc-rightPanel-edit">
+        <span v-show="!question" class="cc-editPanel-errorMsg">
+          Select a question from the center panel to edit!
+        </span>
         <div class="cc-rightPanel-edit-row">
           <label style="display: none" for="cc-editPanel-editText">Text</label>
           <input
+            v-if="question"
             type="text"
             :value="question.text || ''"
             class="cc-questionInput"
@@ -26,8 +30,11 @@ export default Vue.extend({
           >
         </div>
         <edit-options
-          v-if="question.type === 'options'"
-          @updateOption="handleTextInput(event)"
+          v-if="question && question.type === 'options'"
+          :options="question.options"
+          @add-option="addOption"
+          @edit-option="editOption"
+          @delete-option="deleteOption"
         ></edit-options>
       </form>
   `,
@@ -35,11 +42,17 @@ export default Vue.extend({
     'edit-options': editOptions
   },
   methods: {
-    emitEvent(eventName, eventDetail) {
-      this.$dispatch(eventName, eventDetail);
+    addOption() {
+      this.$dispatch('add-option');
     },
     handleTextInput(event) {
-      this.emitEvent('edit-text', event.target.value);
+      this.$dispatch('edit-text', event.target.value);
+    },
+    editOption(index, text) {
+      this.$dispatch('edit-option', index, text);
+    },
+    deleteOption(index) {
+      this.$dispatch('delete-option', index);
     }
   }
 });

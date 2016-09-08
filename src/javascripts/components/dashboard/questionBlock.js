@@ -18,7 +18,7 @@ export default Vue.extend({
           v-if="question.type === 'options'"
           class="cc-questionBlock-bottom"
         >
-          <div v-for="option in options">
+          <div v-for="option in question.options" track-by="$index">
             <label class="cc-radioLabel">
               <input type="radio" :value="option" name="options">
               <span>{{ option }}</span>
@@ -30,7 +30,6 @@ export default Vue.extend({
   `,
   data() {
     return {
-      options: ['one', 'two', 'threeeeeeeee'],
       defaultText: '[Go to the edit panel to modify this question]',
       srcOfDragIcon: require('../../../images/drag.svg')
     };

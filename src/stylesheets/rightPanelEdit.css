@@ -5,12 +5,20 @@ form.cc-rightPanel-edit {
   flex-direction: column;
   justify-content: flex-start;
   flex: 1;
+  overflow-y: auto;
+}
+
+.cc-editPanel-errorMsg {
+  color: #a4a4a4;
+  padding: 15px;
+  font-size: 12pt;
 }
 
 .cc-rightPanel-edit-row {
   width: 80%;
   margin: 12px auto;
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
 }
 
