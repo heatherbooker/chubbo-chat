@@ -7,7 +7,11 @@ export default Vue.extend({
     <div class="cc-dashboard-subNav">
       <div>
         <h2 v-link="surveysBtnLink" class="cc-dashboard-subNav-viewText">Surveys</h2>
-        <h2 v-link="responsesBtnLink" class="cc-dashboard-subNav-viewText">Responses</h2>
+        <h2
+          v-if="user"
+          v-link="responsesBtnLink"
+          class="cc-dashboard-subNav-viewText"
+        >Responses</h2>
       </div>
       <div>
         <button class="cc-buttonReset">

@@ -11,8 +11,10 @@ import '../../../stylesheets/leftPanel.css'
 export default Vue.extend({
   template: `
     <div class="cc-leftPanel">
-      <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
-      <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
+      <img :src="userImgSrc" class="cc-userIcon-leftPanel"/>
+      <p class="cc-userEmail-leftPanel">
+        {{ user ? user.email : 'not signed in' }}
+      </p>
       <p
         v-on:click="handleLogout"
         class="cc-logout-leftPanel"
@@ -55,12 +57,6 @@ export default Vue.extend({
         return '/dashboard/surveys/';
       }
       return '/dashboard/responses/';
-    },
-    userEmail: function() {
-      if (this.user) {
-        return this.user.email;
-      }
-      return 'not signed in';
     },
     userImgSrc: function() {
       if (this.user) {

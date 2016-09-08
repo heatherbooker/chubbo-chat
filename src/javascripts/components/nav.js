@@ -12,7 +12,7 @@ export default Vue.extend({
     <div class="container-fluid">
       <div class="row cc-navbar">
         <div class="col-xs-8">
-          <h1 v-link="{path: '/'}" class="cc-logo">Chubbo-Chat</h1>
+          <h1 v-link="{name: 'home'}" class="cc-logo">Chubbo-Chat</h1>
         </div>
         <div class="col-xs-4" v-if="!onSimpleNav">
           <div v-show="onDashboard">
