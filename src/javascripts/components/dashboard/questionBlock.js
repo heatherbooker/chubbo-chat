@@ -51,7 +51,6 @@ export default Vue.extend({
   },
   methods: {
     deleteQuestion() {
-      console.log('step 1');
       this.$dispatch('delete-question');
     }
   }

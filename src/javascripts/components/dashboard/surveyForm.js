@@ -146,7 +146,6 @@ export default Vue.extend({
         store.dispatch('SET_CURRENT_QUESTION_INDEX', index);
       },
       deleteQuestion(store, index) {
-        console.log('step 2');
         store.dispatch('DELETE_QUESTION', index);
       }
     }

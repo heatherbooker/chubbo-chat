@@ -71,7 +71,6 @@ export default new Vuex.Store(function() {
       },
 
       DELETE_QUESTION: function(state, index) {
-        console.log('step 3, index=', index);
         state.selectedSurvey.questions.splice(index, 1);
       },
 
