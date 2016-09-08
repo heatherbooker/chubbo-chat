@@ -53,7 +53,9 @@ export default Vue.extend({
           track-by="$index"
           :question="question"
           :selected="!survey.isPublished && survey.currentQuestionIndex === $index"
+          :editable="!survey.isPublished"
           @click="toggleCurrentQuestion($index)"
+          @delete-question="deleteQuestion($index)"
         >
         </question-block>
       </div>
@@ -142,6 +144,10 @@ export default Vue.extend({
       },
       setCurrentQuestion(store, index) {
         store.dispatch('SET_CURRENT_QUESTION_INDEX', index);
+      },
+      deleteQuestion(store, index) {
+        console.log('step 2');
+        store.dispatch('DELETE_QUESTION', index);
       }
     }
   }

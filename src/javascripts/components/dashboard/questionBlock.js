@@ -3,10 +3,10 @@ import Vue from 'vue'
 
 
 export default Vue.extend({
-  props: ['question', 'selected'],
+  props: ['question', 'selected', 'editable'],
   template: `
     <div class="cc-questionBlock-container">
-      <img :src="srcOfDragIcon" class="cc-questionBlock-dragIcon">
+      <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon">
       <div :class="selected ? 'cc-questionBlock-selected' : 'cc-questionBlock'">
         <div :class="questionBlockClass">
           {{ question.text || defaultText }}
@@ -26,12 +26,19 @@ export default Vue.extend({
           </div>
         </div>
       </div>
+      <img
+        v-if="editable"
+        :src="srcForDeleteIcon"
+        class="cc-questionBlock-garbageIcon"
+        @click="deleteQuestion"
+      >
     </div>
   `,
   data() {
     return {
       defaultText: '[Go to the edit panel to modify this question]',
-      srcOfDragIcon: require('../../../images/drag.svg')
+      srcForDragIcon: require('../../../images/drag.svg'),
+      srcForDeleteIcon: require('../../../images/garbage.svg')
     };
   },
   computed: {
@@ -40,6 +47,12 @@ export default Vue.extend({
         return 'cc-questionBlock-topOnly';
       }
       return 'cc-questionBlock-top';
+    }
+  },
+  methods: {
+    deleteQuestion() {
+      console.log('step 1');
+      this.$dispatch('delete-question');
     }
   }
 });
