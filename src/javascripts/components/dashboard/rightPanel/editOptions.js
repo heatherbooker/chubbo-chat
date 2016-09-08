@@ -17,7 +17,7 @@ export default Vue.extend({
         class="cc-optionInput"
         :value="option"
         @input="editOption"
-        @keyup.enter.prevent
+        @keydown.enter.prevent="addOption"
         autocomplete="off"
       >
       <img
@@ -39,7 +39,12 @@ export default Vue.extend({
     };
   },
   methods: {
-    addOption() {this.$dispatch('add-option');},
+    addOption() {
+      this.$dispatch('add-option');
+      this.$nextTick(function() {
+        $('#cc-optionInput' + [this.options.length - 1]).focus();
+      });
+    },
     editOption(event) {
       var index = event.target.id[event.target.id.length - 1];
       var text = event.target.value;

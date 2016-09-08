@@ -5,6 +5,7 @@ form.cc-rightPanel-edit {
   flex-direction: column;
   justify-content: flex-start;
   flex: 1;
+  overflow-y: auto;
 }
 
 .cc-editPanel-errorMsg {
@@ -17,6 +18,7 @@ form.cc-rightPanel-edit {
   width: 80%;
   margin: 12px auto;
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
 }
 
