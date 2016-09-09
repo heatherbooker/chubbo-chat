@@ -3,6 +3,7 @@ import Vue from 'vue'
 //vuex shared state store
 import store from '../../store.js'
 // services
+import surveyService from '../../services/surveyService.js';
 import surveyApi from '../../services/surveyApi.js'
 //components
 import leftPanel from './leftPanel.js'
@@ -22,7 +23,7 @@ export default Vue.extend({
             }
           })
           .then(() => {
-            this.getPublishedSurveys()
+            surveyService.getPublishedSurveys(this.user)
               .then((surveys) => {
                 this.addSurveysToStore(surveys);
                 transition.next();
@@ -35,11 +36,11 @@ export default Vue.extend({
       var currentSurveyId = this.$route.params.surveyId;
 
       if (!currentSurveyId) {
-        var latestSurveyId = this.getLatestSurveyId(this.surveys);
+        var latestSurveyId = surveyService.getLatestSurveyId(this.surveys);
         transition.redirect(`/dashboard/surveys/${latestSurveyId}`);
 
       } else if (currentSurveyId !== '$creating_survey') {
-        this.setSelectedSurvey(this.getSurveyById(currentSurveyId, this.surveys));
+        this.setSelectedSurvey(surveyService.getSurveyById(currentSurveyId, this.surveys));
         transition.next();
 
       } else if (window.sessionStorage.getItem('cc-userSurvey')) {
@@ -84,42 +85,13 @@ export default Vue.extend({
   },
   ready: function() {
     document.addEventListener('CC.NEW_USER', () => {
-      this.getPublishedSurveys()
+      surveyService.getPublishedSurveys(this.user)
           .then((surveys) => {
             this.addSurveysToStore(surveys);
           });
     });
   },
   methods: {
-    getPublishedSurveys: function() {
-      var promise = new Promise((resolve, reject) => {
-        if (this.user) {
-          return surveyApi.getSurveys()
-              .then(response => response.json())
-              .then((surveys) => {
-                resolve(surveys);
-              });
-        } else {
-          reject();
-        }
-      });
-      return promise;
-    },
-    getSurveyById: function(id, surveys) {
-      return surveys.filter(survey => survey.id === id)[0];
-    },
-    getLatestSurveyId: function(surveys) {
-      var latestDate = 0;
-      var latestSurveyId = '';
-
-      surveys.forEach((survey) => {
-        if (survey.timestamp > latestDate) {
-          latestSurveyId = survey.id;
-          latestDate = survey.timestamp;
-        }
-      });
-      return latestSurveyId;
-    },
     addSurveysToStore(surveys) {
       for (var surveyKey in surveys) {
         var survey = surveys[surveyKey];

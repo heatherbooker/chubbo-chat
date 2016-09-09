@@ -17,7 +17,7 @@ export default Vue.extend({
           v-if="question.type === 'slider'"
           class="cc-questionBlock-bottom-slider"
         >
-          <label class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</label>
+          <span class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</span>
           <input type='range' class="cc-questionBlock-slider" @click.stop>
           <label class="cc-questionBlock-sliderLabel">{{ question.right || '[]' }}</label>
         </div>
