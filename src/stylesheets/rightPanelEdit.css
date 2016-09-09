@@ -44,6 +44,59 @@ input.cc-questionInput:focus {
   border-color: #3c5a71;
 }
 
+/*NUMBER INPUT*/
+.cc-numInput-label {
+  min-width: 68px;
+}
+
+.cc-editPanel-numInput {
+  background-color: #DCE7F2;
+  border-radius: 12px;
+  border: none;
+  height: 30px;
+  width: 80px;
+  margin-left: 15px;
+  padding-left: 15px;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cc-numInput-arrow-up {
+  width: 0; 
+  height: 0; 
+  position: relative;
+  top: 9px;
+  right: 17px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid #3c5a71;
+}
+
+.cc-numInput-arrow-down {
+  width: 0; 
+  height: 0; 
+  position: relative;
+  top: 16px;
+  right: 23.5px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #3c5a71;
+}
+
+.cc-numInput-arrow-down:hover, .cc-numInput-arrow-up:hover {
+  cursor: pointer;
+}
+
+/*OPTIONS INPUTS*/
 .cc-optionInput {
   border-radius: 6px;
   outline: none;

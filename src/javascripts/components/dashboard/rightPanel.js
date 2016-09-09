@@ -46,9 +46,9 @@ export default Vue.extend({
             <span class="fa fa-3x fa-envelope-o cc-rightPanel-btnIcon"></span>
             <h4>Email</h4>
           </button>
-          <button style="display: none" class="cc-rightPanel-btn" @click="handleNewQuestionBtn(4)">
+          <button class="cc-rightPanel-btn" @click="handleNewQuestionBtn(4)">
             <span class="fa fa-3x fa-sliders cc-rightPanel-btnIcon"></span>
-            <h4>Sliders</h4>
+            <h4>Slider</h4>
           </button>
         </div>
       </div>
@@ -60,6 +60,7 @@ export default Vue.extend({
         @add-option="addOption"
         @edit-option="editOption"
         @delete-option="deleteOption"
+        @edit-slider="editSlider"
       ></edit-panel>
     </div>
   `,
@@ -68,7 +69,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      questionTypes: ['text', 'options', 'image', 'email', 'sliders'],
+      questionTypes: ['text', 'options', 'image', 'email', 'slider'],
       selectedTabClass: 'cc-rightPanel-tab-selected',
       disabledTabClass: 'cc-rightPanel-tab-disabled',
       tabClass: 'cc-rightPanel-tab',
@@ -135,6 +136,9 @@ export default Vue.extend({
         var optionsArray = [...this.currentQuestion.options];
         optionsArray.splice(index, 1);
         store.dispatch('EDIT_QUESTION', 'options', optionsArray);
+      },
+      editSlider(store, maxOrMin, value) {
+        store.dispatch('EDIT_QUESTION', maxOrMin, value);
       }
     }
   }

@@ -4,6 +4,7 @@ import Vue from 'vue';
 import store from '../../store.js';
 // Components
 import editOptions from './rightPanel/editOptions.js';
+import editSlider from './rightPanel/editSlider.js';
 // Styles 
 import '../../../stylesheets/rightPanelEdit.css';
 
@@ -36,10 +37,17 @@ export default Vue.extend({
           @edit-option="editOption"
           @delete-option="deleteOption"
         ></edit-options>
+        <edit-slider
+          v-if="question && question.type === 'slider'"
+          :min="question.min"
+          :max="question.max"
+          @edit-slider="editSlider"
+        ></edit-slider>
       </form>
   `,
   components: {
-    'edit-options': editOptions
+    'edit-options': editOptions,
+    'edit-slider': editSlider
   },
   methods: {
     addOption() {
@@ -53,6 +61,9 @@ export default Vue.extend({
     },
     deleteOption(index) {
       this.$dispatch('delete-option', index);
+    },
+    editSlider(maxOrMin, value) {
+      this.$dispatch('edit-slider', maxOrMin, value);
     }
   }
 });
