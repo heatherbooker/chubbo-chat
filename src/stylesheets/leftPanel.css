@@ -62,12 +62,33 @@ button.cc-newSurveyBtn {
   border-bottom: 1px solid #F0F0F0;
   height: 80px;
   line-height: 75px;
-  padding-left: 85px;
+  padding-left: 55px;
+  padding-right: 15px;
+  display: flex;
+  justify-content: space-between;
   font-size: 14pt;
   color: #545454;
+  overflow: hidden;
+}
+
+.cc-leftPanel-survey span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.cc-leftPanel-survey:hover .cc-leftPanel-garbageIcon {
+  visibility: visible;
+}
+
+.cc-leftPanel-garbageIcon {
+  visibility: hidden;
+  height: 20px;
+  margin: auto 3px;
+}
+
+.cc-leftPanel-garbageIcon:hover {
+  cursor: pointer;
 }
 
 .cc-leftPanel-surveyList .v-link-active {

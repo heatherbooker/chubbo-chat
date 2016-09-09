@@ -2,14 +2,19 @@
 import Vue from 'vue'
 //vuex shared state store
 import store from '../../store.js'
+// Services
+import 'vue-sticky-scroll';
+import surveyApi from '../../services/surveyApi.js';
 //styles
 import '../../../stylesheets/leftPanel.css'
 
 export default Vue.extend({
   template: `
     <div class="cc-leftPanel">
-      <img v-bind:src="userImgSrc" class="cc-userIcon-leftPanel"/>
-      <p class="cc-userEmail-leftPanel"> {{ userEmail }} </p>
+      <img :src="userImgSrc" class="cc-userIcon-leftPanel"/>
+      <p class="cc-userEmail-leftPanel">
+        {{ user ? user.email : 'not signed in' }}
+      </p>
       <p
         v-on:click="handleLogout"
         class="cc-logout-leftPanel"
@@ -23,7 +28,7 @@ export default Vue.extend({
       >
         + Create Survey
       </button>
-      <div class="cc-leftPanel-surveyList" v-if="user">
+      <div class="cc-leftPanel-surveyList" v-if="user" v-sticky-scroll>
         <div
           v-for="survey in surveys | orderBy 'timestamp'"
           track-by="id"
@@ -31,23 +36,27 @@ export default Vue.extend({
           v-link="{path: pathRoot + survey.id}"
           class="cc-leftPanel-survey"
         >
-          {{ survey.title || survey.surveyTitle }}
+          <span>{{ survey.title || survey.surveyTitle }}</span>
+          <img
+            :src="srcForDeleteIcon"
+            class="cc-leftPanel-garbageIcon"
+            @click.stop="deleteSurvey(survey.id)"
+          >
         </div>
       </div>
     </div>
   `,
+  data() {
+    return {
+      srcForDeleteIcon: require('../../../images/garbage.svg')
+    };
+  },
   computed: {
     pathRoot: function() {
       if (this.$route.path.substring(11, 18) === 'surveys') {
         return '/dashboard/surveys/';
       }
       return '/dashboard/responses/';
-    },
-    userEmail: function() {
-      if (this.user) {
-        return this.user.email;
-      }
-      return 'not signed in';
     },
     userImgSrc: function() {
       if (this.user) {
@@ -65,6 +74,16 @@ export default Vue.extend({
       // Clean up so that if there was a local survey, it is not
       // found erroneously next time page is loaded or when user clicks 'Publish'.
       window.sessionStorage.removeItem('cc-userSurvey');
+    },
+    deleteSurvey(id) {
+      surveyApi.deleteSurvey(id).then((response) => {
+        if (response.ok) {
+          this.deleteSurveyFromStore(id);
+          if (this.$route.params.surveyId === id) {
+            this.$router.go('/dashboard/surveys/$creating_survey');
+          }
+        }
+      });
     }
   },
   //vuex(state store) action dispatchers / getter(s) needed by this component
@@ -72,6 +91,11 @@ export default Vue.extend({
     getters: {
       user: function(state) {return state.user},
       surveys: function(state) {return state.surveys;}
+    },
+    actions: {
+      deleteSurveyFromStore(store, id) {
+        store.dispatch('DELETE_SURVEY', id);
+      }
     }
   }
 });

@@ -4,6 +4,7 @@ import swal from 'sweetalert2'
 // vuex shared state store
 import store from '../../store.js'
 // services
+import 'vue-sticky-scroll';
 import surveyService from '../../services/surveyService.js'
 // components
 import questionBlock from './questionBlock.js'
@@ -43,7 +44,11 @@ export default Vue.extend({
         class="fa fa-spinner fa-spin fa-5x cc-loadingIcon"
       >
       </span>
-      <div v-if="!$loadingRouteData" class="cc-surveyFormPage">
+      <div
+        v-if="!$loadingRouteData"
+        class="cc-surveyFormPage"
+        v-sticky-scroll
+      >
         <title-input
           :title.sync="title"
         >
