@@ -60,7 +60,8 @@ export default Vue.extend({
         @add-option="addOption"
         @edit-option="editOption"
         @delete-option="deleteOption"
-        @edit-slider="editSlider"
+        @edit-slider-left="editSliderLeftValue"
+        @edit-slider-right="editSliderRightValue"
       ></edit-panel>
     </div>
   `,
@@ -137,8 +138,11 @@ export default Vue.extend({
         optionsArray.splice(index, 1);
         store.dispatch('EDIT_QUESTION', 'options', optionsArray);
       },
-      editSlider(store, maxOrMin, value) {
-        store.dispatch('EDIT_QUESTION', maxOrMin, value);
+      editSliderLeftValue(store, value) {
+        store.dispatch('EDIT_QUESTION', 'left', value);
+      },
+      editSliderRightValue(store, value) {
+        store.dispatch('EDIT_QUESTION', 'right', value);
       }
     }
   }

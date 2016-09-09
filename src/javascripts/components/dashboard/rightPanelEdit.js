@@ -39,9 +39,10 @@ export default Vue.extend({
         ></edit-options>
         <edit-slider
           v-if="question && question.type === 'slider'"
-          :min="question.min"
-          :max="question.max"
-          @edit-slider="editSlider"
+          :left="question.left"
+          :right="question.right"
+          @edit-slider-left="editSliderLeftValue"
+          @edit-slider-right="editSliderRightValue"
         ></edit-slider>
       </form>
   `,
@@ -62,8 +63,11 @@ export default Vue.extend({
     deleteOption(index) {
       this.$dispatch('delete-option', index);
     },
-    editSlider(maxOrMin, value) {
-      this.$dispatch('edit-slider', maxOrMin, value);
+    editSliderLeftValue(value) {
+      this.$dispatch('edit-slider-left', value);
+    },
+    editSliderRightValue(value) {
+      this.$dispatch('edit-slider-right', value);
     }
   }
 });

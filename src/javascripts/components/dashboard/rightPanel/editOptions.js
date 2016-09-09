@@ -13,8 +13,8 @@ export default Vue.extend({
       <label style="display: none" :for="'cc-optionInput' + index">smthign dynamic</label>
       <input
         type="text"
-        :id="'cc-optionInput' + index"
-        class="cc-optionInput"
+        :id="'cc-editPanel-textInput' + index"
+        class="cc-editPanel-textInput"
         :value="option"
         @input="editOption"
         @keydown.enter.prevent="addOption"
@@ -43,7 +43,7 @@ export default Vue.extend({
       this.$dispatch('add-option');
       // Waits for option to be added to DOM before moving focus to it.
       this.$nextTick(function() {
-        $('#cc-optionInput' + [this.options.length - 1]).focus();
+        $('#cc-editPanel-textInput' + [this.options.length - 1]).focus();
       });
     },
     editOption(event) {

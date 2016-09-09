@@ -18,9 +18,9 @@ export default Vue.extend({
           style="white-space:nowrap"
           class="cc-questionBlock-bottom-slider"
         >
-          <label class="cc-questionBlock-sliderLabel">{{question.min}}</label>
+          <label class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</label>
           <input type='range' class="cc-questionBlock-slider" @click.stop>
-          <label class="cc-questionBlock-sliderLabel">{{question.max}}</label>
+          <label class="cc-questionBlock-sliderLabel">{{ question.right || '[]' }}</label>
         </div>
         <div
           v-if="question.type === 'options'"

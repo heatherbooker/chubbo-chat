@@ -68,8 +68,8 @@ export default new Vuex.Store(function() {
         if (questionType === 'options') {
           questionToAdd.options = [];
         } else if (questionType === 'slider') {
-          questionToAdd.min = 0;
-          questionToAdd.max = 0;
+          questionToAdd.left = '';
+          questionToAdd.right = '';
         }
         var questionIndex = state.selectedSurvey.questions.length;
         state.selectedSurvey.questions.push(questionToAdd);
