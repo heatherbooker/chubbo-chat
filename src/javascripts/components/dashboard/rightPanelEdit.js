@@ -1,9 +1,12 @@
 // Libraries
 import Vue from 'vue';
+// Services/Directives
+import 'vue-sticky-scroll';
 // Vuex state store
 import store from '../../store.js';
 // Components
 import editOptions from './rightPanel/editOptions.js';
+import editSlider from './rightPanel/editSlider.js';
 // Styles 
 import '../../../stylesheets/rightPanelEdit.css';
 
@@ -32,14 +35,23 @@ export default Vue.extend({
         <edit-options
           v-if="question && question.type === 'options'"
           :options="question.options"
+          v-sticky-scroll
           @add-option="addOption"
           @edit-option="editOption"
           @delete-option="deleteOption"
         ></edit-options>
+        <edit-slider
+          v-if="question && question.type === 'slider'"
+          :left="question.left"
+          :right="question.right"
+          @edit-slider-left="editSliderLeftValue"
+          @edit-slider-right="editSliderRightValue"
+        ></edit-slider>
       </form>
   `,
   components: {
-    'edit-options': editOptions
+    'edit-options': editOptions,
+    'edit-slider': editSlider
   },
   methods: {
     addOption() {
@@ -53,6 +65,12 @@ export default Vue.extend({
     },
     deleteOption(index) {
       this.$dispatch('delete-option', index);
+    },
+    editSliderLeftValue(value) {
+      this.$dispatch('edit-slider-left', value);
+    },
+    editSliderRightValue(value) {
+      this.$dispatch('edit-slider-right', value);
     }
   }
 });

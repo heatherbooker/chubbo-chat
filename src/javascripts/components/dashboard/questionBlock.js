@@ -1,5 +1,7 @@
 //libraries
 import Vue from 'vue'
+// Styles
+import '../../../stylesheets/slider.css';
 
 
 export default Vue.extend({
@@ -11,8 +13,13 @@ export default Vue.extend({
         <div :class="questionBlockClass">
           {{ question.text || defaultText }}
         </div>
-        <div v-if="false" class="cc-questionBlock-bottom">
-          options || slider || email input || file upload
+        <div
+          v-if="question.type === 'slider'"
+          class="cc-questionBlock-bottom-slider"
+        >
+          <label class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</label>
+          <input type='range' class="cc-questionBlock-slider" @click.stop>
+          <label class="cc-questionBlock-sliderLabel">{{ question.right || '[]' }}</label>
         </div>
         <div
           v-if="question.type === 'options'"

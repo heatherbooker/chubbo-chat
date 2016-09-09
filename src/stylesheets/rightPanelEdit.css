@@ -27,6 +27,7 @@ form.cc-rightPanel-edit {
   margin-bottom: auto;
 }
 
+/*MAIN QUESTION INPUT*/
 .cc-questionInput {
   background-color: transparent;
   border: none;
@@ -44,7 +45,12 @@ input.cc-questionInput:focus {
   border-color: #3c5a71;
 }
 
-.cc-optionInput {
+.cc-sliderInput-label {
+  min-width: 50px;
+}
+
+/*SECONDARY INPUTS*/
+.cc-editPanel-textInput, .cc-editPanel-textInput-slider {
   border-radius: 6px;
   outline: none;
   border: 1px solid #DCE7F2;
@@ -54,9 +60,13 @@ input.cc-questionInput:focus {
   flex: 1;
 }
 
-input.cc-optionInput:focus {
+input.cc-editPanel-textInput:focus, .cc-editPanel-textInput-slider:focus {
   border-color: #3FC3EE;
   outline: none;
+}
+
+.cc-editPanel-textInput-slider {
+  width: 60%;
 }
 
 .cc-rightPanel-garbageIcon {

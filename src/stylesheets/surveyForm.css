@@ -111,7 +111,7 @@ input.cc-titleInput:focus {
   border: 3px solid #4EC1FF;
 }
 
-.cc-questionBlock-top, .cc-questionBlock-topOnly, .cc-questionBlock-bottom {
+.cc-questionBlock-top, .cc-questionBlock-topOnly, .cc-questionBlock-bottom, .cc-questionBlock-bottom-slider {
   padding: 10px 22px;
   flex: 1;
   text-align: left;
@@ -129,59 +129,23 @@ input.cc-titleInput:focus {
   border-radius: 20px;
 }
 
-.cc-questionBlock-bottom {
+.cc-questionBlock-bottom, .cc-questionBlock-bottom-slider {
   background-color: #fff;
   border-radius: 0px 0px 20px 20px;
   border: 1px solid #A4A4A4;
   border-top-color: #fff;
 }
 
+.cc-questionBlock-bottom-slider {
+  white-space: nowrap;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .cc-questionBlock-bottom label.cc-radioLabel {
   font-size: 10pt;
-}
-
-.cc-submitSurveyFormBtn, .cc-addQuestionInputBtn, .cc-surveyForm-getLinkBtn {
-  border-radius: 20px;
-  color: #fff;
-  background-color: #9DE934;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 6px 15px;
-  margin: 5px auto 22px auto;
-}
-
-.cc-addQuestionInputBtn {
-  background-color: #93DFFF;
-}
-
-.cc-surveyForm-getLinkBtn {
-  background-color: #4EC1FF;
-}
-
-.cc-addQuestionInputBtn {
-  display: none;
-  margin: 35px 7% 5px 16%;
-}
-
-.cc-submitSurveyFormBtn:hover, .cc-addQuestionInputBtn:hover, .cc-surveyForm-getLinkBtn:hover {
-  cursor: pointer;
-}
-
-.cc-deleteQuestionIcon, .cc-deleteQuestionIcon-hide {
-  visibility: hidden;
-  font-size: 2.5rem;
-  margin: auto 0px;
-  padding-bottom: 5px;
-  color: #8E8E8E;
-}
-
-.cc-questionInputRow:hover .cc-deleteQuestionIcon {
-  visibility: visible;
-}
-
-.cc-deleteQuestionIcon:hover {
-  cursor: pointer;
 }
 
 label.cc-radioLabel {
