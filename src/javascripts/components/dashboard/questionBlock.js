@@ -1,5 +1,7 @@
 //libraries
 import Vue from 'vue'
+// Services
+import htmlService from '../../services/htmlService.js';
 // Styles
 import '../../../stylesheets/slider.css';
 
@@ -11,7 +13,7 @@ export default Vue.extend({
       <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon">
       <div :class="selected ? 'cc-questionBlock-selected' : 'cc-questionBlock'">
         <div :class="questionBlockClass">
-          {{ question.text || defaultText }}
+          {{{ questionText || defaultText }}}
         </div>
         <div
           v-if="question.type === 'slider'"
@@ -54,6 +56,9 @@ export default Vue.extend({
         return 'cc-questionBlock-topOnly';
       }
       return 'cc-questionBlock-top';
+    },
+    questionText() {
+      return htmlService.prepareText(this.question.text);
     }
   },
   methods: {

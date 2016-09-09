@@ -74,6 +74,10 @@ input.cc-titleInput:focus {
   hyphens: auto;
 }
 
+.cc-questionBlock-container a {
+  text-decoration: underline!important;
+}
+
 .cc-questionBlock-dragIcon {
   position: relative;
   top: 3px;
