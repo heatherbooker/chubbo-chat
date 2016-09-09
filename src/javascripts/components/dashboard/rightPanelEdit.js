@@ -1,5 +1,7 @@
 // Libraries
 import Vue from 'vue';
+// Services/Directives
+import 'vue-sticky-scroll';
 // Vuex state store
 import store from '../../store.js';
 // Components
@@ -33,6 +35,7 @@ export default Vue.extend({
         <edit-options
           v-if="question && question.type === 'options'"
           :options="question.options"
+          v-sticky-scroll
           @add-option="addOption"
           @edit-option="editOption"
           @delete-option="deleteOption"
