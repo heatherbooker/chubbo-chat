@@ -15,7 +15,6 @@ export default Vue.extend({
         </div>
         <div
           v-if="question.type === 'slider'"
-          style="white-space:nowrap"
           class="cc-questionBlock-bottom-slider"
         >
           <label class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</label>
