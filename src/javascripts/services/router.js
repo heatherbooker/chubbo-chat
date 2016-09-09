@@ -15,7 +15,8 @@ var router = new VueRouter();
 
 router.map({
   '/': {
-    component: landing
+    component: landing,
+    name: 'home'
   },
   '/dashboard': {
     component: dashboard,
