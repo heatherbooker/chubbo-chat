@@ -1,15 +1,21 @@
 input[type=range].cc-questionBlock-slider {
   width: 80%;
-  min-width: 180px;
+  min-width: 90px;
   display: inline-block;
   position: relative;
   bottom: 3px;
   margin: 0px 5px;
 }
 
-label.cc-questionBlock-sliderLabel {
+.cc-questionBlock-bottom-slider label.cc-questionBlock-sliderLabel {
   color: #a4a4a4;
   display: inline-block;
+  width: 100px;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 input[type=range] {

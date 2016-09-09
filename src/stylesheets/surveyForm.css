@@ -137,6 +137,7 @@ input.cc-titleInput:focus {
 }
 
 .cc-questionBlock-bottom-slider {
+  white-space: nowrap;
   min-height: 80px;
   display: flex;
   align-items: center;
