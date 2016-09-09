@@ -76,7 +76,18 @@ export default Vue.extend({
       window.sessionStorage.removeItem('cc-userSurvey');
     },
     deleteSurvey(id) {
-      surveyApi.deleteSurvey(id).then((response) => {
+      swal({
+        title: 'Are you sure?',
+        html: `You will <strong>permanently</strong> lose this survey as well as
+               all of the responses it may have associated with it!`,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#4EC1FF',
+        confirmButtonText: 'Yes, delete this survey',
+        cancelButtonText: 'No, cancel'
+      }).then(() => {
+        return surveyApi.deleteSurvey(id);
+      }).then((response) => {
         if (response.ok) {
           this.deleteSurveyFromStore(id);
           if (this.$route.params.surveyId === id) {

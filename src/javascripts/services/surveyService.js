@@ -19,6 +19,7 @@ export default (function() {
     });
     return promise;
   }
+  
   function addSurveyToDatabase(title, finalQuestions, timestamp) {
     return surveyApi.publishSurvey(`{
       "title": "${title}",
@@ -34,6 +35,7 @@ export default (function() {
           }
         });
   }
+
   function removeBlankQuestions(questions) {
     var filteredQuestions = questions;
     // unless there's only one question,
@@ -47,6 +49,7 @@ export default (function() {
   }
 
   return {
+
     handlePublishing: function(user, title, questions) {
       var promise = new Promise((resolve, reject) => {
         var timestamp = Date.now();
@@ -58,6 +61,7 @@ export default (function() {
       });
       return promise;
     },
+
     setLocalSurvey: function(title, questions, isForPublishing) {
       // isForPublishing will be true if user clicked 'Publish' button;
       // else, they just logged in while in the middle of creating a survey.
@@ -70,6 +74,39 @@ export default (function() {
       };
       window.sessionStorage.setItem('cc-userSurvey', JSON.stringify(surveyObject));
     },
-    removeBlankQuestions
+
+    removeBlankQuestions,
+
+    getLatestSurveyId: function(surveys) {
+      var latestDate = 0;
+      var latestSurveyId = '';
+
+      surveys.forEach((survey) => {
+        if (survey.timestamp > latestDate) {
+          latestSurveyId = survey.id;
+          latestDate = survey.timestamp;
+        }
+      });
+      return latestSurveyId;
+    },
+
+    getPublishedSurveys: function(user) {
+      var promise = new Promise((resolve, reject) => {
+        if (user) {
+          return surveyApi.getSurveys()
+              .then(response => response.json())
+              .then((surveys) => {
+                resolve(surveys);
+              });
+        } else {
+          reject();
+        }
+      });
+      return promise;
+    },
+
+    getSurveyById: function(id, surveys) {
+      return surveys.filter(survey => survey.id === id)[0];
+    }
   };
 })();
