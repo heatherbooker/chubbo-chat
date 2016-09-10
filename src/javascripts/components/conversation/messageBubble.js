@@ -2,17 +2,23 @@
 import Vue from 'vue'
 // Services
 import htmlService from '../../services/htmlService.js';
+// Components
+import questionBlock from '../dashboard/questionBlock.js';
 
 
 export default Vue.extend({
   props: ['message'],
   template: `
     <div :class="classNames.row">
-      <div :class="classNames.message">
+      <div v-if="this.message.sender === 'user'" :class="classNames.message">
         {{{finalMessage}}}
       </div>
+      <question-block v-else :question='message'></question-block>
     </div>
   `,
+  components: {
+    'question-block': questionBlock
+  },
   computed: {
     classNames: function() {
       if (this.message.sender === 'bot') {

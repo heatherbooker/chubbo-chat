@@ -25,7 +25,8 @@ export default {
   },
 
   getSpecificSurvey: function(userId, surveyId) {
-    return fetch(`${API_ENDPOINT}/users/${userId}/surveys/${surveyId}.json`);
+    return fetch(`${API_ENDPOINT}/users/${userId}/surveys/${surveyId}.json`)
+        .then(response => response.json());
   },
 
   sendSurveyResponses: function(userId, surveyId, surveyResponses) {

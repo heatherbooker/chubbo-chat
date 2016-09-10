@@ -19,9 +19,9 @@ export default Vue.extend({
           v-if="question.type === 'slider'"
           class="cc-questionBlock-bottom-slider"
         >
-          <span class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</span>
+          <label class="cc-questionBlock-sliderLabel">{{{ questionLeft || '[]' }}}</label>
           <input type='range' class="cc-questionBlock-slider" @click.stop>
-          <label class="cc-questionBlock-sliderLabel">{{ question.right || '[]' }}</label>
+          <label class="cc-questionBlock-sliderLabel">{{{ questionRight || '[]' }}}</label>
         </div>
         <div
           v-if="question.type === 'options'"
@@ -30,7 +30,7 @@ export default Vue.extend({
           <div v-for="option in question.options" track-by="$index">
             <label class="cc-radioLabel">
               <input type="radio" :value="option" name="options">
-              <span>{{ option }}</span>
+              <span>{{{ htmlPrepare(option) }}}</span>
             </label>
           </div>
         </div>
@@ -59,11 +59,20 @@ export default Vue.extend({
     },
     questionText() {
       return htmlService.prepareText(this.question.text);
+    },
+    questionLeft() {
+      return htmlService.prepareText(this.question.left);
+    },
+    questionRight() {
+      return htmlService.prepareText(this.question.right);
     }
   },
   methods: {
     deleteQuestion() {
       this.$dispatch('delete-question');
+    },
+    htmlPrepare(text) {
+      return htmlService.prepareText(text);
     }
   }
 });

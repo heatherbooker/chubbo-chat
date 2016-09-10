@@ -75,13 +75,10 @@ export default Vue.extend({
     setUpSurvey: function() {
       var me = this;
       return surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
-      .then(function(response) {
-        return response.json();
-      })
       .then(function(data) {
         me.surveyQuestions = data.questions.map(function(question) {
           return {
-            text: question.text,
+            ...question,
             sender: 'bot'
           };
         });
@@ -91,6 +88,7 @@ export default Vue.extend({
       if (this.chatInput !== '') {
         this.messages.push({
           text: this.chatInput,
+          type: 'text',
           sender: 'user'
         });
         this.surveyResponses.push(`{"text": "${this.chatInput}"}`);
@@ -109,6 +107,7 @@ export default Vue.extend({
         //first message!
         me.messages.push({
           text: me.botMessages.hello,
+          type: 'text',
           sender: 'bot'
         });
       } else if (me.surveyQuestions.length === 0) {
@@ -116,6 +115,7 @@ export default Vue.extend({
           //say bye
           me.messages.push({
             text: me.botMessages.goodbye,
+            type: 'text',
             sender: 'bot'
           });
         }

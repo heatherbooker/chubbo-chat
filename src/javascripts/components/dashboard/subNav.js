@@ -76,6 +76,7 @@ export default Vue.extend({
       swal({
         type: 'warning',
         title: 'Please log in to save your survey!',
+        confirmButtonColor: '#3FC3EE',
         showCancelButton: true
       }).then(() => {
         // Users are redirected to login, so we need to save their survey first.
@@ -89,6 +90,7 @@ export default Vue.extend({
         type: 'success',
         title: 'Survey successfully published',
         html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+        confirmButtonColor: '#3FC3EE',
         input: 'text',
         inputValue: surveyUrl
       });
