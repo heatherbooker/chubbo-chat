@@ -2,7 +2,7 @@ html, body{
 	height: 100%;
 }
 
-a {
+.cc-chat-messages a {
 	text-decoration: underline !important;
 }
 
