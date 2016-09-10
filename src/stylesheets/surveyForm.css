@@ -148,6 +148,12 @@ input.cc-titleInput:focus {
   justify-content: space-around;
 }
 
+.cc-questionBlock-button {
+  width: 100%;
+  color: #24AAF2;
+  font-weight: 600;
+}
+
 .cc-questionBlock-bottom label.cc-radioLabel {
   font-size: 10pt;
 }

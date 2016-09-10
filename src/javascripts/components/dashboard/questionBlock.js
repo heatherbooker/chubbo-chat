@@ -7,10 +7,10 @@ import '../../../stylesheets/slider.css';
 
 
 export default Vue.extend({
-  props: ['question', 'selected', 'editable'],
+  props: ['question', 'selected', 'editable', 'onChatPage', 'index'],
   template: `
     <div class="cc-questionBlock-container">
-      <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon">
+      <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon" v-if="editable">
       <div :class="selected ? 'cc-questionBlock-selected' : 'cc-questionBlock'">
         <div :class="questionBlockClass">
           {{{ questionText || defaultText }}}
@@ -20,7 +20,14 @@ export default Vue.extend({
           class="cc-questionBlock-bottom-slider"
         >
           <label class="cc-questionBlock-sliderLabel">{{{ questionLeft || '[]' }}}</label>
-          <input type='range' class="cc-questionBlock-slider" @click.stop>
+          <input
+            type='range'
+            class="cc-questionBlock-slider"
+            min="0"
+            max="100"
+            :id="'slider' + index"
+            @click.stop
+          >
           <label class="cc-questionBlock-sliderLabel">{{{ questionRight || '[]' }}}</label>
         </div>
         <div
@@ -29,10 +36,22 @@ export default Vue.extend({
         >
           <div v-for="option in question.options" track-by="$index">
             <label class="cc-radioLabel">
-              <input type="radio" :value="option" name="options">
+              <input
+                type="radio"
+                :value="option"
+                :name="'options' + index"
+                :id="'slider' + index"
+              >
               <span>{{{ htmlPrepare(option) }}}</span>
             </label>
           </div>
+        </div>
+        <div v-if="question.type === 'buttons'" class="cc-questionBlock-bottom">
+          <button
+            v-for="button in question.buttons"
+            class="cc-questionBlock-button cc-buttonReset"
+            @click="handleBtnClicked(button)"
+          >{{{ htmlPrepare(button) }}}</button>
         </div>
       </div>
       <img
@@ -73,6 +92,9 @@ export default Vue.extend({
     },
     htmlPrepare(text) {
       return htmlService.prepareText(text);
+    },
+    handleBtnClicked(button) {
+      this.$dispatch('button-clicked', button);
     }
   }
 });

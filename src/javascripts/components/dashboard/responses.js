@@ -86,8 +86,7 @@ export default Vue.extend({
         var numOfQuestions = this.questions.length;
         for (var responseKey in survey.responses) {
           for (var i = 0; i < numOfQuestions; i ++) {
-            //i + 1 because 0 is the users greeting to the bot
-            this.questions[i].responses.push(survey.responses[responseKey][i + 1].text)
+            this.questions[i].responses.push(survey.responses[responseKey][i].text)
           }
         }
       }

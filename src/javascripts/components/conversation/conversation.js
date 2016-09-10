@@ -17,16 +17,17 @@ export default Vue.extend({
           <message-bubble
             v-for="message in messages"
             :message="message"
+            :index="$index"
+            @button-clicked="handleBtnClick"
           >
           </message-bubble>
         </div>
         <div class="cc-chat-inputBlock">
-          <input
-            type="text"
+          <textarea
             class="cc-chat-input"
             v-model="chatInput"
             @keyup.enter="handleSubmitMsg"
-          >
+          ></textarea>
           <span :class="sendBtnClass" @click="handleSubmitMsg">
             send
           </span>
@@ -48,11 +49,15 @@ export default Vue.extend({
       surveyQuestions: [],
       surveyResponses: [],
       botMessages: {
-        hello: 'Hi there!',
-        goodbye: `Thanks for taking the survey! Visit
-          chubbo-chat.herokuapp.com/#!/dashboard to create your own survey!`
+        hello: `Hi there! I'm Chubbo, your favourite friendly survey administerator. Let's get started - 
+                any time there is a question that doesn't require a text answer, you can send any
+                text to tell me you are ready for the next question. Try it now!`,
+        confirm: `That's all for now! I'm going to send this to my master, ok?`,
+        goodbye: `Thanks for chatting with me today! Visit
+          chubbo-chat.herokuapp.com/#!/dashboard to create your own friendly survey!`
       },
-      isSurveyComplete: false
+      isSurveyComplete: false,
+      isSurveySent: false
     };
   },
   computed: {
@@ -91,14 +96,8 @@ export default Vue.extend({
           type: 'text',
           sender: 'user'
         });
-        this.surveyResponses.push(`{"text": "${this.chatInput}"}`);
+        this.surveyResponses.push(`{"text": "${this.chatInput.trim()}"}`);
         this.chatInput = '';
-        //send responses to databse if survey is done
-        if (this.surveyQuestions.length === 0) {
-          if (!this.isSurveyComplete) {
-            this.sendToDatabase();
-          }
-        }
         this.sendSurveyQuestion(this);
       }
     },
@@ -114,8 +113,9 @@ export default Vue.extend({
         if (!me.isSurveyComplete) {
           //say bye
           me.messages.push({
-            text: me.botMessages.goodbye,
-            type: 'text',
+            text: me.botMessages.confirm,
+            type: 'buttons',
+            buttons: ['Sure!'],
             sender: 'bot'
           });
         }
@@ -126,10 +126,39 @@ export default Vue.extend({
         me.surveyQuestions.splice(0, 1);
       }
     },
-    sendToDatabase: function() {
+    gatherResponses() {
+      // We don't need to save the user's greeting to the bot.
+      this.surveyResponses.splice(0,1);
+      var responses = [...this.surveyResponses];
+      $('input[type="range"]').each(function(i, slider) {
+        var id = $(slider).attr('id');
+        var index = id.substring(id.length - 1);
+        responses[index] = JSON.stringify({slider: $(slider).val()});
+      });
+      $('input[type="radio"]:checked').each(function(i, radio) {
+        var id = $(radio).attr('id');
+        var index = id.substring(id.length - 1);
+        responses[index] = JSON.stringify({radio: $(radio).val()});
+      });
+      responses.splice(responses.length - 1, 1);
+      return responses;
+    },
+    sendToDatabase: function(responses) {
       surveyApi.sendSurveyResponses(
-        this.surveyInfo.userId, this.surveyInfo.surveyId, `[${this.surveyResponses}]`
+        this.surveyInfo.userId, this.surveyInfo.surveyId, `[${responses}]`
       );
+    },
+    handleBtnClick(button) {
+      if (!this.isSurveySent) {
+        this.sendToDatabase(this.gatherResponses());
+        // Invite the user to make their own survey.
+        this.messages.push({
+          text: this.botMessages.goodbye,
+          type: 'text',
+          sender: 'bot'
+        });
+        this.isSurveySent = true;
+      }
     }
   }
  });

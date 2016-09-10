@@ -7,13 +7,19 @@ import questionBlock from '../dashboard/questionBlock.js';
 
 
 export default Vue.extend({
-  props: ['message'],
+  props: ['message', 'index'],
   template: `
     <div :class="classNames.row">
       <div v-if="this.message.sender === 'user'" :class="classNames.message">
         {{{finalMessage}}}
       </div>
-      <question-block v-else :question='message'></question-block>
+      <question-block
+        v-else
+        :question='message'
+        :on-chat-page="true"
+        :index="index / 2 - 1"
+        @button-clicked="handleBtnClick"
+      ></question-block>
     </div>
   `,
   components: {
@@ -34,6 +40,11 @@ export default Vue.extend({
     },
     finalMessage() {
       return htmlService.prepareText(this.message.text);
+    }
+  },
+  methods: {
+    handleBtnClick(button) {
+      this.$dispatch('button-clicked', button);
     }
   }
 });
