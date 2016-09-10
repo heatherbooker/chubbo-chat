@@ -14,12 +14,10 @@ export default (function () {
   }
 
   function removeSpaces(text) {
-    function replaceWithSubstring(matchedString) {
-      var secondLastIndex = matchedString.length - 1;
-      return matchedString.substring(1, secondLastIndex);
-    }
     return text
-      .replace(/ [\n\(\)\[\]<>] | &#39; | &quot; /g, replaceWithSubstring);
+      .replace(/ ([\n\(\)\[\]<>]|&#39;|&quot;) /g, (matchedChar) => 
+        matchedChar.substring(1, matchedChar.length - 1)
+      );
   }
 
   return {
