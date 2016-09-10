@@ -14,7 +14,7 @@ import '../../../stylesheets/rightPanelEdit.css';
 export default Vue.extend({
   props: ['question'],
   template: `
-      <form class="cc-rightPanel-edit">
+      <form class="cc-rightPanel-edit" v-sticky-scroll>
         <span v-show="!question" class="cc-editPanel-errorMsg">
           Select a question from the center panel to edit!
         </span>
@@ -28,14 +28,13 @@ export default Vue.extend({
             id="cc-editPanel-editText"
             placeholder="Type question here..."
             @input="handleTextInput"
-            @keyup.enter.prevent
+            @keyup.enter.prevent.stop
             autocomplete="off"
           >
         </div>
         <edit-options
           v-if="question && question.type === 'options'"
           :options="question.options"
-          v-sticky-scroll
           @add-option="addOption"
           @edit-option="editOption"
           @delete-option="deleteOption"

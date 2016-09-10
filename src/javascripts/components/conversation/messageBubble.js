@@ -1,7 +1,7 @@
 //libraries
 import Vue from 'vue'
-//services - anchorme finds URLs and converts to <a> tags
-import anchorme from '../../../libs/anchorme.js'
+// Services
+import htmlService from '../../services/htmlService.js';
 
 
 export default Vue.extend({
@@ -26,37 +26,8 @@ export default Vue.extend({
         message: 'cc-chatBubble-reply'
       };
     },
-    finalMessage: function() {
-      var htmlEscapedMessage = this.escapeHtml(this.message.text);
-      //anchorme plugin wraps URLs in <a> tags
-      var messageWithLinksEncoded = anchorme.js(htmlEscapedMessage, {html: false});
-      var wholeMessage = messageWithLinksEncoded.join(' ');
-      //remove extra spaces inserted by anchorme
-      var wholeMessageTidied = this.removeSpaces(wholeMessage);
-      //html encode forward slash unless in </a>
-      return wholeMessageTidied.replace(/\/(?!a>)/g, '&#x2F;');
-    }
-  },
-  methods: {
-    escapeHtml: function(message) {
-      return message
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    },
-    removeSpaces: function(message) {
-      return message
-        .split(" \n ").join("\n")
-        .split(" ( ").join("(")
-        .split(" ) ").join(")")
-        .split(" [ ").join("[")
-        .split(" ] ").join("]")
-        .split(" < ").join("<")
-        .split(" > ").join(">")
-        .split(" &#39; ").join("&#39;")
-        .split(" &quot; ").join("&quot;");
+    finalMessage() {
+      return htmlService.prepareText(this.message.text);
     }
   }
 });
