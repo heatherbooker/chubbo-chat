@@ -1,6 +1,5 @@
 html, body{
 	height: 100%;
-	overflow: hidden;
 }
 
 a {
@@ -8,7 +7,6 @@ a {
 }
 
 #chubbo-chat {
-	position: fixed;
 	height: 100%;
 }
 
@@ -94,16 +92,15 @@ a {
 	max-height: 120px;
 }
 
-textarea.cc-chat-input {
+input.cc-chat-input {
 	flex: 9;
 	border: none;
 	padding: 10px;
 	font-size: 16px;
 	min-width: 0px !important;
-	resize: none;
 }
 
-textarea.cc-chat-input:focus {
+input.cc-chat-input:focus {
 	box-shadow: none;
 	outline: none;
 }

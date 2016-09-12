@@ -7,7 +7,7 @@ import questionBlock from '../dashboard/questionBlock.js';
 
 
 export default Vue.extend({
-  props: ['message', 'index'],
+  props: ['message', 'index', 'canClickHiBtn'],
   template: `
     <div :class="classNames.row">
       <div v-if="this.message.sender === 'user'" :class="classNames.message">
@@ -16,8 +16,8 @@ export default Vue.extend({
       <question-block
         v-else
         :question='message'
-        :on-chat-page="true"
-        :index="index / 2 - 1"
+        :index="index"
+        :can-click-hi-btn="canClickHiBtn"
         @button-clicked="handleBtnClick"
       ></question-block>
     </div>

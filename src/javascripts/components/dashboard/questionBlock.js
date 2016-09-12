@@ -7,7 +7,7 @@ import '../../../stylesheets/slider.css';
 
 
 export default Vue.extend({
-  props: ['question', 'selected', 'editable', 'onChatPage', 'index'],
+  props: ['question', 'selected', 'editable', 'index', 'canClickHiBtn'],
   template: `
     <div class="cc-questionBlock-container">
       <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon" v-if="editable">
@@ -23,9 +23,9 @@ export default Vue.extend({
           <input
             type='range'
             class="cc-questionBlock-slider"
+            :class="'slider' + index"
             min="0"
             max="100"
-            :id="'slider' + index"
             @click.stop
           >
           <label class="cc-questionBlock-sliderLabel">{{{ questionRight || '[]' }}}</label>
@@ -40,16 +40,16 @@ export default Vue.extend({
                 type="radio"
                 :value="option"
                 :name="'options' + index"
-                :id="'slider' + index"
+                :class="'options' + index"
               >
               <span>{{{ htmlPrepare(option) }}}</span>
             </label>
           </div>
         </div>
-        <div v-if="question.type === 'buttons'" class="cc-questionBlock-bottom">
+        <div v-if="question.type === 'buttons'" class="cc-questionBlock-bottom-buttons">
           <button
             v-for="button in question.buttons"
-            class="cc-questionBlock-button cc-buttonReset"
+            :class="canClickHiBtn || button !== 'Hi!' ? 'cc-questionBlock-button' : 'cc-questionBlock-button-disabled'"
             @click="handleBtnClicked(button)"
           >{{{ htmlPrepare(button) }}}</button>
         </div>

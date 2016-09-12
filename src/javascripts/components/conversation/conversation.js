@@ -15,19 +15,22 @@ export default Vue.extend({
       <div class="cc-chat-content">
         <div class="cc-chat-messages" v-sticky-scroll>
           <message-bubble
-            v-for="message in messages"
+            v-for="(index, message) in messages"
+            v-if="!message.noShow"
             :message="message"
-            :index="$index"
+            :index="Math.ceil(index / 2 - 1)"
+            :can-click-hi-btn="isSurveyStarted ? false : true"
             @button-clicked="handleBtnClick"
           >
           </message-bubble>
         </div>
         <div class="cc-chat-inputBlock">
-          <textarea
+          <input
+            type="text"
             class="cc-chat-input"
             v-model="chatInput"
             @keyup.enter="handleSubmitMsg"
-          ></textarea>
+          >
           <span :class="sendBtnClass" @click="handleSubmitMsg">
             send
           </span>
@@ -49,13 +52,12 @@ export default Vue.extend({
       surveyQuestions: [],
       surveyResponses: [],
       botMessages: {
-        hello: `Hi there! I'm Chubbo, your favourite friendly survey administerator. Let's get started - 
-                any time there is a question that doesn't require a text answer, you can send any
-                text to tell me you are ready for the next question. Try it now!`,
+        hello: `Hi there! I'm Chubbo, your favourite friendly survey administrator!`,
         confirm: `That's all for now! I'm going to send this to my master, ok?`,
         goodbye: `Thanks for chatting with me today! Visit
           chubbo-chat.herokuapp.com/#!/dashboard to create your own friendly survey!`
       },
+      isSurveyStarted: false,
       isSurveyComplete: false,
       isSurveySent: false
     };
@@ -70,18 +72,16 @@ export default Vue.extend({
   },
   ready: function() {
     $('.cc-chat-input').focus();
-    var me = this;
     //get survey from database and send first message!
-    this.setUpSurvey().then(function() {
-      me.sendSurveyQuestion(me);
+    this.setUpSurvey().then(() => {
+      this.sendSurveyQuestion();
     });
   },
   methods: {
     setUpSurvey: function() {
-      var me = this;
-      return surveyApi.getSpecificSurvey(me.surveyInfo.userId, me.surveyInfo.surveyId)
-      .then(function(data) {
-        me.surveyQuestions = data.questions.map(function(question) {
+      return surveyApi.getSpecificSurvey(this.surveyInfo.userId, this.surveyInfo.surveyId)
+      .then((data) => {
+        this.surveyQuestions = data.questions.map(function(question) {
           return {
             ...question,
             sender: 'bot'
@@ -91,56 +91,77 @@ export default Vue.extend({
     },
     handleSubmitMsg: function() {
       if (this.chatInput !== '') {
-        this.messages.push({
-          text: this.chatInput,
-          type: 'text',
-          sender: 'user'
-        });
-        this.surveyResponses.push(`{"text": "${this.chatInput.trim()}"}`);
-        this.chatInput = '';
-        this.sendSurveyQuestion(this);
+        if (!this.isSurveyStarted) {
+          this.isSurveyStarted = true;
+          this.sendSurveyQuestion();
+          this.chatInput = '';
+        } else {
+          this.messages.push({
+            text: this.chatInput,
+            type: 'text',
+            sender: 'user'
+          });
+          this.surveyResponses.push(`{"text": "${this.chatInput.trim()}"}`);
+          this.chatInput = '';
+          this.sendSurveyQuestion();
+        }
       }
     },
-    sendSurveyQuestion: function(me) {
-      if (me.messages.length <= 1) {
+    sendSurveyQuestion: function() {
+      if (!this.isSurveyStarted) {
         //first message!
-        me.messages.push({
-          text: me.botMessages.hello,
-          type: 'text',
+        this.messages.push({
+          text: this.botMessages.hello,
+          type: 'buttons',
+          buttons: ['Hi!'],
           sender: 'bot'
         });
-      } else if (me.surveyQuestions.length === 0) {
-        if (!me.isSurveyComplete) {
+      } else if (this.surveyQuestions.length === 0) {
+        if (!this.isSurveyComplete) {
           //say bye
-          me.messages.push({
-            text: me.botMessages.confirm,
+          this.messages.push({
+            text: this.botMessages.confirm,
             type: 'buttons',
             buttons: ['Sure!'],
             sender: 'bot'
           });
         }
-        me.isSurveyComplete = true;
+        this.isSurveyComplete = true;
       } else {
         //send a survey question
-        me.messages.push(me.surveyQuestions[0]);
-        me.surveyQuestions.splice(0, 1);
+        this.messages.push(this.surveyQuestions[0]);
+        if (['slider', 'options'].indexOf(this.surveyQuestions[0].type) > -1) {
+          this.$nextTick(() => {
+            var me = this;
+            $('input[type="range"], input[type="radio"]').change(function() {
+              var className = $(this).attr('class');
+              // Last character of class is its index in the array of survey questions.
+              var index = className.substring(className.length - 1);
+              // Divide by 2 to account for user messages.
+              // Subtract 1 to account for initial greeting.
+              if (index == Math.ceil((me.messages.length - 1) / 2 - 1)) {
+                me.surveyResponses.push({});
+                me.messages.push({noShow: true});
+                me.sendSurveyQuestion(me);
+              }
+            });
+          });
+        }
+        this.surveyQuestions.splice(0, 1);
       }
     },
     gatherResponses() {
-      // We don't need to save the user's greeting to the bot.
-      this.surveyResponses.splice(0,1);
       var responses = [...this.surveyResponses];
       $('input[type="range"]').each(function(i, slider) {
-        var id = $(slider).attr('id');
-        var index = id.substring(id.length - 1);
+        var className = $(slider).attr('class');
+        var index = className.substring(className.length - 1);
         responses[index] = JSON.stringify({slider: $(slider).val()});
       });
       $('input[type="radio"]:checked').each(function(i, radio) {
-        var id = $(radio).attr('id');
-        var index = id.substring(id.length - 1);
+        var className = $(radio).attr('class');
+        var index = className.substring(className.length - 1);
         responses[index] = JSON.stringify({radio: $(radio).val()});
       });
-      responses.splice(responses.length - 1, 1);
       return responses;
     },
     sendToDatabase: function(responses) {
@@ -148,8 +169,13 @@ export default Vue.extend({
         this.surveyInfo.userId, this.surveyInfo.surveyId, `[${responses}]`
       );
     },
-    handleBtnClick(button) {
-      if (!this.isSurveySent) {
+    handleBtnClick(buttonText) {
+      if (buttonText === 'Hi!') {
+        if (!this.isSurveyStarted) {
+          this.isSurveyStarted = true;
+          this.sendSurveyQuestion();
+        }
+      } else if (!this.isSurveySent) {
         this.sendToDatabase(this.gatherResponses());
         // Invite the user to make their own survey.
         this.messages.push({
