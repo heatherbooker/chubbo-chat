@@ -31,7 +31,10 @@ export default Vue.extend({
             v-model="chatInput"
             @keyup.enter="handleSubmitMsg"
           >
-          <span :class="sendBtnClass" @click="handleSubmitMsg">
+          <span
+            :class="chatInput === '' ? 'cc-chat-sendBtn-disabled' : 'cc-chat-sendBtn'"
+            @click="handleSubmitMsg"
+          >
             send
           </span>
         </div>
@@ -62,14 +65,6 @@ export default Vue.extend({
       isSurveySent: false
     };
   },
-  computed: {
-    sendBtnClass: function() {
-      if (this.chatInput === '') {
-        return 'cc-chat-sendBtn-disabled';
-      }
-      return 'cc-chat-sendBtn';
-    }
-  },
   ready: function() {
     $('.cc-chat-input').focus();
     //get survey from database and send first message!
@@ -81,12 +76,10 @@ export default Vue.extend({
     setUpSurvey: function() {
       return surveyApi.getSpecificSurvey(this.surveyInfo.userId, this.surveyInfo.surveyId)
       .then((data) => {
-        this.surveyQuestions = data.questions.map(function(question) {
-          return {
-            ...question,
-            sender: 'bot'
-          };
-        });
+        this.surveyQuestions = data.questions.map(question => ({
+          ...question,
+          sender: 'bot'
+        }));
       });
     },
     handleSubmitMsg: function() {
@@ -101,11 +94,20 @@ export default Vue.extend({
             type: 'text',
             sender: 'user'
           });
-          this.surveyResponses.push(`{"text": "${this.chatInput.trim()}"}`);
+          this.handleUserResponse(this.chatInput.trim());
           this.chatInput = '';
-          this.sendSurveyQuestion();
         }
       }
+    },
+    handleUserResponse(response) {
+      var responseObject;
+      if (typeof response === 'object') {
+        responseObject = response;
+      } else {
+        responseObject = `{"type": "text", "response": "${response}"}`;
+      }
+      this.surveyResponses.push(responseObject);
+      this.sendSurveyQuestion();
     },
     sendSurveyQuestion: function() {
       if (!this.isSurveyStarted) {
@@ -131,36 +133,36 @@ export default Vue.extend({
         //send a survey question
         this.messages.push(this.surveyQuestions[0]);
         if (['slider', 'options'].indexOf(this.surveyQuestions[0].type) > -1) {
-          this.$nextTick(() => {
-            var me = this;
-            $('input[type="range"], input[type="radio"]').change(function() {
-              var className = $(this).attr('class');
-              // Last character of class is its index in the array of survey questions.
-              var index = className.substring(className.length - 1);
-              // Divide by 2 to account for user messages.
-              // Subtract 1 to account for initial greeting.
-              if (index == Math.ceil((me.messages.length - 1) / 2 - 1)) {
-                me.surveyResponses.push({});
-                me.messages.push({noShow: true});
-                me.sendSurveyQuestion(me);
-              }
-            });
-          });
+          this.attachChangeListener();
         }
         this.surveyQuestions.splice(0, 1);
       }
     },
+    attachChangeListener() {
+      this.$nextTick(() => {
+        var me = this;
+        $('input[type="range"], input[type="radio"]').change(function() {
+          var className = $(this).attr('class');
+          // Last character of class is its index in the array of survey questions.
+          var index = className.substring(className.length - 1);
+          // Divide by 2 to account for user messages.
+          // Subtract 1 to account for initial greeting.
+          if (index == Math.ceil((me.messages.length - 1) / 2 - 1)) {
+            me.messages.push({noShow: true});
+            me.handleUserResponse({});
+          }
+        });
+      });
+    },
     gatherResponses() {
       var responses = [...this.surveyResponses];
-      $('input[type="range"]').each(function(i, slider) {
-        var className = $(slider).attr('class');
+      $('input[type="range"], input[type="radio"]:checked').each(function(i, inputElement) {
+        var className = $(this).attr('class');
         var index = className.substring(className.length - 1);
-        responses[index] = JSON.stringify({slider: $(slider).val()});
-      });
-      $('input[type="radio"]:checked').each(function(i, radio) {
-        var className = $(radio).attr('class');
-        var index = className.substring(className.length - 1);
-        responses[index] = JSON.stringify({radio: $(radio).val()});
+        responses[index] = JSON.stringify({
+          type: $(this).attr("type"),
+          response: $(this).val()
+        });
       });
       return responses;
     },
