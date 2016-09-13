@@ -7,10 +7,10 @@ import '../../../stylesheets/slider.css';
 
 
 export default Vue.extend({
-  props: ['question', 'selected', 'editable'],
+  props: ['question', 'selected', 'editable', 'index', 'canClickHiBtn'],
   template: `
     <div class="cc-questionBlock-container">
-      <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon">
+      <img :src="srcForDragIcon" class="cc-questionBlock-dragIcon" v-if="editable">
       <div :class="selected ? 'cc-questionBlock-selected' : 'cc-questionBlock'">
         <div :class="questionBlockClass">
           {{{ questionText || defaultText }}}
@@ -19,9 +19,16 @@ export default Vue.extend({
           v-if="question.type === 'slider'"
           class="cc-questionBlock-bottom-slider"
         >
-          <span class="cc-questionBlock-sliderLabel">{{ question.left || '[]'}}</span>
-          <input type='range' class="cc-questionBlock-slider" @click.stop>
-          <label class="cc-questionBlock-sliderLabel">{{ question.right || '[]' }}</label>
+          <label class="cc-questionBlock-sliderLabel">{{{ questionLeft || '[]' }}}</label>
+          <input
+            type='range'
+            class="cc-questionBlock-slider"
+            :class="'slider' + index"
+            min="0"
+            max="100"
+            @click.stop
+          >
+          <label class="cc-questionBlock-sliderLabel">{{{ questionRight || '[]' }}}</label>
         </div>
         <div
           v-if="question.type === 'options'"
@@ -29,10 +36,22 @@ export default Vue.extend({
         >
           <div v-for="option in question.options" track-by="$index">
             <label class="cc-radioLabel">
-              <input type="radio" :value="option" name="options">
-              <span>{{ option }}</span>
+              <input
+                type="radio"
+                :value="option"
+                :name="'options' + index"
+                :class="'options' + index"
+              >
+              <span>{{{ htmlPrepare(option) }}}</span>
             </label>
           </div>
+        </div>
+        <div v-if="question.type === 'buttons'" class="cc-questionBlock-bottom-buttons">
+          <button
+            v-for="button in question.buttons"
+            :class="canClickHiBtn || button !== 'Ready!' ? 'cc-questionBlock-button' : 'cc-questionBlock-button-disabled'"
+            @click="handleBtnClicked(button)"
+          >{{{ htmlPrepare(button) }}}</button>
         </div>
       </div>
       <img
@@ -59,11 +78,23 @@ export default Vue.extend({
     },
     questionText() {
       return htmlService.prepareText(this.question.text);
+    },
+    questionLeft() {
+      return htmlService.prepareText(this.question.left);
+    },
+    questionRight() {
+      return htmlService.prepareText(this.question.right);
     }
   },
   methods: {
     deleteQuestion() {
       this.$dispatch('delete-question');
+    },
+    htmlPrepare(text) {
+      return htmlService.prepareText(text);
+    },
+    handleBtnClicked(button) {
+      this.$dispatch('button-clicked', button);
     }
   }
 });

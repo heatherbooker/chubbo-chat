@@ -2,8 +2,6 @@ input[type=range].cc-questionBlock-slider {
   width: 80%;
   min-width: 90px;
   display: inline-block;
-  position: relative;
-  bottom: 3px;
   margin: 0px 5px;
 }
 

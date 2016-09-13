@@ -89,11 +89,6 @@ button.cc-buttonReset:focus {
   box-shadow: none;
 }
 
-button.swal2-confirm.styled {
-  border-color: #3FC3EE;
-  background-color: #3FC3EE !important;
-}
-
 .swal2-modal .cc-copyBtn {
   color: #3FC3EE;
   position: relative;

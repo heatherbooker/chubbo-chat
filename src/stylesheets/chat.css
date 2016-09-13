@@ -88,7 +88,8 @@ html, body{
 	border-top: 1px solid #bdbdbd;
 	display: flex;
 	display: -webkit-flex;
-	height: 60px;
+	min-height: 60px;
+	max-height: 120px;
 }
 
 input.cc-chat-input {

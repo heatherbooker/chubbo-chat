@@ -82,7 +82,7 @@ export default Vue.extend({
                all of the responses it may have associated with it!`,
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#4EC1FF',
+        confirmButtonColor: '#d33',
         confirmButtonText: 'Yes, delete this survey',
         cancelButtonText: 'No, cancel'
       }).then(() => {
