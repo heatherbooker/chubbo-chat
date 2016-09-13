@@ -49,7 +49,7 @@ export default Vue.extend({
         <div v-if="question.type === 'buttons'" class="cc-questionBlock-bottom-buttons">
           <button
             v-for="button in question.buttons"
-            :class="canClickHiBtn || button !== 'Hi!' ? 'cc-questionBlock-button' : 'cc-questionBlock-button-disabled'"
+            :class="canClickHiBtn || button !== 'Ready!' ? 'cc-questionBlock-button' : 'cc-questionBlock-button-disabled'"
             @click="handleBtnClicked(button)"
           >{{{ htmlPrepare(button) }}}</button>
         </div>

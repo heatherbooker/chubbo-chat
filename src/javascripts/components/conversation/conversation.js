@@ -55,7 +55,8 @@ export default Vue.extend({
       surveyQuestions: [],
       surveyResponses: [],
       botMessages: {
-        hello: `Hi there! I'm Chubbo, your favourite friendly survey administrator!`,
+        hello: `Hi there! I'm Chubbo, your favourite friendly survey administrator! Are you
+                ready to begin the survey?`,
         confirm: `That's all for now! I'm going to send this to my master, ok?`,
         goodbye: `Thanks for chatting with me today! Visit
           chubbo-chat.herokuapp.com/#!/dashboard to create your own friendly survey!`
@@ -115,7 +116,7 @@ export default Vue.extend({
         this.messages.push({
           text: this.botMessages.hello,
           type: 'buttons',
-          buttons: ['Hi!'],
+          buttons: ['Ready!'],
           sender: 'bot'
         });
       } else if (this.surveyQuestions.length === 0) {
@@ -172,7 +173,7 @@ export default Vue.extend({
       );
     },
     handleBtnClick(buttonText) {
-      if (buttonText === 'Hi!') {
+      if (buttonText === 'Ready!') {
         if (!this.isSurveyStarted) {
           this.isSurveyStarted = true;
           this.sendSurveyQuestion();
