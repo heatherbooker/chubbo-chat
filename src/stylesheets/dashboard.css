@@ -92,7 +92,7 @@ button.cc-dashboard-subNav-btnDisabled {
     /*on top of survey form*/
     z-index: 1;
   }
-  .cc-dashboard-main, .cc-rightPanel, .cc-rightPanel-disabled, .cc-dashboard-subNav, .cc-leftPanel {
+  .cc-dashboard-main, .cc-rightPanel, .cc-dashboard-subNav, .cc-leftPanel {
     display: none;
   }
   .cc-dashboard-mobileUnavailable {
