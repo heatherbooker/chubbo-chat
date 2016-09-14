@@ -1,6 +1,5 @@
 //libraries
 import Vue from 'vue'
-import VueCharts from 'vue-charts';
 //vuex shared state store
 import store from '../../store.js'
 //services
@@ -9,8 +8,6 @@ import htmlService from '../../services/htmlService.js';
 import chartService from '../../services/chartService.js';
 //styles
 import '../../../stylesheets/responses.css'
-
-Vue.use(VueCharts);
 
 
 export default Vue.extend({
@@ -31,7 +28,7 @@ export default Vue.extend({
               this.questions = questions;
               transition.next();
               this.setResponses(this.survey);
-            })//.then(() => {chartService(this.questions);});
+            }).then(() => {chartService(this.questions);});
       }
     }
   },
@@ -52,14 +49,11 @@ export default Vue.extend({
           >
             {{{ htmlPrepare(response) }}}
           </p>
-          <vue-chart
-            v-if="question.type === 'options'"
-            chart-type="ColumnChart"
-            :columns="columns"
-            :rows="rows"
-            :options="options"
+          <canvas
+            v-if="['slider', 'options'].indexOf(question.type) > -1"
             class="cc-responsesPage-chart"
-          ></vue-chart>
+            :id="'chart' + $index"
+          ></canvas>
           <div class="cc-responsesPage-questionBox" @click="toggleViewReponses(question)">
             <p class="cc-responsesPage-question">{{{ htmlPrepare(question.text) }}}</p>
           </div>
@@ -69,44 +63,12 @@ export default Vue.extend({
         </p>
     </div>
   `,
-          //   <canvas
-          //   v-if="['slider', 'options'].indexOf(question.type) > -1"
-          //   class="cc-responsesPage-chart"
-          //   :id="'chart' + $index"
-          // ></canvas>
   data: function() {
     return {
       questions: [],
       arrowImgSrc: require('../../../images/arrow-right.svg'),
       arrowClass: 'cc-responsesPage-arrowIcon',
-      arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated',
-      rows : [
-        [ 8,      12],
-        [ 4,      5.5]
-      ],
-      columns: [
-        {
-          'type': 'number',
-          'label' : 'Age'
-        }, 
-        {
-          'type' : 'number',
-          'label' : 'Weight'
-        }
-      ],
-      options: {
-        chartArea: {width: '100%', height: '100%'},
-        legend: {
-          position: 'none'
-        },
-        axisTitlesPosition: 'none',
-        vAxis: {
-          ticks: 'none'
-        },
-        hAxis: {
-          ticks: 'none'
-        }
-      }
+      arrowClassReveal: 'cc-responsesPage-arrowIcon-rotated'
     }
   },
   methods: {
