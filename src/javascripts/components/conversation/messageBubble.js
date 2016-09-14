@@ -39,7 +39,7 @@ export default Vue.extend({
       };
     },
     finalMessage() {
-      return htmlService.prepareText(this.message.text);
+      return htmlService(this.message.text);
     }
   },
   methods: {

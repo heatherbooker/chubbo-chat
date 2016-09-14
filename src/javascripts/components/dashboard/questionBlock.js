@@ -77,13 +77,13 @@ export default Vue.extend({
       return 'cc-questionBlock-top';
     },
     questionText() {
-      return htmlService.prepareText(this.question.text);
+      return htmlService(this.question.text);
     },
     questionLeft() {
-      return htmlService.prepareText(this.question.left);
+      return htmlService(this.question.left);
     },
     questionRight() {
-      return htmlService.prepareText(this.question.right);
+      return htmlService(this.question.right);
     }
   },
   methods: {
@@ -91,7 +91,7 @@ export default Vue.extend({
       this.$dispatch('delete-question');
     },
     htmlPrepare(text) {
-      return htmlService.prepareText(text);
+      return htmlService(text);
     },
     handleBtnClicked(button) {
       this.$dispatch('button-clicked', button);

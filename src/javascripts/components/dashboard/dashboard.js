@@ -75,7 +75,7 @@ export default Vue.extend({
       <div class="cc-dashboard-main">
         <router-view v-if="!$loadingRouteData"></router-view>
       </div>
-      <right-panel></right-panel>
+      <right-panel v-show="$route.path.substring(11, 20) !== 'responses'"></right-panel>
     </div>
   `,
   components: {

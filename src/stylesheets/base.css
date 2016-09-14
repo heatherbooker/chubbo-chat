@@ -1,6 +1,7 @@
 body {
   font-family: 'Quicksand', sans-serif;
   color: #3c5a71;
+  overflow: hidden;
 }
 
 a {
