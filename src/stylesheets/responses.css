@@ -27,7 +27,7 @@
   background-color: #fff;
 }
 
-.cc-responsesPage-block:hover, .cc-responsesPage-block-selected:hover {
+.cc-responsesPage-block:hover {
   cursor: pointer;
 }
 
@@ -94,8 +94,23 @@
   align-self: flex-end;
 }
 
+.cc-responsesPage-close {
+  display: none;
+}
+
+.cc-responsesPage-block-selected:hover .cc-responsesPage-close {
+  cursor: pointer;
+  display: block;
+  color: #a4a4a4;
+  font-size: 2.5rem;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  z-index: 2;
+}
+
 .cc-responsesPage-chart {
-  transform: scale(1.01);
+  transform: scale(0.98);
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
   -o-filter: blur(5px);
@@ -103,24 +118,29 @@
   filter: blur(5px);
 }
 
+.cc-responsesPage-responsesContainer {
+  padding-left: 25px;
+}
+
 .cc-responsesPage-block-selected .cc-responsesPage-responsesContainer {
   order: 2;
-  width: 30%;
+  width: 35%;
+}
+
+.cc-responsesPage-responsesTitle {
   text-align: center;
+  font-weight: normal;
+  font-size: 14pt;
+  margin-bottom: 10px;
 }
 
-.cc-responsesPage-block-selected .cc-responsesPage-responsesContainer:after {
-  content: '';
-  height: 50%;
-  position: absolute;
-  left: 35%;
-  top: 40%;
-  border-right: 1px solid #f0f0f0;
+.cc-responsesPage-responsesTitle span {
+  font-size: 11pt;
 }
 
-.cc-responsesPage-response {
+li.cc-responsesPage-response {
   font-size: 1.5rem;
-  padding-left: 40px;
+  padding-top: 8px;
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
   -o-filter: blur(5px);

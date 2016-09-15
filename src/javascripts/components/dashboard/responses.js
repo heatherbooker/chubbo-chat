@@ -28,7 +28,11 @@ export default Vue.extend({
               this.questions = questions;
               transition.next();
               this.setResponses(this.survey);
-            }).then(() => {chartService(this.questions);});
+            }).then(() => {
+              $(document).ready(() => {
+                chartService.drawCharts(this.questions);
+              });
+            });
       }
     }
   },
@@ -38,18 +42,35 @@ export default Vue.extend({
           v-for="question in questions"
           track-by="$index"
           v-if="survey.isPublished"
-          :class="questionClass(question)"
-          @click="viewReponses(question, $index)"
+          :class="question.className"
+          @click="viewResponse(question, $index)"
         >
+          <span
+            class="cc-responsesPage-close"
+            @click.stop="closeResponse(question, $index)"
+          >x</span>
           <div class="cc-responsesPage-responsesContainer">
             <p
-              v-show="question.type === 'text' || question.display === 'selected'"
-              v-for="response in question.responses"
-              track-by="$index"
-              class="cc-responsesPage-response"
-            >
-              {{{ htmlPrepare(response) }}}
+              v-show="question.className === 'cc-responsesPage-block-selected' && question.responses.length < 1">
+              no responses yet :(
             </p>
+            <h4
+              class="cc-responsesPage-responsesTitle"
+              v-show="question.className === 'cc-responsesPage-block-selected' && question.responses.length > 0"
+            >
+              Responses
+              <span>(in order they were received)</span>
+            </h4>
+            <ul>
+              <li
+                v-show="question.type === 'text' || question.className === 'cc-responsesPage-block-selected'"
+                v-for="response in question.responses"
+                track-by="$index"
+                class="cc-responsesPage-response"
+              >
+                {{{ htmlPrepare(response) }}}
+              </li>
+            </ul>
           </div>
           <div class="cc-responsesPage-chartContainer">
             <canvas
@@ -82,20 +103,11 @@ export default Vue.extend({
           return {
             ...question,
             responses: [],
-            display: 'normal' // Possible values: null, 'normal', or 'selected'.
+            className: 'cc-responsesPage-block'
           };
         }));
       });
       return promise;
-    },
-    questionClass(question) {
-      if (question.display === 'normal') {
-        return 'cc-responsesPage-block';
-      } else if (question.display === 'selected'){
-        return 'cc-responsesPage-block-selected';
-      } else {
-        return 'cc-responsesPage-block-hidden';
-      }
     },
     setResponses: function(survey) {
       if ('responses' in survey) {
@@ -110,19 +122,25 @@ export default Vue.extend({
     htmlPrepare(text) {
       return htmlService(text);
     },
-    viewReponses: function(clickedQuestion, clickedIndex) {
-      if (clickedQuestion.responses.length < 1) {
-        clickedQuestion.responses.push('no responses yet :(');
-      }
-      if (clickedQuestion.display === 'normal') {
+    viewResponse: function(clickedQuestion, clickedIndex) {
+      if (clickedQuestion.className === 'cc-responsesPage-block') {
         this.questions.forEach((question, index) => {
-          question.display = (index === clickedIndex ? 'selected' : null);
+          if (index === clickedIndex) {
+            question.className = 'cc-responsesPage-block-selected';
+          } else {
+            question.className = 'cc-responsesPage-block-hidden';
+          }
         });
-      } else if (clickedQuestion.display === 'selected') {
-        this.questions.forEach(question => {
-          question.display = 'normal';
-        });
+        if (clickedQuestion.responses.length > 0) {
+          chartService.drawLargeChart(clickedQuestion, clickedIndex);
+        }
       }
+    },
+    closeResponse(clickedQuestion, clickedIndex) {
+      this.questions.forEach(question => {
+        question.className = 'cc-responsesPage-block';
+      });
+      chartService.drawCharts(this.questions);
     }
   },
   // vuex(state store) getters / action dispatcher(s) needed by this component

@@ -1,5 +1,8 @@
 import Chart from 'chart.js';
 
+Chart.defaults.global.defaultFontFamily = "'Quicksand', sans-serif";
+Chart.defaults.global.defaultFontColor = "#3c5a71";
+
 const options = {
   scales: {
     yAxes: [{
@@ -10,25 +13,30 @@ const options = {
       gridLines: {
         drawOnChartArea: false,
         drawTicks: false
-      },
-      display: false
+      }
     }],
     xAxes: [{
       gridLines: {
         drawOnChartArea: false,
         drawTicks: false
-      },
-      display: false
+      }
     }]
   },
   legend: {
     display: false
   },
-  tooltips: {
-    enabled: false
-  },
   maintainAspectRatio: false
 };
+
+const smallChartOptions = $.extend(true, {
+  tooltips: {
+    enabled: false
+  }
+}, options);
+
+smallChartOptions.scales.xAxes[0].display = false;
+smallChartOptions.scales.yAxes[0].display = false;
+
 
 const style = {
   backgroundColor: [
@@ -68,31 +76,90 @@ function countResponses(question) {
       }
     });
   }
-  return totals.map(total => Math.max(total, 0.03));
+  return totals;
 }
 
-function createCharts(questions) {
-  questions.forEach((question, index) => {
-    if (question.type === 'options') {
-      createAChart(question, [...question.options]);
-    } else if (question.type === 'slider') {
-      createAChart(question, [question.left, 'Somewhere in the middle', question.right]);
+function splitString(string) {
+  // String must be manually split into lines to appear nicely on chart.
+  var words = string.split(' ');
+  var arrayOfSubstrings = [];
+  if (words.length === 1) {
+    return string;
+  }
+  var substr = words[0];
+  for (var i = 1; i < words.length; i++) {
+    if (substr.length > 8) {
+      arrayOfSubstrings.push(substr);
+      substr = words[i];
+    } else {
+      substr = substr + ' ' + words[i];
+      if (i === words.length - 1) {
+        arrayOfSubstrings.push(substr);
+      }
     }
-    function createAChart(question, labels) {
-      var ctx = $('#chart' + index);
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            data: countResponses(question),
-            ...style
-          }]
-        },
-        options
-      });
+  }
+  return arrayOfSubstrings;
+}
+
+function getLabels(question) {
+  if (question.type === 'options') {
+    var optionsLabels = question.options.map(option => {
+      return splitString(option);
+    });
+    return optionsLabels;
+  } else if (question.type === 'slider') {
+    return [splitString(question.left), ['Somewhere', 'in the middle'], splitString(question.right)];
+  }
+}
+
+var charts = [];
+
+function drawAChart(question, index) {
+  var ctx = $('#chart' + index);
+  if (charts[index]) {
+    charts[index].destroy();
+  }
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: getLabels(question),
+      datasets: [{
+        data: countResponses(question),
+        ...style
+      }]
+    },
+    options: smallChartOptions
+  });
+  charts[index] = myChart;
+}
+
+function drawLargeChart(question, index) {
+  var ctx = $('#chart' + index);
+  if (charts[index]) {
+    charts[index].destroy();
+  }
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: getLabels(question),
+      datasets: [{
+        data: countResponses(question),
+        ...style
+      }]
+    },
+    options
+  });
+  charts[index] = myChart;
+}
+
+function drawCharts(questions) {
+  questions.forEach((question, index) => {
+    if (['options', 'slider'].indexOf(question.type) > -1) {
+      if (question.responses.length > 0) {
+        drawAChart(question, index);
+      }
     }
   });
 }
 
-module.exports = createCharts;
+module.exports = {drawCharts, drawLargeChart};
