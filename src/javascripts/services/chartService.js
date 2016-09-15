@@ -32,41 +32,58 @@ const options = {
 
 const style = {
   backgroundColor: [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)'
+    'rgba(78,193,255, 0.2)',
+    'rgba(39, 96, 127, 0.2)',
+    'rgba(58, 145, 191, 0.2)',
+    'rgba(19, 48, 64, 0.2)',
+    'rgba(70, 174, 229, 0.2)'
   ],
   borderColor: [
-    'rgba(255,99,132,1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)'
+    'rgba(78,193,255,1)',
+    'rgba(39, 96, 127, 1)',
+    'rgba(58, 145, 191, 1)',
+    'rgba(19, 48, 64, 1)',
+    'rgba(70, 174, 229, 1)'
   ],
   borderWidth: 1
 };
 
 function countResponses(question) {
-  var totals = question.options.map(option => 0);
-  question.responses.forEach(response => {
-    totals[question.options.indexOf(response)] ++;
-  });
-  return totals;
+  var totals;
+  if (question.type === 'options') {
+    totals = question.options.map(option => 0);
+    question.responses.forEach(response => {
+      totals[question.options.indexOf(response)] ++;
+    });
+  } else {
+    totals = [0, 0, 0];
+    question.responses.forEach(responseAsString => {
+      var response = Number(responseAsString);
+      if (response < 40) {
+        totals[0] ++;
+      } else if (response >= 40 && response <= 60) {
+        totals[1] ++;
+      } else {
+        totals[2] ++;
+      }
+    });
+  }
+  return totals.map(total => Math.max(total, 0.03));
 }
 
 function createCharts(questions) {
-  var canvasRefs = [];
   questions.forEach((question, index) => {
     if (question.type === 'options') {
+      createAChart(question, [...question.options]);
+    } else if (question.type === 'slider') {
+      createAChart(question, [question.left, 'Somewhere in the middle', question.right]);
+    }
+    function createAChart(question, labels) {
       var ctx = $('#chart' + index);
       var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: question.options,
+          labels,
           datasets: [{
             data: countResponses(question),
             ...style

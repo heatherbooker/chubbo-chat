@@ -14,12 +14,18 @@ export default Vue.extend({
         >Responses</h2>
       </div>
       <div>
-        <button class="cc-buttonReset">
-          <img :src="testIconSrc" class="cc-dashboard-subNav-icon">
-          <h2 class="cc-dashboard-subNav-actionText">Test</h2>
+        <button class="cc-buttonReset" :class="btnClass()" @click="showSurveyLink">
+          <img
+            :src="survey.isPublished ? testIconNormalSrc : testIconDisabledSrc"
+            class="cc-dashboard-subNav-icon"
+          >
+          <h2 class="cc-dashboard-subNav-actionText">Get Link</h2>
         </button>
-        <button class="cc-buttonReset" :class="classOfPublishBtn" @click="handlePublishBtn">
-          <img :src="srcOfPublishIcon" class="cc-dashboard-subNav-icon">
+        <button class="cc-buttonReset" :class="btnClass(true)" @click="handlePublishBtn">
+          <img
+            :src="survey.isPublished ? publishIconDisabledSrc : publishIconNormalSrc"
+            class="cc-dashboard-subNav-icon"
+          >
           <h2 class="cc-dashboard-subNav-actionText">Publish</h2>
         </button>
       </div>
@@ -27,7 +33,8 @@ export default Vue.extend({
   `,
   data() {
     return {
-      testIconSrc: require('../../../images/test.svg'),
+      testIconNormalSrc: require('../../../images/test.svg'),
+      testIconDisabledSrc: require('../../../images/test-disabled.svg'),
       publishIconNormalSrc: require('../../../images/star.svg'),
       publishIconDisabledSrc: require('../../../images/star-disabled.svg'),
     }
@@ -38,21 +45,15 @@ export default Vue.extend({
     },
     responsesBtnLink: function() {
       return "/dashboard/responses/" + this.$route.params.surveyId;
-    },
-    classOfPublishBtn() {
-      if (this.survey.isPublished) {
-        return 'cc-dashboard-subNav-btnDisabled';
-      }
-      return '';
-    },
-    srcOfPublishIcon() {
-      if (this.survey.isPublished) {
-        return this.publishIconDisabledSrc;
-      }
-      return this.publishIconNormalSrc;
     }
   },
   methods: {
+    btnClass(isPublishBtn) {
+      if (this.survey.isPublished) {
+        return isPublishBtn ? 'cc-dashboard-subNav-btnDisabled' : '';
+      }
+      return isPublishBtn ? '' : 'cc-dashboard-subNav-btnDisabled';
+    },
     handlePublishBtn() {
       if (this.survey.title.length > 0) {
         if (this.user) {
@@ -93,6 +94,15 @@ export default Vue.extend({
         confirmButtonColor: '#3FC3EE',
         input: 'text',
         inputValue: surveyUrl
+      });
+      this.makeInputTextCopyable();
+    },
+    showSurveyLink() {
+      swal({
+        type: 'info',
+        html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
+        input: 'text',
+        inputValue: `https://chubbo-chat.herokuapp.com/#!/surveys/${this.user.uid}/${this.survey.id}`
       });
       this.makeInputTextCopyable();
     },

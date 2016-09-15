@@ -38,23 +38,27 @@ export default Vue.extend({
           v-for="question in questions"
           track-by="$index"
           v-if="survey.isPublished"
-          class="cc-responsesPage-block"
+          :class="questionClass(question)"
+          @click="viewReponses(question, $index)"
         >
-          <p
-            v-if="question.type === 'text'"
-            v-for="response in question.responses"
-            track-by="$index"
-            v-show="question.revealResponses"
-            class="cc-responsesPage-response"
-          >
-            {{{ htmlPrepare(response) }}}
-          </p>
-          <canvas
-            v-if="['slider', 'options'].indexOf(question.type) > -1"
-            class="cc-responsesPage-chart"
-            :id="'chart' + $index"
-          ></canvas>
-          <div class="cc-responsesPage-questionBox" @click="toggleViewReponses(question)">
+          <div class="cc-responsesPage-responsesContainer">
+            <p
+              v-show="question.type === 'text' || question.display === 'selected'"
+              v-for="response in question.responses"
+              track-by="$index"
+              class="cc-responsesPage-response"
+            >
+              {{{ htmlPrepare(response) }}}
+            </p>
+          </div>
+          <div class="cc-responsesPage-chartContainer">
+            <canvas
+              v-if="['slider', 'options'].indexOf(question.type) > -1"
+              class="cc-responsesPage-chart"
+              :id="'chart' + $index"
+            ></canvas>
+          </div>
+          <div class="cc-responsesPage-questionBox">
             <p class="cc-responsesPage-question">{{{ htmlPrepare(question.text) }}}</p>
           </div>
         </div>
@@ -78,11 +82,20 @@ export default Vue.extend({
           return {
             ...question,
             responses: [],
-            revealResponses: false
+            display: 'normal' // Possible values: null, 'normal', or 'selected'.
           };
         }));
       });
       return promise;
+    },
+    questionClass(question) {
+      if (question.display === 'normal') {
+        return 'cc-responsesPage-block';
+      } else if (question.display === 'selected'){
+        return 'cc-responsesPage-block-selected';
+      } else {
+        return 'cc-responsesPage-block-hidden';
+      }
     },
     setResponses: function(survey) {
       if ('responses' in survey) {
@@ -97,14 +110,18 @@ export default Vue.extend({
     htmlPrepare(text) {
       return htmlService(text);
     },
-    toggleViewReponses: function(question) {
-      if (question.responses.length < 1) {
-        question.responses.push('no responses yet :(');
+    viewReponses: function(clickedQuestion, clickedIndex) {
+      if (clickedQuestion.responses.length < 1) {
+        clickedQuestion.responses.push('no responses yet :(');
       }
-      if (question.revealResponses === true) {
-        question.revealResponses = false;
-      } else {
-        question.revealResponses = true;
+      if (clickedQuestion.display === 'normal') {
+        this.questions.forEach((question, index) => {
+          question.display = (index === clickedIndex ? 'selected' : null);
+        });
+      } else if (clickedQuestion.display === 'selected') {
+        this.questions.forEach(question => {
+          question.display = 'normal';
+        });
       }
     }
   },

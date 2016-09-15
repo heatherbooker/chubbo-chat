@@ -13,14 +13,34 @@
   align-items: center;
   flex-wrap: wrap;
   overflow-y: auto;
+  padding: 1px;
 }
 
-.cc-responsesPage-block {
-  width: 50%;
-  height: 50%;
-  border: 1px solid #a4a4a4;
+.cc-responsesPage-block, .cc-responsesPage-block-selected {
+  width: 49.4%;
+  height: 49.1%;
+  border: 1px solid #DEE9EB;
   position: relative;
   overflow: hidden;
+  margin: 2px;
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+.cc-responsesPage-block:hover, .cc-responsesPage-block-selected:hover {
+  cursor: pointer;
+}
+
+.cc-responsesPage-block-selected {
+  width: 100%;
+  height: 99%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.cc-responsesPage-block-hidden {
+  display: none;
 }
 
 .cc-responsesPage-errorNotice {
@@ -34,6 +54,7 @@
   font-size: 2rem;
   display: inline-block;
   text-align: center;
+  width: 100%;
 }
 
 .cc-responsesPage-questionBox {
@@ -42,6 +63,35 @@
   top: 0;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.cc-responsesPage-block-selected .cc-responsesPage-questionBox {
+  align-items: flex-start;
+  position: relative;
+  height: unset;
+  order: 1;
+}
+
+.cc-responsesPage-block-selected .cc-responsesPage-questionBox:after {
+  content: '';
+  border-bottom: 1px solid #f0f0f0;
+  width: 70%;
+}
+
+.cc-responsesPage-chartContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.cc-responsesPage-block-selected .cc-responsesPage-chartContainer {
+  height: 60%;
+  width: 60%;
+  order: 3;
+  align-self: flex-end;
 }
 
 .cc-responsesPage-chart {
@@ -53,7 +103,36 @@
   filter: blur(5px);
 }
 
+.cc-responsesPage-block-selected .cc-responsesPage-responsesContainer {
+  order: 2;
+  width: 30%;
+  text-align: center;
+}
+
+.cc-responsesPage-block-selected .cc-responsesPage-responsesContainer:after {
+  content: '';
+  height: 50%;
+  position: absolute;
+  left: 35%;
+  top: 40%;
+  border-right: 1px solid #f0f0f0;
+}
+
 .cc-responsesPage-response {
   font-size: 1.5rem;
   padding-left: 40px;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
 }
+
+.cc-responsesPage-block-selected .cc-responsesPage-chart,
+.cc-responsesPage-block-selected .cc-responsesPage-response {
+  -webkit-filter: none;
+  -moz-filter: none;
+  -o-filter: none;
+  -ms-filter: none;
+  filter: none;
+} 

@@ -96,15 +96,6 @@ export default Vue.extend({
         this.setCurrentQuestion(index);
       }
     },
-    handleGetLinkButton: function() {
-      swal({
-        type: 'info',
-        html: `People can take your survey at:<br><span class="cc-copyBtn">copy</span>`,
-        input: 'text',
-        inputValue: this.surveyUrl
-      });
-      this.makeInputTextCopyable();
-    },
     alertUserSurveyPublished: function(surveyUrl) {
       swal({
         type: 'success',
